@@ -49,10 +49,58 @@ int main() {
         // Print screen to display current status
 
         // Encounter random events
-        int Event = randomEvent(mode);
+        int event = randomEvent(mode);
+
+        switch (event) {
+            case 1:     // Bear attack
+                // call function for bear attack;
+                break;
+            case 2:     // Treasure
+                // call function for treasure;
+                break;
+            case 3:     //Trap
+                // call function for trap;
+                break;
+            case 4:     // Water spring
+                // call function for water spring;
+                break;
+            case 5:     // Berry rush
+                // call function for berry rush;
+                break;
+            case 6:     // Weather
+                // call function for weather;
+                break;
+            case 7:     // Peaceful day (Nothing happens)
+                break;
+        }
+
+        
+        // Track changes and check survival
+        if (health > 0 && food >= -3 && water >= -3)
+            // call function to prnt screen to show changes in the status
+            // status includes health, food, water
+
+        else 
+            // display death screen
+
+        // Daily consumption
+        food--;
+        water--;
+
+        // Track changes and check survival
+        if (health > 0 && food >= -3 && water >= -3)
+            // call function to prnt screen to show daily consumption
+            // status includes health, food, water
+
+        else 
+            // display death screen
 
 
     }
+
+    // Display victory screen
+    // Calculate the score of the player including the bonus from excess food and water
+    // Display scoreboard
 
 
 
