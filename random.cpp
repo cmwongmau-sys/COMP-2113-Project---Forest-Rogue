@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>  
-#include <ctime>     
+#include <ctime> 
+#include "random.h"
 using namespace std;
 
 
