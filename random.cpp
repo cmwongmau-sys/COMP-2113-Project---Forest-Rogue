@@ -82,3 +82,51 @@ void trapEncounter(int choice, int difficulty, int &health, int &food, int &wate
         cout << "Escaped next day automatically.\n";
     }
 }
+void waterSpringEncounter(int difficulty, int &health, int &food, int &water){
+    int waterGain = 2 + rand() % 3;   // 2,3,4
+    water += waterGain;
+    cout << "You found a crystal-clear spring! Gained " << waterGain << " water.\n";
+    if (rand() % 100 < 50) {
+        int heal = 10;
+        health += heal;
+        if (health > 100) health = 100;
+        cout << "The spring's magic water also restored " << heal << " health.\n";
+    }
+}
+void berryBushEncounter(int difficulty, int &health, int &food, int &water){
+    int foodGain = 1 + rand() % 3;   // 1,2,3
+    food += foodGain;
+    cout << "You found a bush full of berries! Gained " << foodGain << " food.\n";
+}
+void weatherEncounter(int difficulty, int &health, int &food, int &water){
+    int weath=rand()%4; // 0: Rain, 1: Heat wave, 2: Cold snap, 3: Mild
+    switch(weather){
+        case 0: // Rain
+            {
+                int waterGain = 1 + rand() % 2; // 1 or 2
+                water += waterGain;
+                cout << "It started raining. You collected " << waterGain << " water.\n";
+            }
+            break;
+        case 1:
+            {
+                water -=2;
+                if(water<0) water=0;
+                cout<< "A heat wave strikes! You lost 2 water.\n"
+            }
+            break;
+        case 2:
+            {
+                health-=5;
+                if (health <=0) health=0;
+                cout<<"A sudden cold snap! You lost 5 health.\n";
+            }
+            break;
+        case 3:
+            cout<<"The weather is mild today. Nothing happens.\n";
+            break;
+    }
+}
+void empty(int difficulty, int &health, int &food, int &water){
+    cout << "Today was quiet. Nothing special happened.\n";
+}
