@@ -6,7 +6,7 @@
 using namespace std;
 
 //scoreboard column
-struct ScoreEntry 
+struct ScoreEntry {
     string name;
     int difficulty;
     int finalScore;
@@ -17,8 +17,8 @@ struct ScoreEntry
 };
 
 // Function declarations
-void saveScore(ScoreEntry entry);
-void loadScoreboard(vector<ScoreEntry>& scoreboard);
+void saveScoreboard(vector<ScoreEntry>& scoreboard, string file);
+void loadScoreboard(vector<ScoreEntry>& scoreboard, string file);
 void displayTop10(const vector<ScoreEntry>& scoreboard);
 
 #endif
