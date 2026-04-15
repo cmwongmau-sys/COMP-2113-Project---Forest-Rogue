@@ -12,6 +12,12 @@ static void DrawBar(int x, int y, int width, int current, int max,
     bar.Render();
 }
 
+// helper to draw text without direct cout
+static void DrawText(int x, int y, const std::string& text) {
+    STextBox box(x, y, (int)text.length(), 1, text, false, false);
+    box.Render();
+}
+
 // ============================================================
 // SEventResultScreen - shows what happened during a random event
 // ============================================================
@@ -42,7 +48,7 @@ void SEventResultScreen::Render() {
     // title bar at top
     SRectFilled titleBar(x, y, 60, 1, "#");
     titleBar.Render();
-    STextBox titleText(x + 15, y, 30, 1, "🌲 EVENT RESULT 🌲", false, false);
+    STextBox titleText(x + 15, y, 30, 1, "- EVENT RESULT -", false, false);
     titleText.Render();
     
     // event name
@@ -139,19 +145,19 @@ void SDailySummaryScreen::Render() {
     STextBox healthLabel(x + 3, y + 9, 10, 1, "HEALTH:", false, false);
     healthLabel.Render();
     DrawBar(x + 13, y + 9, 40, Health, MaxHealth);
-    std::cout << "\033[" << (y + 9) << ";" << (x + 55) << "H" << Health << "/" << MaxHealth;
+    DrawText(x + 55, y + 9, std::to_string(Health) + "/" + std::to_string(MaxHealth));
     
     // food bar
     STextBox foodLabel(x + 3, y + 11, 10, 1, "FOOD:", false, false);
     foodLabel.Render();
     DrawBar(x + 13, y + 11, 40, Food, MaxFood);
-    std::cout << "\033[" << (y + 11) << ";" << (x + 55) << "H" << Food << "/" << MaxFood;
+    DrawText(x + 55, y + 11, std::to_string(Food) + "/" + std::to_string(MaxFood));
     
     // water bar
     STextBox waterLabel(x + 3, y + 13, 10, 1, "WATER:", false, false);
     waterLabel.Render();
     DrawBar(x + 13, y + 13, 40, Water, MaxWater);
-    std::cout << "\033[" << (y + 13) << ";" << (x + 55) << "H" << Water << "/" << MaxWater;
+    DrawText(x + 55, y + 13, std::to_string(Water) + "/" + std::to_string(MaxWater));
     
     // zone progress
     STextBox nextZone(x + 3, y + 16, 64, 1, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones), false, false);
@@ -188,7 +194,7 @@ void SDeathScreen::Render() {
     outer.Render();
     SRectFilled titleBar(x, y, 60, 1, "#");
     titleBar.Render();
-    STextBox title(x + 15, y, 30, 1, "💀 GAME OVER 💀", false, false);
+    STextBox title(x + 18, y, 30, 1, "- GAME OVER -", false, false);
     title.Render();
     
     std::stringstream stats;
@@ -234,7 +240,7 @@ void SVictoryScreen::Render() {
     outer.Render();
     SRectFilled titleBar(x, y, 70, 1, "#");
     titleBar.Render();
-    STextBox title(x + 23, y, 30, 1, "🏆 VICTORY 🏆", false, false);
+    STextBox title(x + 28, y, 30, 1, "- VICTORY -", false, false);
     title.Render();
     
     std::stringstream stats;
@@ -288,12 +294,8 @@ SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, 
 void SChoiceMenu::Render() {
     int cx = X, cy = Y;
     for (size_t i = 0; i < Options.size(); ++i) {
-        std::cout << "\033[" << cy << ";" << cx << "H";
-        if (i == SelectedIndex) {
-            std::cout << "\033[7m> " << Options[i] << " <\033[0m";  // highlight selected
-        } else {
-            std::cout << "  " << Options[i] << "  ";
-        }
+        std::string display = (i == SelectedIndex) ? "> " + Options[i] + " <" : "  " + Options[i] + "  ";
+        DrawText(cx, cy, display);
         if (bHorizontal) {
             cx += Options[i].length() + 6;
         } else {
