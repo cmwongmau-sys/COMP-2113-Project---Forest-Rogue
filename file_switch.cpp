@@ -8,8 +8,8 @@
 using namespace std;
 
 // Save one game result to scoreboard
-void saveScore(ScoreEntry entry) {
-    ofstream outFile("scoreboard.txt", ios::app);  // append mode
+void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
+    ofstream outFile(file, ios::app);  // append mode
     
     if (outFile.is_open()) {
         outFile << entry.name << "|" 
@@ -24,9 +24,9 @@ void saveScore(ScoreEntry entry) {
 }
 
 // Load all scoreboard data
-void loadScoreboard(vector<ScoreEntry>& scoreboard) {
+void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     scoreboard.clear();
-    ifstream inFile("scoreboard.txt");
+    ifstream inFile(file);
     string line;
     
     while (getline(inFile, line)) {
