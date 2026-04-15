@@ -3,8 +3,8 @@
 #include <iostream>
 #include <sstream>
 
-// helper function to draw a status bar using teammate's SBar widget
-// just makes it easier to call - no need to create SBar manually every time
+// helper to draw a status bar
+// uses SBar widget
 static void DrawBar(int x, int y, int width, int current, int max,
                     const std::string& fillChar = "█", const std::string& emptyChar = ".") {
     float percent = (max > 0) ? (float)current / max : 0.0f;
@@ -13,6 +13,7 @@ static void DrawBar(int x, int y, int width, int current, int max,
 }
 
 // helper to draw text without direct cout
+// uses STextBox
 static void DrawText(int x, int y, const std::string& text) {
     STextBox box(x, y, (int)text.length(), 1, text, false, false);
     box.Render();
@@ -20,6 +21,8 @@ static void DrawText(int x, int y, const std::string& text) {
 
 // ============================================================
 // SEventResultScreen - shows what happened during a random event
+// called after bear attack, treasure, trap, etc
+// displays changes to health food water and items found
 // ============================================================
 
 SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
@@ -65,7 +68,7 @@ void SEventResultScreen::Render() {
     STextBox result(x + 2, y + 7, 56, 1, "Result: " + Outcome.resultText, false, false);
     result.Render();
     
-    // build the changes table (health, food, water)
+    // build the changes table
     std::stringstream changes;
     changes << "\n[CHANGES]\n";
     changes << "├── HEALTH: " << (Outcome.deltaHealth >= 0 ? "+" : "") << Outcome.deltaHealth << "\n";
@@ -94,17 +97,18 @@ void SEventResultScreen::Render() {
     STextBox statusBox(x + 2, y + 14, 56, 1, status.str(), false, false);
     statusBox.Render();
     
-    // footer
+    // footer and wait for player
     STextBox footer(x + 15, y + 16, 30, 1, "PRESS ENTER", false, false);
     footer.Render();
-}
-
-void SEventResultScreen::HandleInput() {
-    std::cin.get();  // wait for user to press enter
+    
+    // wait for user to press enter
+    std::cin.get();
 }
 
 // ============================================================
 // SDailySummaryScreen - shows end of day stats
+// called after daily consumption (-1 food -1 water)
+// displays updated health food water bars and zone progress
 // ============================================================
 
 SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
@@ -133,7 +137,7 @@ void SDailySummaryScreen::Render() {
     STextBox title(x + 20, y + 1, 30, 1, titleText, false, false);
     title.Render();
     
-    // daily consumption section (player loses 1 food and 1 water each day)
+    // daily consumption section
     STextBox consumptionTitle(x + 3, y + 4, 64, 1, "DAILY CONSUMPTION:", false, false);
     consumptionTitle.Render();
     STextBox foodCon(x + 3, y + 5, 64, 1, "Food: -1", false, false);
@@ -163,17 +167,18 @@ void SDailySummaryScreen::Render() {
     STextBox nextZone(x + 3, y + 16, 64, 1, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones), false, false);
     nextZone.Render();
     
-    // footer
+    // footer and wait for player
     STextBox footer(x + 15, y + 18, 40, 1, "Press Enter", false, false);
     footer.Render();
-}
-
-void SDailySummaryScreen::HandleInput() {
+    
+    // wait for user to press enter
     std::cin.get();
 }
 
 // ============================================================
-// SDeathScreen - game over
+// SDeathScreen - game over screen
+// called when player dies (health <= 0 or food/water < 0)
+// displays final stats and score
 // ============================================================
 
 SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
@@ -200,7 +205,7 @@ void SDeathScreen::Render() {
     std::stringstream stats;
     stats << "\n   you didn't survive the forest...\n\n";
     stats << "   FINAL STATS\n";
-    stats << "   ─────────────────────────────────\n";
+    stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
     stats << "   days survived: " << DaysSurvived << "\n";
     stats << "   final health:  " << FinalHealth << "\n";
@@ -211,14 +216,15 @@ void SDeathScreen::Render() {
     
     STextBox statsBox(x + 2, y + 3, 56, 14, stats.str(), true, true);
     statsBox.Render();
-}
-
-void SDeathScreen::HandleInput() {
+    
+    // wait for user input
     std::cin.get();
 }
 
 // ============================================================
-// SVictoryScreen - you won
+// SVictoryScreen - win screen
+// called when player clears all 6 zones
+// displays final stats and score breakdown
 // ============================================================
 
 SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
@@ -246,13 +252,13 @@ void SVictoryScreen::Render() {
     std::stringstream stats;
     stats << "\n   you escaped the forest\n\n";
     stats << "   FINAL STATS\n";
-    stats << "   ─────────────────────────────────\n";
+    stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
     stats << "   days survived: " << DaysSurvived << "\n";
     stats << "   final health:  " << FinalHealth << "\n";
     stats << "   items found: " << ItemsFound << "\n\n";
     stats << "   SCORE BREAKDOWN\n";
-    stats << "   ─────────────────────────────────\n";
+    stats << "   --------------------------------\n";
     
     // calculate score components
     int base = ZonesCleared * 100;
@@ -269,23 +275,24 @@ void SVictoryScreen::Render() {
     stats << "   remaining water x 5:          " << waterBonus << "\n";
     stats << "   items found x 10:             " << itemsBonus << "\n";
     stats << "   days survived x 20:           " << daysBonus << "\n";
-    stats << "   ─────────────────────────────────\n";
+    stats << "   --------------------------------\n";
     stats << "   subtotal:                     " << subtotal << "\n";
     stats << "   difficulty multiplier x " << Multiplier << ":    " << FinalScore << "\n";
-    stats << "   ─────────────────────────────────\n";
+    stats << "   --------------------------------\n";
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
     stats << "   [1] play again   [2] high scores   [3] quit";
     
     STextBox statsBox(x + 2, y + 3, 66, 18, stats.str(), true, true);
     statsBox.Render();
-}
-
-void SVictoryScreen::HandleInput() {
+    
+    // wait for user input
     std::cin.get();
 }
 
 // ============================================================
 // SChoiceMenu - simple menu for player choices
+// used inside events to let player pick fight, run, hide, etc
+// returns the index of what the player chose (0,1,2...)
 // ============================================================
 
 SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, bool horizontal)
@@ -305,7 +312,8 @@ void SChoiceMenu::Render() {
     std::cout.flush();
 }
 
-// simple number based selection - works everywhere
+// simple number based selection
+// shows options as 1 2 3 and waits for player to type a number
 // can be upgraded to arrow keys later if needed
 int SChoiceMenu::WaitForSelection() {
     Render();
@@ -320,5 +328,5 @@ int SChoiceMenu::WaitForSelection() {
         std::cout << "invalid. enter 1-" << Options.size() << ": ";
         std::cin >> choice;
     }
-    return choice - 1;  // return zero based index
+    return choice - 1;
 }
