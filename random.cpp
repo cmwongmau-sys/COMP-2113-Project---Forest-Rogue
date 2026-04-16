@@ -6,7 +6,10 @@ using namespace std;
 
 
 // choice: 1 = Fight, 2 = Flee
-void wildAnimalEncounter(int choice, int difficulty, int &health, int &food, int &water) {
+void wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+    int choice;
+    cout<<"choice: 1 = Fight, 2 = Flee"<<endl;
+    cin>>choice;
     int roll = rand() % 100 + 1;
 
     if (choice == 1) {
@@ -36,7 +39,10 @@ void wildAnimalEncounter(int choice, int difficulty, int &health, int &food, int
 }
 
 // choice: 1 = Take items
-void treasureEncounter(int choice, int difficulty, int &health, int &food, int &water) {
+void treasureEncounter(int difficulty, int &health, int &food, int &water) {
+    int choice;
+    cout<<"choice: 1 = Take items"<<endl;
+    cin>>choice;
     if (choice == 1) {
         int items = rand()%3 + 1;
         for (int i = 0; i < items; i++) {
@@ -58,7 +64,10 @@ void treasureEncounter(int choice, int difficulty, int &health, int &food, int &
 }
 
 // choice: 1 = Try escape, 2 = Cut free, 3 = Wait for help
-void trapEncounter(int choice, int difficulty, int &health, int &food, int &water) {
+void trapEncounter( int difficulty, int &health, int &food, int &water) {
+    int choice;
+    cout<<"choice: 1 = Try escape, 2 = Cut free, 3 = Wait for help"<<endl;
+    cin>>choice;
     int roll = rand()%100 + 1;
 
     if (choice == 1) { // Try escape
