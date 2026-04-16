@@ -1,15 +1,8 @@
 ﻿#include "Slate/SlateCore.h"
+#include "Slate/Widgets/GameScreens.h"
 
 #include <iostream>
 #include <sstream>
-
-void DrawBar(int x, int y, int width, int current, int max,
-    std::string FillChar = "█", std::string EmptyChar = ".")
-{
-    float FillPercentage = (float)current / max;
-    SBar Bar(x, y, width, 1, FillPercentage, EmptyChar, FillChar);
-    Bar.Render();
-}
 
 void ShowEventResult_Demo()
 {

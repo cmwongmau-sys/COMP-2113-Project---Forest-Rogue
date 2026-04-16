@@ -1,12 +1,14 @@
-#include "GameScreens.h"
-#include "../../Header/Slate/Sprites/SpritesCore.h"
+﻿#include "Slate/Widgets/GameScreens.h"
+#include "Slate/Widgets/WidgetsCore.h"
 #include <iostream>
 #include <sstream>
 
 // helper to draw a status bar
 // uses SBar widget
-static void DrawBar(int x, int y, int width, int current, int max,
-                    const std::string& fillChar = "█", const std::string& emptyChar = ".") {
+void DrawBar(int x, int y, int width, int current, int max,
+             const std::string fillChar,
+             const std::string emptyChar)
+{
     float percent = (max > 0) ? (float)current / max : 0.0f;
     SBar bar(x, y, width, 1, percent, emptyChar, fillChar);
     bar.Render();
@@ -30,7 +32,7 @@ SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
                                        int food, int maxFood,
                                        int water, int maxWater,
                                        int offsetX, int offsetY)
-    : SScreenBase(offsetX, offsetY)
+    : IScreenBase(offsetX, offsetY)
     , Outcome(outcome)
     , Health(health), MaxHealth(maxHealth)
     , Food(food), MaxFood(maxFood)
@@ -41,8 +43,8 @@ void SEventResultScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
     // apply offset if any
-    int x = 10 + OffsetX;
-    int y = 2 + OffsetY;
+    int x = 10 + Location.X;
+    int y = 2 + Location.Y;
     
     // outer box frame
     SRectWireframe outer(x, y, 60, 15);
@@ -116,7 +118,7 @@ SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
                                          int food, int maxFood,
                                          int water, int maxWater,
                                          int offsetX, int offsetY)
-    : SScreenBase(offsetX, offsetY)
+    : IScreenBase(offsetX, offsetY, 70, 18)
     , Day(day), Zone(zone), TotalZones(totalZones)
     , Health(health), MaxHealth(maxHealth)
     , Food(food), MaxFood(maxFood)
@@ -125,8 +127,8 @@ SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
 void SDailySummaryScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
-    int x = 5 + OffsetX;
-    int y = 2 + OffsetY;
+    int x = 5 + Location.X;
+    int y = 2 + Location.Y;
     
     // outer frame
     SRectWireframe outer(x, y, 70, 18);
@@ -164,7 +166,8 @@ void SDailySummaryScreen::Render() {
     DrawText(x + 55, y + 13, std::to_string(Water) + "/" + std::to_string(MaxWater));
     
     // zone progress
-    STextBox nextZone(x + 3, y + 16, 64, 1, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones), false, false);
+    STextBox nextZone(x + 3, y + 16, 64, 1,
+        "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones), false, false);
     nextZone.Render();
     
     // footer and wait for player
@@ -184,7 +187,7 @@ void SDailySummaryScreen::Render() {
 SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
                            int finalHealth, int finalFood, int finalWater,
                            int finalScore, int offsetX, int offsetY)
-    : SScreenBase(offsetX, offsetY)
+    : IScreenBase(offsetX, offsetY)
     , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , FinalScore(finalScore) {}
@@ -192,8 +195,8 @@ SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
 void SDeathScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
-    int x = 10 + OffsetX;
-    int y = 2 + OffsetY;
+    int x = 10 + Location.X;
+    int y = 2 + Location.Y;
     
     SRectWireframe outer(x, y, 60, 16);
     outer.Render();
@@ -231,7 +234,7 @@ SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
                                int finalHealth, int finalFood, int finalWater,
                                int itemsFound, int multiplier, int finalScore,
                                int offsetX, int offsetY)
-    : SScreenBase(offsetX, offsetY)
+    : IScreenBase(offsetX, offsetY)
     , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , ItemsFound(itemsFound), Multiplier(multiplier), FinalScore(finalScore) {}
@@ -239,8 +242,8 @@ SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
 void SVictoryScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
-    int x = 5 + OffsetX;
-    int y = 2 + OffsetY;
+    int x = 5 + Location.X;
+    int y = 2 + Location.Y;
     
     SRectWireframe outer(x, y, 70, 20);
     outer.Render();
@@ -296,7 +299,7 @@ void SVictoryScreen::Render() {
 // ============================================================
 
 SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, bool horizontal)
-    : Options(options), SelectedIndex(0), X(x), Y(y), bHorizontal(horizontal) {}
+    : IWidget(X, Y), Options(options), SelectedIndex(0), bHorizontal(horizontal) { }
 
 void SChoiceMenu::Render() {
     int cx = X, cy = Y;
@@ -304,7 +307,7 @@ void SChoiceMenu::Render() {
         std::string display = (i == SelectedIndex) ? "> " + Options[i] + " <" : "  " + Options[i] + "  ";
         DrawText(cx, cy, display);
         if (bHorizontal) {
-            cx += Options[i].length() + 6;
+            cx += (int)Options[i].length() + 6;
         } else {
             cy++;
         }

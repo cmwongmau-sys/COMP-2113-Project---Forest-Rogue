@@ -64,9 +64,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ReferencePath>$(ProjectDir)Source\Header</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ReferencePath>$(ProjectDir)Source\Header</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -122,15 +124,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Script\Main\Playground.cpp" />
-    <ClCompile Include="Source\Script\Main\Slate\Sprites\SpritesCore.cpp" />
-    <ClCompile Include="Source\Script\Main\Slate\Widgets\WidgetsCore.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Source\Script\Slate\Sprites\SpritesCore.cpp" />
+    <ClCompile Include="Source\Script\Slate\Widgets\WidgetsCore.cpp" />
+    <ClCompile Include="Source\Script\Slate\Widgets\GameScreens.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Header\Slate\SlateCore.h" />
     <ClInclude Include="Source\Header\Slate\Sprites\SpritesCore.h" />
+    <ClInclude Include="Source\Header\Slate\Widgets\GameScreens.h" />
     <ClInclude Include="Source\Header\Slate\Widgets\WidgetsCore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

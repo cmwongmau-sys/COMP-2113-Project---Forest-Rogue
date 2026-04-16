@@ -1,9 +1,12 @@
-#ifndef GAME_SCREENS_H
+﻿#ifndef GAME_SCREENS_H
 #define GAME_SCREENS_H
 
-#include "../../Header/Slate/Widgets/WidgetsCore.h"
+#include "Slate/Widgets/WidgetsCore.h"
 #include <string>
 #include <vector>
+
+void DrawBar(int x, int y, int width, int current, int max,
+             std::string FillChar = "█", std::string EmptyChar = ".");
 
 // this struct holds what happened during a random event
 // filled by the random events team and passed to the screen
@@ -20,19 +23,23 @@ struct EventOutcome {
 
 // base class for all screens
 // has offset so screens can be moved if needed
-class SScreenBase : public IWidget {
-protected:
-    int OffsetX, OffsetY;            // moves whole screen position
+class IScreenBase : public IWidget {
 public:
-    SScreenBase(int offsetX = 0, int offsetY = 0) : OffsetX(offsetX), OffsetY(offsetY) {}
-    virtual ~SScreenBase() = default;
+    IScreenBase(Vector2 Location) : IWidget(Location) { }
+    IScreenBase(Vector2 Location, Vector2 Size) : IWidget(Location, Size) { }
+
+    IScreenBase(int offsetX = 0, int offsetY = 0,
+                int sizeX = 1, int sizeY = 1)
+        : IWidget(offsetX, offsetY, sizeX, sizeY) { }
+
+    virtual ~IScreenBase() = default;
     virtual void Render() override = 0;   // each screen draws itself and waits for input
 };
 
 // shows what happened during a random event
 // called after bear attack, treasure, trap, etc
 // displays changes to health, food, water, and inventory
-class SEventResultScreen : public SScreenBase {
+class SEventResultScreen : public IScreenBase {
 private:
     EventOutcome Outcome;
     int Health, MaxHealth;
@@ -52,7 +59,7 @@ public:
 // shows end of day summary
 // called after daily consumption (-1 food, -1 water)
 // displays updated stats with health, food, water bars
-class SDailySummaryScreen : public SScreenBase {
+class SDailySummaryScreen : public IScreenBase {
 private:
     int Day, Zone, TotalZones;
     int Health, MaxHealth;
@@ -72,7 +79,7 @@ public:
 // game over screen
 // called when player dies (health <= 0 or food/water < 0)
 // displays final stats and score
-class SDeathScreen : public SScreenBase {
+class SDeathScreen : public IScreenBase {
 private:
     int ZonesCleared, DaysSurvived;
     int FinalHealth, FinalFood, FinalWater, FinalScore;
@@ -88,7 +95,7 @@ public:
 // victory screen
 // called when player clears all 6 zones
 // displays final stats and score breakdown
-class SVictoryScreen : public SScreenBase {
+class SVictoryScreen : public IScreenBase {
 private:
     int ZonesCleared, DaysSurvived;
     int FinalHealth, FinalFood, FinalWater;

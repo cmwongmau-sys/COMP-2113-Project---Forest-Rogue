@@ -1,10 +1,26 @@
 #pragma once
 
-#include "../Sprites/SpritesCore.h"
+#include "Slate/Sprites/SpritesCore.h"
 
 #include <string>
 
-class IWidget : public ISprite { };
+class IWidget : public ISprite
+{
+public:
+    IWidget(int LocationX, int LocationY, int Width, int Height)
+        : ISprite(LocationX, LocationY, Width, Height) {
+    }
+
+    IWidget(Vector2 Location, Vector2 Size)
+        : ISprite(Location, Size) {
+    }
+
+    IWidget(int LocationX, int LocationY)
+        : ISprite(LocationX, LocationY, 0, 0) { }
+
+    IWidget(Vector2 Location)
+        : ISprite(Location, Vector2::Zero) { }
+};
 
 class SBar : public SRectFilled
 {
