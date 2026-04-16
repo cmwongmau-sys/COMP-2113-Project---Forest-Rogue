@@ -1,96 +1,126 @@
 #include <iostream>
 #include <cstdlib>  
 #include <ctime> 
+#include <algorithm>
 #include "random.h"
+#include "GameScreens.h"
 using namespace std;
 
 
 // choice: 1 = Fight, 2 = Flee
-void wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+EventOutcome wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Wild Animal";
+
     int choice;
-    cout<<"choice: 1 = Fight, 2 = Flee"<<endl;
-    cin>>choice;
+    cout << "choice: 1 = Fight, 2 = Flee" << endl;
+    cin >> choice;
+    outcome.choiceMade = (choice == 1) ? "Fight" : "Flee";
+
     int roll = rand() % 100 + 1;
 
     if (choice == 1) {
-        if (roll <= 50) { 
-            int damage = (difficulty == 1) ? (5 + rand()%6) : 
-                         (difficulty == 2) ? (10 + rand()%6) : 
+        if (roll <= 50) {
+            int damage = (difficulty == 1) ? (5 + rand()%6) :
+                         (difficulty == 2) ? (10 + rand()%6) :
                                               (15 + rand()%6);
             health -= damage;
-            food += 2; 
-            cout << "You fought bravely! Lost " << damage << " health, gained 2 food.\n";
+            food += 2;
+            outcome.resultText = "You fought bravely!";
+            outcome.deltaHealth = -damage;
+            outcome.deltaFood = +2;
         } else {
-            int damage = (difficulty == 1) ? (15 + rand()%11) : 
-                         (difficulty == 2) ? (15 + rand()%11) : 
+            int damage = (difficulty == 1) ? (15 + rand()%11) :
+                         (difficulty == 2) ? (15 + rand()%11) :
                                               (20 + rand()%6);
             health -= damage;
-            cout << "You lost the fight! Lost " << damage << " health.\n";
+            outcome.resultText = "You lost the fight!";
+            outcome.deltaHealth = -damage;
         }
-    } else if (choice == 2) { 
+    } else if (choice == 2) {
         if (roll <= 50) {
-            cout << "You fled successfully. No damage.\n";
+            outcome.resultText = "You fled successfully.";
         } else {
             int damage = 10 + rand()%11;
             health -= damage;
-            cout << "Failed to flee! Lost " << damage << " health.\n";
+            outcome.resultText = "Failed to flee!";
+            outcome.deltaHealth = -damage;
         }
     }
+    return outcome;
 }
 
-// choice: 1 = Take items
-void treasureEncounter(int difficulty, int &health, int &food, int &water) {
+EventOutcome treasureEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Treasure";
+
     int choice;
-    cout<<"choice: 1 = Take items"<<endl;
-    cin>>choice;
+    cout << "choice: 1 = Take items" << endl;
+    cin >> choice;
+    outcome.choiceMade = "Take items";
+
     if (choice == 1) {
         int items = rand()%3 + 1;
         for (int i = 0; i < items; i++) {
-            int reward = rand()%3; 
+            int reward = rand()%3;
             if (reward == 0) {
                 int gained = rand()%3 + 1;
                 food += gained;
-                cout << "Found " << gained << " food.\n";
+                outcome.deltaFood += gained;
+                outcome.itemsAdded.push_back("Food +" + to_string(gained));
             } else if (reward == 1) {
                 int gained = rand()%3 + 1;
                 water += gained;
-                cout << "Found " << gained << " water.\n";
+                outcome.deltaWater += gained;
+                outcome.itemsAdded.push_back("Water +" + to_string(gained));
             } else {
-                health = min(100, health + 30); 
-                cout << "Found a healing potion! Restored 30 health.\n";
+                health = min(100, health + 30);
+                outcome.deltaHealth += +30;
+                outcome.itemsAdded.push_back("Healing Potion (+30 health)");
             }
         }
+        outcome.resultText = "You found treasure!";
     }
+    return outcome;
 }
 
-// choice: 1 = Try escape, 2 = Cut free, 3 = Wait for help
-void trapEncounter( int difficulty, int &health, int &food, int &water) {
+EventOutcome trapEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Trap";
+
     int choice;
-    cout<<"choice: 1 = Try escape, 2 = Cut free, 3 = Wait for help"<<endl;
-    cin>>choice;
+    cout << "choice: 1 = Try escape, 2 = Cut free, 3 = Wait for help" << endl;
+    cin >> choice;
+    outcome.choiceMade = (choice == 1) ? "Try escape" :
+                         (choice == 2) ? "Cut free" : "Wait for help";
+
     int roll = rand()%100 + 1;
 
-    if (choice == 1) { // Try escape
+    if (choice == 1) {
         if (roll <= 70) {
-            cout << "You escaped the trap safely.\n";
+            outcome.resultText = "You escaped safely.";
         } else {
             health -= 15;
-            cout << "Failed to escape! Lost 15 health.\n";
+            outcome.resultText = "Failed escape!";
+            outcome.deltaHealth = -15;
         }
-    } else if (choice == 2) { // Cut free
+    } else if (choice == 2) {
         if (food > 0) {
             food -= 1;
-            cout << "You cut yourself free. Lost 1 food.\n";
+            outcome.resultText = "You cut yourself free.";
+            outcome.deltaFood = -1;
+            outcome.itemsRemoved.push_back("Food");
         } else {
-            cout << "No food to sacrifice! You remain trapped.\n";
+            outcome.resultText = "No food to sacrifice!";
         }
-    } else if (choice == 3) { // Wait for help
-        if (food > 0) food -= 1;
-        if (water > 0) water -= 1;
-        cout << "You waited for help. Lost 1 food and 1 water.\n";
-        cout << "Escaped next day automatically.\n";
+    } else if (choice == 3) {
+        if (food > 0) { food -= 1; outcome.deltaFood = -1; }
+        if (water > 0) { water -= 1; outcome.deltaWater = -1; }
+        outcome.resultText = "You waited for help. Escaped next day.";
     }
+    return outcome;
 }
+
 void waterSpringEncounter(int difficulty, int &health, int &food, int &water){
     int waterGain = 2 + rand() % 3;   // 2,3,4
     water += waterGain;
