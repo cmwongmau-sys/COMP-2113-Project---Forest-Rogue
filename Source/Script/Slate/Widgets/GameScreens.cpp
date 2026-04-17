@@ -1,4 +1,4 @@
-﻿#include "Slate/Widgets/GameScreens.h"
+#include "Slate/Widgets/GameScreens.h"
 #include "Slate/Widgets/WidgetsCore.h"
 #include <iostream>
 #include <sstream>
@@ -31,8 +31,8 @@ SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
                                        int health, int maxHealth,
                                        int food, int maxFood,
                                        int water, int maxWater,
-                                       int offsetX, int offsetY)
-    : IScreenBase(offsetX, offsetY)
+                                       int x, int y)
+    : IScreenBase(x, y)
     , Outcome(outcome)
     , Health(health), MaxHealth(maxHealth)
     , Food(food), MaxFood(maxFood)
@@ -42,33 +42,29 @@ void SEventResultScreen::Render() {
     // clear screen and move cursor to top
     std::cout << "\033[2J\033[1;1H";
     
-    // apply offset if any
-    int x = 10 + Location.X;
+    // apply location offset
+    int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
     // outer box frame
-    SRectWireframe outer(x, y, 60, 15);
+    SRectWireframe outer(x, y, 60, 18);
     outer.Render();
     
     // title bar at top
     SRectFilled titleBar(x, y, 60, 1, "#");
     titleBar.Render();
-    STextBox titleText(x + 15, y, 30, 1, "- EVENT RESULT -", false, false);
-    titleText.Render();
+    DrawText(x + 15, y, "- EVENT RESULT -");
     
     // event name
-    STextBox eventName(x + 2, y + 3, 56, 1, "EVENT: " + Outcome.eventName, false, false);
-    eventName.Render();
+    DrawText(x + 2, y + 3, "EVENT: " + Outcome.eventName);
     
     // separator line
     SRectFilled sep(x + 2, y + 4, 56, 1, "─");
     sep.Render();
     
     // player's choice and what happened
-    STextBox choice(x + 2, y + 6, 56, 1, "You chose: " + Outcome.choiceMade, false, false);
-    choice.Render();
-    STextBox result(x + 2, y + 7, 56, 1, "Result: " + Outcome.resultText, false, false);
-    result.Render();
+    DrawText(x + 2, y + 6, "You chose: " + Outcome.choiceMade);
+    DrawText(x + 2, y + 7, "Result: " + Outcome.resultText);
     
     // build the changes table
     std::stringstream changes;
@@ -96,12 +92,10 @@ void SEventResultScreen::Render() {
     status << "Health: " << Health << "/" << MaxHealth
            << "  Food: " << Food << "/" << MaxFood
            << "  Water: " << Water << "/" << MaxWater;
-    STextBox statusBox(x + 2, y + 14, 56, 1, status.str(), false, false);
-    statusBox.Render();
+    DrawText(x + 2, y + 14, status.str());
     
     // footer and wait for player
-    STextBox footer(x + 15, y + 16, 30, 1, "PRESS ENTER", false, false);
-    footer.Render();
+    DrawText(x + 15, y + 16, "PRESS ENTER");
     
     // wait for user to press enter
     std::cin.get();
@@ -117,8 +111,8 @@ SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
                                          int health, int maxHealth,
                                          int food, int maxFood,
                                          int water, int maxWater,
-                                         int offsetX, int offsetY)
-    : IScreenBase(offsetX, offsetY, 70, 18)
+                                         int x, int y)
+    : IScreenBase(x, y)
     , Day(day), Zone(zone), TotalZones(totalZones)
     , Health(health), MaxHealth(maxHealth)
     , Food(food), MaxFood(maxFood)
@@ -131,48 +125,38 @@ void SDailySummaryScreen::Render() {
     int y = 2 + Location.Y;
     
     // outer frame
-    SRectWireframe outer(x, y, 70, 18);
+    SRectWireframe outer(x, y, 60, 18);
     outer.Render();
     
     // title
     std::string titleText = "END OF DAY " + std::to_string(Day);
-    STextBox title(x + 20, y + 1, 30, 1, titleText, false, false);
-    title.Render();
+    DrawText(x + 20, y + 1, titleText);
     
     // daily consumption section
-    STextBox consumptionTitle(x + 3, y + 4, 64, 1, "DAILY CONSUMPTION:", false, false);
-    consumptionTitle.Render();
-    STextBox foodCon(x + 3, y + 5, 64, 1, "Food: -1", false, false);
-    foodCon.Render();
-    STextBox waterCon(x + 3, y + 6, 64, 1, "Water: -1", false, false);
-    waterCon.Render();
+    DrawText(x + 3, y + 4, "DAILY CONSUMPTION:");
+    DrawText(x + 3, y + 5, "Food: -1");
+    DrawText(x + 3, y + 6, "Water: -1");
     
     // health bar
-    STextBox healthLabel(x + 3, y + 9, 10, 1, "HEALTH:", false, false);
-    healthLabel.Render();
+    DrawText(x + 3, y + 9, "HEALTH:");
     DrawBar(x + 13, y + 9, 40, Health, MaxHealth);
     DrawText(x + 55, y + 9, std::to_string(Health) + "/" + std::to_string(MaxHealth));
     
     // food bar
-    STextBox foodLabel(x + 3, y + 11, 10, 1, "FOOD:", false, false);
-    foodLabel.Render();
+    DrawText(x + 3, y + 11, "FOOD:");
     DrawBar(x + 13, y + 11, 40, Food, MaxFood);
     DrawText(x + 55, y + 11, std::to_string(Food) + "/" + std::to_string(MaxFood));
     
     // water bar
-    STextBox waterLabel(x + 3, y + 13, 10, 1, "WATER:", false, false);
-    waterLabel.Render();
+    DrawText(x + 3, y + 13, "WATER:");
     DrawBar(x + 13, y + 13, 40, Water, MaxWater);
     DrawText(x + 55, y + 13, std::to_string(Water) + "/" + std::to_string(MaxWater));
     
     // zone progress
-    STextBox nextZone(x + 3, y + 16, 64, 1,
-        "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones), false, false);
-    nextZone.Render();
+    DrawText(x + 3, y + 16, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones));
     
     // footer and wait for player
-    STextBox footer(x + 15, y + 18, 40, 1, "Press Enter", false, false);
-    footer.Render();
+    DrawText(x + 15, y + 18, "Press Enter");
     
     // wait for user to press enter
     std::cin.get();
@@ -186,8 +170,8 @@ void SDailySummaryScreen::Render() {
 
 SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
                            int finalHealth, int finalFood, int finalWater,
-                           int finalScore, int offsetX, int offsetY)
-    : IScreenBase(offsetX, offsetY)
+                           int finalScore, int x, int y)
+    : IScreenBase(x, y)
     , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , FinalScore(finalScore) {}
@@ -195,15 +179,14 @@ SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
 void SDeathScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
-    int x = 10 + Location.X;
+    int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
-    SRectWireframe outer(x, y, 60, 16);
+    SRectWireframe outer(x, y, 60, 18);
     outer.Render();
     SRectFilled titleBar(x, y, 60, 1, "#");
     titleBar.Render();
-    STextBox title(x + 18, y, 30, 1, "- GAME OVER -", false, false);
-    title.Render();
+    DrawText(x + 18, y, "- GAME OVER -");
     
     std::stringstream stats;
     stats << "\n   you didn't survive the forest...\n\n";
@@ -233,8 +216,8 @@ void SDeathScreen::Render() {
 SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
                                int finalHealth, int finalFood, int finalWater,
                                int itemsFound, int multiplier, int finalScore,
-                               int offsetX, int offsetY)
-    : IScreenBase(offsetX, offsetY)
+                               int x, int y)
+    : IScreenBase(x, y)
     , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , ItemsFound(itemsFound), Multiplier(multiplier), FinalScore(finalScore) {}
@@ -245,12 +228,11 @@ void SVictoryScreen::Render() {
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
-    SRectWireframe outer(x, y, 70, 20);
+    SRectWireframe outer(x, y, 60, 18);
     outer.Render();
-    SRectFilled titleBar(x, y, 70, 1, "#");
+    SRectFilled titleBar(x, y, 60, 1, "#");
     titleBar.Render();
-    STextBox title(x + 28, y, 30, 1, "- VICTORY -", false, false);
-    title.Render();
+    DrawText(x + 28, y, "- VICTORY -");
     
     std::stringstream stats;
     stats << "\n   you escaped the forest\n\n";
@@ -285,7 +267,7 @@ void SVictoryScreen::Render() {
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
     stats << "   [1] play again   [2] high scores   [3] quit";
     
-    STextBox statsBox(x + 2, y + 3, 66, 18, stats.str(), true, true);
+    STextBox statsBox(x + 2, y + 3, 56, 18, stats.str(), true, true);
     statsBox.Render();
     
     // wait for user input
@@ -299,10 +281,11 @@ void SVictoryScreen::Render() {
 // ============================================================
 
 SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, bool horizontal)
-    : IWidget(X, Y), Options(options), SelectedIndex(0), bHorizontal(horizontal) { }
+    : IWidget(x, y), Options(options), SelectedIndex(0), bHorizontal(horizontal) {}
 
 void SChoiceMenu::Render() {
-    int cx = X, cy = Y;
+    int cx = Location.X;
+    int cy = Location.Y;
     for (size_t i = 0; i < Options.size(); ++i) {
         std::string display = (i == SelectedIndex) ? "> " + Options[i] + " <" : "  " + Options[i] + "  ";
         DrawText(cx, cy, display);
