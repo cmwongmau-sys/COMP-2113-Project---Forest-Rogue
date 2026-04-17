@@ -1,12 +1,9 @@
-﻿#ifndef GAME_SCREENS_H
+#ifndef GAME_SCREENS_H
 #define GAME_SCREENS_H
 
 #include "Slate/Widgets/WidgetsCore.h"
 #include <string>
 #include <vector>
-
-void DrawBar(int x, int y, int width, int current, int max,
-             std::string FillChar = "█", std::string EmptyChar = ".");
 
 // this struct holds what happened during a random event
 // filled by the random events team and passed to the screen
@@ -22,16 +19,10 @@ struct EventOutcome {
 };
 
 // base class for all screens
-// has offset so screens can be moved if needed
+// abstract class (pure virtual) - serves as interface
 class IScreenBase : public IWidget {
 public:
-    IScreenBase(Vector2 Location) : IWidget(Location) { }
-    IScreenBase(Vector2 Location, Vector2 Size) : IWidget(Location, Size) { }
-
-    IScreenBase(int offsetX = 0, int offsetY = 0,
-                int sizeX = 1, int sizeY = 1)
-        : IWidget(offsetX, offsetY, sizeX, sizeY) { }
-
+    IScreenBase(int x = 0, int y = 0) : IWidget(x, y) {}
     virtual ~IScreenBase() = default;
     virtual void Render() override = 0;   // each screen draws itself and waits for input
 };
@@ -51,7 +42,7 @@ public:
                        int health, int maxHealth,
                        int food, int maxFood,
                        int water, int maxWater,
-                       int offsetX = 0, int offsetY = 0);
+                       int x = 0, int y = 0);
     
     void Render() override;   // draws screen and waits for enter key
 };
@@ -71,7 +62,7 @@ public:
                         int health, int maxHealth,
                         int food, int maxFood,
                         int water, int maxWater,
-                        int offsetX = 0, int offsetY = 0);
+                        int x = 0, int y = 0);
     
     void Render() override;   // draws screen and waits for enter key
 };
@@ -87,7 +78,7 @@ private:
 public:
     SDeathScreen(int zonesCleared, int daysSurvived,
                  int finalHealth, int finalFood, int finalWater,
-                 int finalScore, int offsetX = 0, int offsetY = 0);
+                 int finalScore, int x = 0, int y = 0);
     
     void Render() override;   // draws screen and waits for input
 };
@@ -105,7 +96,7 @@ public:
     SVictoryScreen(int zonesCleared, int daysSurvived,
                    int finalHealth, int finalFood, int finalWater,
                    int itemsFound, int multiplier, int finalScore,
-                   int offsetX = 0, int offsetY = 0);
+                   int x = 0, int y = 0);
     
     void Render() override;   // draws screen and waits for input
 };
@@ -117,7 +108,6 @@ class SChoiceMenu : public IWidget {
 private:
     std::vector<std::string> Options;
     int SelectedIndex;
-    int X, Y;
     bool bHorizontal;
     
 public:
