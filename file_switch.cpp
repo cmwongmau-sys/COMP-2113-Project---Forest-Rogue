@@ -26,15 +26,12 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         return;
     }
 
-    // Current date and time
     time_t now = time(0);
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    // Header
     outFile << "=== SURVIVAL SCOREBOARD - Updated: " << dt << " ===\n\n";
 
-    // Column Headers with setw() for alignment
     outFile << left 
             << setw(15) << "Name"
             << setw(12) << "Difficulty"
@@ -89,7 +86,6 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             continue;
         }
 
-        // Skip header lines
         if (line.find("=== SURVIVAL SCOREBOARD") != string::npos ||
             line.find("Name") != string::npos && line.find("Difficulty") != string::npos ||
             line.find("-----") != string::npos) {
@@ -97,7 +93,6 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             continue;
         }
 
-        // Only process data lines after headers
         if (!headerPassed) continue;
 
         stringstream ss(line);
