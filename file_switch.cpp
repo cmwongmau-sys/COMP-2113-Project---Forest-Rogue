@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <ctime>
+#include <iomanip>
 
 using namespace std;
 
@@ -14,43 +15,53 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         return;
     }
 
-    // Step 1: Sort the scoreboard by FinalScore (Descending)
+    // Sort by FinalScore (highest first)
     sort(scoreboard.begin(), scoreboard.end(), [](const ScoreEntry& a, const ScoreEntry& b) {
         return a.finalScore > b.finalScore;
     });
 
-    // Step 2: Open file in overwrite mode (not append)
     ofstream outFile(file);
-    
     if (!outFile.is_open()) {
         cerr << "Error: Could not open " << file << " for writing!" << endl;
         return;
     }
 
-    // Step 3: Write current date and time as header
+    // Current date and time
     time_t now = time(0);
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
-    
-    outFile << "=== SURVIVAL SCOREBOARD - Updated: " << dt << " ===" << endl;
-    outFile << "Name|Difficulty|FinalScore|ExcessFood|ExcessWater|ZonesCompleted|DateTime" << endl;
-    outFile << "--------------------------------------------------------------------------------" << endl;
 
-    // Step 4: Write all sorted entries
+    // Header
+    outFile << "=== SURVIVAL SCOREBOARD - Updated: " << dt << " ===\n\n";
+
+    // Column Headers with setw() for alignment
+    outFile << left 
+            << setw(15) << "Name"
+            << setw(12) << "Difficulty"
+            << setw(10) << "Score"
+            << setw(12) << "Food Left"
+            << setw(12) << "Water Left"
+            << setw(8)  << "Zones"
+            << setw(20) << "Date & Time" << endl;
+
+    outFile << string(85, '-') << endl;   // Separator line
+
+    // Data Rows
     for (const auto& entry : scoreboard) {
-        outFile << entry.name << "|" 
-                << entry.difficulty << "|" 
-                << entry.finalScore << "|" 
-                << entry.excessFood << "|" 
-                << entry.excessWater << "|" 
-                << entry.zonesCompleted << "|" 
-                << entry.dateTime << endl;
+        outFile << left
+                << setw(15) << entry.name
+                << setw(12) << entry.difficulty
+                << setw(10) << entry.finalScore
+                << setw(12) << entry.excessFood
+                << setw(12) << entry.excessWater
+                << setw(8)  << entry.zonesCompleted
+                << setw(20) << entry.dateTime << endl;
     }
 
     outFile.close();
     
-    cout << "Scoreboard saved and sorted successfully (" << scoreboard.size() 
-         << " entries) at " << dt << endl;
+    cout << "Scoreboard saved successfully (" << scoreboard.size() 
+         << " entries) with neat formatting.\n";
 }
 
 // Load all scoreboard data
