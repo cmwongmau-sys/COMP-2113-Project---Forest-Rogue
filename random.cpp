@@ -9,131 +9,121 @@
 using namespace std;
 
 // ========== 野生生物 ==========
-EventOutcome wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+void wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+    vector<string> options = {"Fight", "Flee"};
+    SChoiceMenu menu(options, 10, 5);
+    menu.Render();
+    int choiceIndex = menu.WaitForSelection();
+
     EventOutcome outcome;
     outcome.eventName = "Wild Animal";
-    cout << "A wild animal appears!" << endl;
+    outcome.choiceMade = options[choiceIndex];
 
-    std::vector<std::string> options = {"Fight", "Flee"};
-    SChoiceMenu menu(options, 10, 10, true);
-    int selectedIndex = menu.WaitForSelection();   // 0: Fight, 1: Flee
-    outcome.choiceMade = options[selectedIndex];
-
-    int roll = rand() % 100 + 1;
-
-    if (selectedIndex == 0) {  // Fight
-        if (roll <= 50) {   // 胜利
-            int damage = (difficulty == 1) ? (5 + rand()%6) :
-                         (difficulty == 2) ? (10 + rand()%6) :
-                                              (15 + rand()%6);
-            health -= damage;
-            food += 2;
+    int roll = rand()%100 + 1;
+    if (choiceIndex == 0) { // Fight
+        if (roll <= 50) {
+            int damage = (difficulty==1)?(5+rand()%6):(difficulty==2)?(10+rand()%6):(15+rand()%6);
+            health -= damage; food += 2;
+            outcome.resultText = "You won the fight!";
             outcome.deltaHealth = -damage;
-            outcome.deltaFood = 2;
-            outcome.resultText = "You fought bravely!";
-        } else {            // 失败
-            int damage = (difficulty == 1) ? (15 + rand()%11) :
-                         (difficulty == 2) ? (15 + rand()%11) :
-                                              (20 + rand()%6);
+            outcome.deltaFood = +2;
+        } else {
+            int damage = (difficulty==1)?(15+rand()%11):(difficulty==2)?(15+rand()%11):(20+rand()%6);
             health -= damage;
-            outcome.deltaHealth = -damage;
             outcome.resultText = "You lost the fight!";
-        }
-    } else {  // Flee
-        if (roll <= 50) {   // 成功逃跑
-            outcome.resultText = "You fled successfully.";
-        } else {            // 逃跑失败
-            int damage = 10 + rand()%11;
-            health -= damage;
             outcome.deltaHealth = -damage;
+        }
+    } else { // Flee
+        if (roll <= 50) {
+            outcome.resultText = "You fled successfully.";
+        } else {
+            int damage = 10+rand()%11;
+            health -= damage;
             outcome.resultText = "Failed to flee!";
+            outcome.deltaHealth = -damage;
         }
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 宝藏 ==========
-EventOutcome treasureEncounter(int difficulty, int &health, int &food, int &water) {
+void treasureEncounter(int difficulty, int &health, int &food, int &water) {
+    vector<string> options = {"Take items"};
+    SChoiceMenu menu(options, 10, 5);
+    menu.Render();
+    int choiceIndex = menu.WaitForSelection();
+
     EventOutcome outcome;
     outcome.eventName = "Treasure";
+    outcome.choiceMade = options[choiceIndex];
 
-    cout << "You found an abandoned campsite!" << endl;
-
-    std::vector<std::string> options = {"Take items"};
-    SChoiceMenu menu(options, 10, 10, true);
-    int selectedIndex = menu.WaitForSelection();   // 0
-    outcome.choiceMade = options[selectedIndex];
-
-    int items = rand() % 3 + 1;   // 1~3 件物品
-    for (int i = 0; i < items; i++) {
-        int reward = rand() % 3;
-        if (reward == 0) {
-            int gained = rand() % 3 + 1;
-            food += gained;
-            outcome.deltaFood += gained;
-            outcome.itemsAdded.push_back("Food +" + to_string(gained));
-        } else if (reward == 1) {
-            int gained = rand() % 3 + 1;
-            water += gained;
-            outcome.deltaWater += gained;
-            outcome.itemsAdded.push_back("Water +" + to_string(gained));
-        } else {
-            int heal = 30;
-            health = min(100, health + heal);
-            outcome.deltaHealth += heal;
-            outcome.itemsAdded.push_back("Healing Potion (+30 health)");
+    if (choiceIndex == 0) {
+        int items = rand()%3 + 1;
+        for (int i = 0; i < items; i++) {
+            int reward = rand()%3;
+            if (reward == 0) {
+                int gained = rand()%3 + 1;
+                food += gained;
+                outcome.deltaFood += gained;
+                outcome.itemsAdded.push_back("Food +" + to_string(gained));
+            } else if (reward == 1) {
+                int gained = rand()%3 + 1;
+                water += gained;
+                outcome.deltaWater += gained;
+                outcome.itemsAdded.push_back("Water +" + to_string(gained));
+            } else {
+                health = min(100, health + 30);
+                outcome.deltaHealth += +30;
+                outcome.itemsAdded.push_back("Healing Potion (+30 health)");
+            }
         }
+        outcome.resultText = "You found treasure!";
     }
-    outcome.resultText = "You found treasure!";
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 陷阱 ==========
-EventOutcome trapEncounter(int difficulty, int &health, int &food, int &water) {
+void trapEncounter(int difficulty, int &health, int &food, int &water) {
+    vector<string> options = {"Try escape", "Cut free", "Wait for help"};
+    SChoiceMenu menu(options, 10, 5);
+    menu.Render();
+    int choiceIndex = menu.WaitForSelection();
+
     EventOutcome outcome;
     outcome.eventName = "Trap";
+    outcome.choiceMade = options[choiceIndex];
 
-    cout << "You step into a trap!" << endl;
+    int roll = rand()%100 + 1;
 
-    std::vector<std::string> options = {"Try escape", "Cut free (cost 1 food)", "Wait for help"};
-    SChoiceMenu menu(options, 10, 10, true);
-    int selectedIndex = menu.WaitForSelection();   // 0,1,2
-    outcome.choiceMade = options[selectedIndex];
-
-    int roll = rand() % 100 + 1;
-
-    if (selectedIndex == 0) {  // Try escape
+    if (choiceIndex == 0) { // Try escape
         if (roll <= 70) {
             outcome.resultText = "You escaped safely.";
         } else {
             health -= 15;
+            outcome.resultText = "Failed escape!";
             outcome.deltaHealth = -15;
-            outcome.resultText = "Failed to escape!";
         }
-    } else if (selectedIndex == 1) {  // Cut free
+    } else if (choiceIndex == 1) { // Cut free
         if (food > 0) {
             food -= 1;
+            outcome.resultText = "You cut yourself free.";
             outcome.deltaFood = -1;
             outcome.itemsRemoved.push_back("Food");
-            outcome.resultText = "You cut yourself free.";
         } else {
-            outcome.resultText = "No food to sacrifice! You remain trapped.";
+            outcome.resultText = "No food to sacrifice!";
         }
-    } else {  // Wait for help
+    } else if (choiceIndex == 2) { // Wait
         if (food > 0) { food -= 1; outcome.deltaFood = -1; }
         if (water > 0) { water -= 1; outcome.deltaWater = -1; }
         outcome.resultText = "You waited for help. Escaped next day.";
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 泉水 ==========
