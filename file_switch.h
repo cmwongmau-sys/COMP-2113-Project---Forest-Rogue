@@ -5,7 +5,6 @@
 #include <vector>
 using namespace std;
 
-//scoreboard column
 struct ScoreEntry {
     string name;
     int difficulty;
