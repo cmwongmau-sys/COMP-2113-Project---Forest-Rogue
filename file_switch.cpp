@@ -65,28 +65,40 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 }
 
 // Load all scoreboard data
-void loadScoreboard(vector<ScoreEntry>& scoreboard) {
+void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     scoreboard.clear();
     
-    ifstream inFile("scoreboard.txt");
+    ifstream inFile(file);
     
-    // Case 1: File does not exist or cannot be opened
     if (!inFile.is_open()) {
-        cout << "No previous scoreboard found. Starting new scoreboard." << endl;
-        return;   
+        cout << "No scoreboard file found: " << file << endl;
+        cout << "Starting with empty scoreboard." << endl;
+        return;
     }
 
     string line;
     int lineNumber = 0;
-    int validEntries = 0;
-    int corruptedEntries = 0;
+    int validCount = 0;
+    bool headerPassed = false;
 
     while (getline(inFile, line)) {
         lineNumber++;
         
+        // Skip empty lines
         if (line.empty() || line.find_first_not_of(" \t") == string::npos) {
-            continue;  // Skip empty lines
+            continue;
         }
+
+        // Skip header lines
+        if (line.find("=== SURVIVAL SCOREBOARD") != string::npos ||
+            line.find("Name") != string::npos && line.find("Difficulty") != string::npos ||
+            line.find("-----") != string::npos) {
+            headerPassed = true;
+            continue;
+        }
+
+        // Only process data lines after headers
+        if (!headerPassed) continue;
 
         stringstream ss(line);
         string token;
@@ -96,45 +108,39 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard) {
             tokens.push_back(token);
         }
 
-        // Case 2: Wrong number of columns (corrupted line)
         if (tokens.size() != 7) {
-            cerr << "Warning: Corrupted line " << lineNumber 
-                 << " in scoreboard.txt (expected 7 columns, got " 
-                 << tokens.size() << ")" << endl;
-            corruptedEntries++;
+            cerr << "Warning: Skipping corrupted line " << lineNumber 
+                 << " in " << file << endl;
             continue;
         }
 
         try {
-            // Case 3: Invalid number conversion
             ScoreEntry s;
-            s.name          = tokens[0];
-            s.difficulty    = stoi(tokens[1]);
-            s.finalScore    = stoi(tokens[2]);
-            s.excessFood    = stoi(tokens[3]);
-            s.excessWater   = stoi(tokens[4]);
-            s.zonesCompleted= stoi(tokens[5]);
-            s.dateTime      = tokens[6];
+            s.name           = tokens[0];
+            s.difficulty     = stoi(tokens[1]);
+            s.finalScore     = stoi(tokens[2]);
+            s.excessFood     = stoi(tokens[3]);
+            s.excessWater    = stoi(tokens[4]);
+            s.zonesCompleted = stoi(tokens[5]);
+            s.dateTime       = tokens[6];
 
             // Basic validation
-            if (s.difficulty < 0 || s.difficulty > 2) {
-                throw invalid_argument("Invalid difficulty");
-            }
-            if (s.zonesCompleted < 0 || s.zonesCompleted > 6) {
-                throw invalid_argument("Invalid zones");
+            if (s.difficulty < 0 || s.difficulty > 2 || 
+                s.zonesCompleted < 0 || s.zonesCompleted > 6) {
+                throw invalid_argument("Invalid value");
             }
 
             scoreboard.push_back(s);
-            validEntries++;
+            validCount++;
 
         } catch (...) {
             cerr << "Warning: Invalid data on line " << lineNumber 
-                 << " in scoreboard.txt. Skipping." << endl;
-            corruptedEntries++;
+                 << " in " << file << ". Skipping." << endl;
         }
     }
 
     inFile.close();
+    cout << "Successfully loaded " << validCount << " entries from " << file << endl;
 }
 
 // Display Top 10 Scoreboard (sorted by finalScore descending)
