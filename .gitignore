@@ -1,0 +1,15 @@
+# Ignore Visual Studio build folders
+Project/
+x64/
+
+# Ignore Visual Studio user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore Visual Studio cache
+.vs/
+
+# Ignore Visual Studio filters file as it links to .vcxproj
+*.filters

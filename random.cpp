@@ -1,65 +1,65 @@
-#include <iostream>
-#include <cstdlib>  
-#include <ctime> 
+#include <iostream>   // 临时，用于事件描述，后续应替换为屏幕函数
+#include <cstdlib>
+#include <ctime>
 #include <algorithm>
+#include <vector>
+#include <string>
 #include "random.h"
 #include "GameScreens.h"
 using namespace std;
 
+// ========== 野生生物 ==========
+void wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+    vector<string> options = {"Fight", "Flee"};
+    SChoiceMenu menu(options, 10, 5);
+    menu.Render();
+    int choiceIndex = menu.WaitForSelection();
 
-// choice: 1 = Fight, 2 = Flee
-EventOutcome wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
     EventOutcome outcome;
     outcome.eventName = "Wild Animal";
+    outcome.choiceMade = options[choiceIndex];
 
-    int choice;
-    cout << "choice: 1 = Fight, 2 = Flee" << endl;
-    cin >> choice;
-    outcome.choiceMade = (choice == 1) ? "Fight" : "Flee";
-
-    int roll = rand() % 100 + 1;
-
-    if (choice == 1) {
+    int roll = rand()%100 + 1;
+    if (choiceIndex == 0) { // Fight
         if (roll <= 50) {
-            int damage = (difficulty == 1) ? (5 + rand()%6) :
-                         (difficulty == 2) ? (10 + rand()%6) :
-                                              (15 + rand()%6);
-            health -= damage;
-            food += 2;
-            outcome.resultText = "You fought bravely!";
+            int damage = (difficulty==1)?(5+rand()%6):(difficulty==2)?(10+rand()%6):(15+rand()%6);
+            health -= damage; food += 2;
+            outcome.resultText = "You won the fight!";
             outcome.deltaHealth = -damage;
             outcome.deltaFood = +2;
         } else {
-            int damage = (difficulty == 1) ? (15 + rand()%11) :
-                         (difficulty == 2) ? (15 + rand()%11) :
-                                              (20 + rand()%6);
+            int damage = (difficulty==1)?(15+rand()%11):(difficulty==2)?(15+rand()%11):(20+rand()%6);
             health -= damage;
             outcome.resultText = "You lost the fight!";
             outcome.deltaHealth = -damage;
         }
-    } else if (choice == 2) {
+    } else { // Flee
         if (roll <= 50) {
             outcome.resultText = "You fled successfully.";
         } else {
-            int damage = 10 + rand()%11;
+            int damage = 10+rand()%11;
             health -= damage;
             outcome.resultText = "Failed to flee!";
             outcome.deltaHealth = -damage;
         }
     }
-    return outcome;
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    resultScreen.Render();
 }
 
-EventOutcome treasureEncounter(int difficulty, int &health, int &food, int &water) {
+// ========== 宝藏 ==========
+void treasureEncounter(int difficulty, int &health, int &food, int &water) {
+    vector<string> options = {"Take items"};
+    SChoiceMenu menu(options, 10, 5);
+    menu.Render();
+    int choiceIndex = menu.WaitForSelection();
+
     EventOutcome outcome;
     outcome.eventName = "Treasure";
+    outcome.choiceMade = options[choiceIndex];
 
-    int choice;
-    cout << "choice: 1 = Take items" << endl;
-    cin >> choice;
-    outcome.choiceMade = "Take items";
-
-    if (choice == 1) {
+    if (choiceIndex == 0) {
         int items = rand()%3 + 1;
         for (int i = 0; i < items; i++) {
             int reward = rand()%3;
@@ -81,22 +81,25 @@ EventOutcome treasureEncounter(int difficulty, int &health, int &food, int &wate
         }
         outcome.resultText = "You found treasure!";
     }
-    return outcome;
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    resultScreen.Render();
 }
 
-EventOutcome trapEncounter(int difficulty, int &health, int &food, int &water) {
+// ========== 陷阱 ==========
+void trapEncounter(int difficulty, int &health, int &food, int &water) {
+    vector<string> options = {"Try escape", "Cut free", "Wait for help"};
+    SChoiceMenu menu(options, 10, 5);
+    menu.Render();
+    int choiceIndex = menu.WaitForSelection();
+
     EventOutcome outcome;
     outcome.eventName = "Trap";
-
-    int choice;
-    cout << "choice: 1 = Try escape, 2 = Cut free, 3 = Wait for help" << endl;
-    cin >> choice;
-    outcome.choiceMade = (choice == 1) ? "Try escape" :
-                         (choice == 2) ? "Cut free" : "Wait for help";
+    outcome.choiceMade = options[choiceIndex];
 
     int roll = rand()%100 + 1;
 
-    if (choice == 1) {
+    if (choiceIndex == 0) { // Try escape
         if (roll <= 70) {
             outcome.resultText = "You escaped safely.";
         } else {
@@ -104,7 +107,7 @@ EventOutcome trapEncounter(int difficulty, int &health, int &food, int &water) {
             outcome.resultText = "Failed escape!";
             outcome.deltaHealth = -15;
         }
-    } else if (choice == 2) {
+    } else if (choiceIndex == 1) { // Cut free
         if (food > 0) {
             food -= 1;
             outcome.resultText = "You cut yourself free.";
@@ -113,59 +116,114 @@ EventOutcome trapEncounter(int difficulty, int &health, int &food, int &water) {
         } else {
             outcome.resultText = "No food to sacrifice!";
         }
-    } else if (choice == 3) {
+    } else if (choiceIndex == 2) { // Wait
         if (food > 0) { food -= 1; outcome.deltaFood = -1; }
         if (water > 0) { water -= 1; outcome.deltaWater = -1; }
         outcome.resultText = "You waited for help. Escaped next day.";
     }
-    return outcome;
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    resultScreen.Render();
 }
 
-void waterSpringEncounter(int difficulty, int &health, int &food, int &water){
+// ========== 泉水 ==========
+EventOutcome waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Water Spring";
+    outcome.choiceMade = "None";
+
+    cout << "You find a crystal-clear spring!" << endl;
+
     int waterGain = 2 + rand() % 3;   // 2,3,4
     water += waterGain;
-    cout << "You found a crystal-clear spring! Gained " << waterGain << " water.\n";
+    outcome.deltaWater = waterGain;
+    outcome.resultText = "You drink from the spring.";
+
     if (rand() % 100 < 50) {
         int heal = 10;
         health += heal;
         if (health > 100) health = 100;
-        cout << "The spring's magic water also restored " << heal << " health.\n";
+        outcome.deltaHealth = heal;
+        outcome.resultText += " The magical water also restores health!";
     }
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    resultScreen.Render();
+    return outcome;
 }
-void berryBushEncounter(int difficulty, int &health, int &food, int &water){
+
+// ========== 浆果丛 ==========
+EventOutcome berryBushEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Berry Bush";
+    outcome.choiceMade = "None";
+
+    cout << "You spot a bush full of berries!" << endl;
+
     int foodGain = 1 + rand() % 3;   // 1,2,3
     food += foodGain;
-    cout << "You found a bush full of berries! Gained " << foodGain << " food.\n";
+    outcome.deltaFood = foodGain;
+    outcome.resultText = "You eat the sweet berries.";
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    resultScreen.Render();
+    return outcome;
 }
-void weatherEncounter(int difficulty, int &health, int &food, int &water){
-    int weath=rand()%4; // 0: Rain, 1: Heat wave, 2: Cold snap, 3: Mild
-    switch(weather){
-        case 0: // Rain
-            {
-                int waterGain = 1 + rand() % 2; // 1 or 2
-                water += waterGain;
-                cout << "It started raining. You collected " << waterGain << " water.\n";
-            }
+
+// ========== 天气事件 ==========
+EventOutcome weatherEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Weather Event";
+    outcome.choiceMade = "None";
+
+    cout << "The weather changes suddenly!" << endl;
+
+    int weatherType = rand() % 4; // 0: Rain, 1: Heat wave, 2: Cold snap, 3: Mild
+    switch (weatherType) {
+        case 0: { // Rain
+            int waterGain = 1 + rand() % 2;
+            water += waterGain;
+            outcome.deltaWater = waterGain;
+            outcome.resultText = "Rain provides fresh water.";
             break;
-        case 1:
-            {
-                water -=2;
-                if(water<0) water=0;
-                cout<< "A heat wave strikes! You lost 2 water.\n"
-            }
+        }
+        case 1: { // Heat wave
+            int waterLoss = 2;
+            water -= waterLoss;
+            if (water < 0) water = 0;
+            outcome.deltaWater = -waterLoss;
+            outcome.resultText = "Heat wave causes dehydration!";
             break;
-        case 2:
-            {
-                health-=5;
-                if (health <=0) health=0;
-                cout<<"A sudden cold snap! You lost 5 health.\n";
-            }
+        }
+        case 2: { // Cold snap
+            int damage = 5;
+            health -= damage;
+            if (health < 0) health = 0;
+            outcome.deltaHealth = -damage;
+            outcome.resultText = "Cold snap damages your health.";
             break;
-        case 3:
-            cout<<"The weather is mild today. Nothing happens.\n";
+        }
+        case 3: { // Mild
+            outcome.resultText = "The weather is mild. Nothing happens.";
             break;
+        }
     }
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    resultScreen.Render();
+    return outcome;
 }
-void empty(int difficulty, int &health, int &food, int &water){
-    cout << "Today was quiet. Nothing special happened.\n";
+
+// ========== 空事件 ==========
+EventOutcome emptyEncounter(int difficulty, int &health, int &food, int &water) {
+    EventOutcome outcome;
+    outcome.eventName = "Empty";
+    outcome.choiceMade = "None";
+    outcome.resultText = "Nothing interesting happens today.";
+
+    cout << "You wander through the forest... It's quiet." << endl;
+
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
+    resultScreen.Render();
+    return outcome;
 }
