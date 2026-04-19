@@ -10,6 +10,7 @@
 #include <iomanip>
 #include "event_generation.h"
 #include "file_switch.h"
+#include "random.h"
 #include "Slate/Sprites/SpritesCore.h"
 using namespace std;
 
