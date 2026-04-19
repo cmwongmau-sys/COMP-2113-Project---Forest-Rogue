@@ -1,50 +1,24 @@
-#pragma once
+#ifndef WIDGETS_CORE_H
+#define WIDGETS_CORE_H
 
-#include "Slate/Sprites/SpritesCore.h"
-
+#include "../Sprites/SpritesCore.h"
 #include <string>
 
-class IWidget : public ISprite
-{
+class IWidget : public ISprite {
 public:
-    IWidget(int LocationX, int LocationY, int Width, int Height)
-        : ISprite(LocationX, LocationY, Width, Height) {
-    }
-
-    IWidget(Vector2 Location, Vector2 Size)
-        : ISprite(Location, Size) {
-    }
-
-    IWidget(int LocationX, int LocationY)
-        : ISprite(LocationX, LocationY, 0, 0) { }
-
-    IWidget(Vector2 Location)
-        : ISprite(Location, Vector2::Zero) { }
+    IWidget(int x = 0, int y = 0) : ISprite(x, y, 0, 0) {}
+    virtual ~IWidget() = default;
+    virtual void Render() override = 0;
 };
 
-class SBar : public SRectFilled
-{
+class SBar : public SRectFilled {
 protected:
     float FillPercentage;
     std::string RenderCharFilled;
-
 public:
-    SBar(Vector2 Location, Vector2 Size, float FillPercentage,
-        std::string RenderCharUnfilled = ".",
-        std::string RenderCharFilled = "#")
-        : SRectFilled(Location, Size, RenderCharUnfilled)
-        , FillPercentage(FillPercentage)
-        , RenderCharFilled(RenderCharFilled) {
-    }
-
-    SBar(int LocationX, int LocationY, int Width, int Height,
-        float FillPercentage,
-        std::string RenderCharUnfilled = ".",
-        std::string RenderCharFilled = "#")
-        : SRectFilled(LocationX, LocationY, Width, Height, RenderCharUnfilled)
-        , FillPercentage(FillPercentage)
-        , RenderCharFilled(RenderCharFilled) {
-    }
-
-    virtual void Render() override;
+    SBar(int x, int y, int w, int h, float percent,
+         std::string empty = ".", std::string filled = "#");
+    void Render() override;
 };
+
+#endif
