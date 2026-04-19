@@ -19,8 +19,5 @@ struct ScoreEntry {
 // Function declarations
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file);
 void loadScoreboard(vector<ScoreEntry>& scoreboard, string file);
-
-// displayTop10 is now DISABLED
-// void displayTop10(const vector<ScoreEntry>& scoreboard);
-
+void displayTop10(const vector<ScoreEntry>& scoreboard);
 #endif
