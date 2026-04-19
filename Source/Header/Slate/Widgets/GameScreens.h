@@ -1,119 +1,89 @@
 #ifndef GAME_SCREENS_H
 #define GAME_SCREENS_H
 
-#include "Slate/Widgets/WidgetsCore.h"
+#include "WidgetsCore.h"
 #include <string>
 #include <vector>
 
-// this struct holds what happened during a random event
-// filled by the random events team and passed to the screen
 struct EventOutcome {
-    std::string eventName;           // bear attack, treasure, etc
-    std::string choiceMade;          // fight, run, etc
-    std::string resultText;          // what happened after the choice
-    int deltaHealth = 0;             // health change, negative means damage
-    int deltaFood = 0;               // food change
-    int deltaWater = 0;              // water change
-    std::vector<std::string> itemsAdded;    // items player found
-    std::vector<std::string> itemsRemoved;  // items player lost
+    std::string eventName;
+    std::string choiceMade;
+    std::string resultText;
+    int deltaHealth = 0;
+    int deltaFood = 0;
+    int deltaWater = 0;
+    std::vector<std::string> itemsAdded;
+    std::vector<std::string> itemsRemoved;
 };
 
-// base class for all screens
-// abstract class (pure virtual) - serves as interface
 class IScreenBase : public IWidget {
 public:
     IScreenBase(int x = 0, int y = 0) : IWidget(x, y) {}
     virtual ~IScreenBase() = default;
-    virtual void Render() override = 0;   // each screen draws itself and waits for input
+    virtual void Render() override = 0;
 };
 
-// shows what happened during a random event
-// called after bear attack, treasure, trap, etc
-// displays changes to health, food, water, and inventory
 class SEventResultScreen : public IScreenBase {
 private:
     EventOutcome Outcome;
     int Health, MaxHealth;
     int Food, MaxFood;
     int Water, MaxWater;
-    
 public:
     SEventResultScreen(const EventOutcome& outcome,
                        int health, int maxHealth,
                        int food, int maxFood,
                        int water, int maxWater,
                        int x = 0, int y = 0);
-    
-    void Render() override;   // draws screen and waits for enter key
+    void Render() override;
 };
 
-// shows end of day summary
-// called after daily consumption (-1 food, -1 water)
-// displays updated stats with health, food, water bars
 class SDailySummaryScreen : public IScreenBase {
 private:
     int Day, Zone, TotalZones;
     int Health, MaxHealth;
     int Food, MaxFood;
     int Water, MaxWater;
-    
 public:
     SDailySummaryScreen(int day, int zone, int totalZones,
                         int health, int maxHealth,
                         int food, int maxFood,
                         int water, int maxWater,
                         int x = 0, int y = 0);
-    
-    void Render() override;   // draws screen and waits for enter key
+    void Render() override;
 };
 
-// game over screen
-// called when player dies (health <= 0 or food/water < 0)
-// displays final stats and score
 class SDeathScreen : public IScreenBase {
 private:
-    int ZonesCleared, DaysSurvived;
+    int ZonesCleared;
     int FinalHealth, FinalFood, FinalWater, FinalScore;
-    
 public:
-    SDeathScreen(int zonesCleared, int daysSurvived,
+    SDeathScreen(int zonesCleared,
                  int finalHealth, int finalFood, int finalWater,
                  int finalScore, int x = 0, int y = 0);
-    
-    void Render() override;   // draws screen and waits for input
+    void Render() override;
 };
 
-// victory screen
-// called when player clears all 6 zones
-// displays final stats and score breakdown
 class SVictoryScreen : public IScreenBase {
 private:
-    int ZonesCleared, DaysSurvived;
-    int FinalHealth, FinalFood, FinalWater;
-    int ItemsFound, Multiplier, FinalScore;
-    
+    int ZonesCleared;
+    int FinalHealth, FinalFood, FinalWater, FinalScore;
 public:
-    SVictoryScreen(int zonesCleared, int daysSurvived,
+    SVictoryScreen(int zonesCleared,
                    int finalHealth, int finalFood, int finalWater,
-                   int itemsFound, int multiplier, int finalScore,
-                   int x = 0, int y = 0);
-    
-    void Render() override;   // draws screen and waits for input
+                   int finalScore, int x = 0, int y = 0);
+    void Render() override;
 };
 
-// choice menu for player decisions
-// used inside events to let player pick between options like fight, run, hide
-// works with number input for now (1,2,3), can be upgraded to arrow keys later
 class SChoiceMenu : public IWidget {
 private:
     std::vector<std::string> Options;
     int SelectedIndex;
     bool bHorizontal;
-    
 public:
     SChoiceMenu(const std::vector<std::string>& options, int x, int y, bool horizontal = true);
     void Render() override;
-    int WaitForSelection();        // returns the index player picked (0 based)
+    int WaitForSelection();
     int GetSelectedIndex() const { return SelectedIndex; }
     std::string GetSelectedOption() const { return Options[SelectedIndex]; }
 };
