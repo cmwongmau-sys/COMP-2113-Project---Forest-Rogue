@@ -81,11 +81,9 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     while (getline(inFile, line)) {
         lineNumber++;
         
-        // Skip empty lines
-        if (line.empty() || line.find_first_not_of(" \t") == string::npos) {
-            continue;
-        }
+        if (line.empty() || line.find_first_not_of(" \t") == string::npos) continue;
 
+        // Skip header lines
         if (line.find("=== SURVIVAL SCOREBOARD") != string::npos ||
             line.find("Name") != string::npos && line.find("Difficulty") != string::npos ||
             line.find("-----") != string::npos) {
@@ -103,9 +101,9 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             tokens.push_back(token);
         }
 
-        if (tokens.size() != 7) {
-            cerr << "Warning: Skipping corrupted line " << lineNumber 
-                 << " in " << file << endl;
+        // Now expecting 8 columns (added "result")
+        if (tokens.size() != 8) {
+            cerr << "Warning: Skipping corrupted line " << lineNumber << " in " << file << endl;
             continue;
         }
 
@@ -117,9 +115,10 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             s.excessFood     = stoi(tokens[3]);
             s.excessWater    = stoi(tokens[4]);
             s.zonesCompleted = stoi(tokens[5]);
-            s.dateTime       = tokens[6];
+            s.result         = tokens[6];           // NEW
+            s.dateTime       = tokens[7];
 
-            // Basic validation
+            // Validation
             if (s.difficulty < 0 || s.difficulty > 2 || 
                 s.zonesCompleted < 0 || s.zonesCompleted > 6) {
                 throw invalid_argument("Invalid value");
