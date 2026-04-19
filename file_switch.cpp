@@ -81,11 +81,9 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     while (getline(inFile, line)) {
         lineNumber++;
         
-        // Skip empty lines
-        if (line.empty() || line.find_first_not_of(" \t") == string::npos) {
-            continue;
-        }
+        if (line.empty() || line.find_first_not_of(" \t") == string::npos) continue;
 
+        // Skip header lines
         if (line.find("=== SURVIVAL SCOREBOARD") != string::npos ||
             line.find("Name") != string::npos && line.find("Difficulty") != string::npos ||
             line.find("-----") != string::npos) {
@@ -103,9 +101,9 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             tokens.push_back(token);
         }
 
-        if (tokens.size() != 7) {
-            cerr << "Warning: Skipping corrupted line " << lineNumber 
-                 << " in " << file << endl;
+        // Now expecting 8 columns (added "result")
+        if (tokens.size() != 8) {
+            cerr << "Warning: Skipping corrupted line " << lineNumber << " in " << file << endl;
             continue;
         }
 
@@ -117,9 +115,10 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             s.excessFood     = stoi(tokens[3]);
             s.excessWater    = stoi(tokens[4]);
             s.zonesCompleted = stoi(tokens[5]);
-            s.dateTime       = tokens[6];
+            s.result         = tokens[6];           // NEW
+            s.dateTime       = tokens[7];
 
-            // Basic validation
+            // Validation
             if (s.difficulty < 0 || s.difficulty > 2 || 
                 s.zonesCompleted < 0 || s.zonesCompleted > 6) {
                 throw invalid_argument("Invalid value");
@@ -140,26 +139,43 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
 // Display Top 10 Scoreboard (sorted by finalScore descending)
 void displayTop10(const vector<ScoreEntry>& scoreboard) {
+    if (scoreboard.empty()) {
+        cout << "No scores to display yet.\n";
+        return;
+    }
+
     vector<ScoreEntry> sorted = scoreboard;
-    
     sort(sorted.begin(), sorted.end(), [](const ScoreEntry& a, const ScoreEntry& b) {
         return a.finalScore > b.finalScore;
     });
-    
+
     cout << "\n========== TOP 10 SCOREBOARD ==========\n";
-    cout << "Rank | Name\t| Diff | Score | Food | Water | Zones | Date\n";
-    cout << "----------------------------------------------------\n";
     
+    cout << left 
+         << setw(4)  << "Rank"
+         << setw(15) << "Name"
+         << setw(8)  << "Diff"
+         << setw(8)  << "Score"
+         << setw(10) << "Food"
+         << setw(10) << "Water"
+         << setw(7)  << "Zones"
+         << setw(7)  << "Result"
+         << setw(20) << "Date" << endl;
+
+    cout << string(85, '-') << endl;
+
     int rank = 1;
-    for (int i = 0; i < min(10, (int)sorted.size()); i++) {
-        cout << rank++ << "    | " 
-             << sorted[i].name << "\t| " 
-             << sorted[i].difficulty << "    | " 
-             << sorted[i].finalScore << "   | " 
-             << sorted[i].excessFood << "    | " 
-             << sorted[i].excessWater << "     | " 
-             << sorted[i].zonesCompleted << "     | " 
-             << sorted[i].dateTime << endl;
+    for (int i = 0; i < min(10, (int)sorted.size()); ++i) {
+        cout << left
+             << setw(4)  << rank++
+             << setw(15) << sorted[i].name
+             << setw(8)  << sorted[i].difficulty
+             << setw(8)  << sorted[i].finalScore
+             << setw(10) << sorted[i].excessFood
+             << setw(10) << sorted[i].excessWater
+             << setw(7)  << sorted[i].zonesCompleted
+             << setw(7)  << sorted[i].result
+             << setw(20) << sorted[i].dateTime << endl;
     }
     cout << "========================================\n";
 }
