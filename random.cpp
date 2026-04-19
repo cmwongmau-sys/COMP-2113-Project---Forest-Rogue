@@ -127,103 +127,56 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== 泉水 ==========
-EventOutcome waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
+void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
     EventOutcome outcome;
-    outcome.eventName = "Water Spring";
-    outcome.choiceMade = "None";
-
-    cout << "You find a crystal-clear spring!" << endl;
-
     int waterGain = 2 + rand() % 3;   // 2,3,4
     water += waterGain;
-    outcome.deltaWater = waterGain;
-    outcome.resultText = "You drink from the spring.";
-
     if (rand() % 100 < 50) {
         int heal = 10;
         health += heal;
-        if (health > 100) health = 100;
-        outcome.deltaHealth = heal;
-        outcome.resultText += " The magical water also restores health!";
     }
-
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 浆果丛 ==========
-EventOutcome berryBushEncounter(int difficulty, int &health, int &food, int &water) {
-    EventOutcome outcome;
-    outcome.eventName = "Berry Bush";
-    outcome.choiceMade = "None";
-
-    cout << "You spot a bush full of berries!" << endl;
-
+void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
     int foodGain = 1 + rand() % 3;   // 1,2,3
     food += foodGain;
-    outcome.deltaFood = foodGain;
-    outcome.resultText = "You eat the sweet berries.";
-
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 天气事件 ==========
-EventOutcome weatherEncounter(int difficulty, int &health, int &food, int &water) {
-    EventOutcome outcome;
-    outcome.eventName = "Weather Event";
-    outcome.choiceMade = "None";
-
-    cout << "The weather changes suddenly!" << endl;
-
+void weatherEncounter(int difficulty, int &health, int &food, int &water) {
     int weatherType = rand() % 4; // 0: Rain, 1: Heat wave, 2: Cold snap, 3: Mild
     switch (weatherType) {
         case 0: { // Rain
             int waterGain = 1 + rand() % 2;
             water += waterGain;
-            outcome.deltaWater = waterGain;
-            outcome.resultText = "Rain provides fresh water.";
             break;
         }
         case 1: { // Heat wave
             int waterLoss = 2;
             water -= waterLoss;
-            if (water < 0) water = 0;
-            outcome.deltaWater = -waterLoss;
-            outcome.resultText = "Heat wave causes dehydration!";
             break;
         }
         case 2: { // Cold snap
             int damage = 5;
             health -= damage;
-            if (health < 0) health = 0;
-            outcome.deltaHealth = -damage;
-            outcome.resultText = "Cold snap damages your health.";
             break;
         }
         case 3: { // Mild
-            outcome.resultText = "The weather is mild. Nothing happens.";
             break;
         }
     }
 
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 空事件 ==========
-EventOutcome emptyEncounter(int difficulty, int &health, int &food, int &water) {
-    EventOutcome outcome;
-    outcome.eventName = "Empty";
-    outcome.choiceMade = "None";
-    outcome.resultText = "Nothing interesting happens today.";
-
-    cout << "You wander through the forest... It's quiet." << endl;
-
+void emptyEncounter(int difficulty, int &health, int &food, int &water) {
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
