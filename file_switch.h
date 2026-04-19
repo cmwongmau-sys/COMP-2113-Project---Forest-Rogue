@@ -12,12 +12,15 @@ struct ScoreEntry {
     int excessFood;
     int excessWater;
     int zonesCompleted;
+    string result;      // NEW: showing "Won" or "Lose"
     string dateTime;
 };
 
 // Function declarations
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file);
 void loadScoreboard(vector<ScoreEntry>& scoreboard, string file);
-void displayTop10(const vector<ScoreEntry>& scoreboard);
+
+// displayTop10 is now DISABLED
+// void displayTop10(const vector<ScoreEntry>& scoreboard);
 
 #endif
