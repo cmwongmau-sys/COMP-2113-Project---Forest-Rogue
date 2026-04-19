@@ -4,7 +4,7 @@
 #include <string>
 #include <cstdlib>  // for rand() and srand()
 #include <ctime>    // for time()
-#include "Event_Generation.h"
+#include "event_generation.h"
 using namespace std;
 
 // Generate the random event based on the probability of difficulty modes
