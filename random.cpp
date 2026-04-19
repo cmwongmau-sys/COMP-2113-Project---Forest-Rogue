@@ -5,18 +5,19 @@
 #include <vector>
 #include <string>
 #include "random.h"
-#include "GameScreens.h"
+#include "Slate/Widgets/GameScreens.h"
+#include "Slate/Widgets/WidgetsCore.h"
 using namespace std;
 
 // ========== 野生生物 ==========
-void wildAnimalEncounter(int difficulty, int &health, int &food, int &water) {
+void bearEncounter(int difficulty, int &health, int &food, int &water) {
     vector<string> options = {"Fight", "Flee"};
     SChoiceMenu menu(options, 10, 5);
     menu.Render();
     int choiceIndex = menu.WaitForSelection();
 
     EventOutcome outcome;
-    outcome.eventName = "Wild Animal";
+    outcome.eventName = "Bear Attack";
     outcome.choiceMade = options[choiceIndex];
 
     int roll = rand()%100 + 1;
