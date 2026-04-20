@@ -138,7 +138,7 @@ int main() {
 
     // Display victory screen if win 
     if (win) {
-        SVictoryScreen victoryScreen(zone, health, food, water, score);
+        SVictoryScreen victoryScreen(zone, health, food, water, score, 0,0);
         victoryScreen.Render();
     }
 
