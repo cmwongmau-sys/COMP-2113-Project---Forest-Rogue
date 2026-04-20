@@ -139,6 +139,8 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
 // Display Top 10 Scoreboard (sorted by finalScore descending)
 void displayTop10(const vector<ScoreEntry>& scoreboard) {
+    cout << "\033[2J\033[1;1H";
+
     if (scoreboard.empty()) {
         cout << "No scores to display yet.\n";
         return;
