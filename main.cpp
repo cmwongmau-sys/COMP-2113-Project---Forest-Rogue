@@ -12,34 +12,29 @@
 #include "file_switch.h"
 #include "random.h"
 #include "Slate/Sprites/SpritesCore.h"
+#include "../../../Header/Slate/Widgets/GameScreens.h"
+#include "../../../Header/Slate/Widgets/WidgetsCore.h"
 using namespace std;
 
 int main() {
 
     // Call the function to print welcome screen
+    
+    // Call the function to print set up screen
+    SPlayerSetupScreen setupScreen(0,0);
+    SPlayerSetupInfo info = setupScreen.Run();
 
-    // Read the user's input of his name
-    string name;
-    getline(cin, name);
+    // Read the user's input of his name, path and diffculty mode
+     // 0/1/2 for easy/medium/hard
+    string name = info.PlayerName, path = info.SaveFilePath;
+    int mode = info.Difficulty;
 
-    // Ask the use if he have files to input (Y/N)
-    // Read the user's input of his answer and file
-    string ans, path;
-    cin >> ans;
-
-    if (ans == "Y") {
-        // Get the file path
-        getline(cin, path);
+    if (!path.empty()) {
         vector<ScoreEntry> scoreboard;
         
         // load the data into the scoreboard
         loadScoreboard(scoreboard, path);
     }
-
-    // Read the user's input for the difficulty level
-    // 0/1/2 for easy/medium/hard
-    int mode;
-    cin >> mode;
 
     // Call the function to print start screen
 
