@@ -2,6 +2,8 @@
 #include "../../../Header/Slate/Widgets/WidgetsCore.h"
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
 
 void DrawBar(int x, int y, int width, int current, int max,
              const std::string fillChar,
@@ -247,4 +249,84 @@ int SChoiceMenu::WaitForSelection() {
         std::cin >> choice;
     }
     return choice - 1;
+}
+
+// ============================================================
+// SSetUpScreen
+// ============================================================
+SPlayerSetupScreen::SPlayerSetupScreen(int x, int y) : IScreenBase(x, y) {}
+
+void SPlayerSetupScreen::Render() {
+    std::cout << "\033[2J\033[1;1H";   // clear screen
+    int x = Location.X + 5;
+    int y = Location.Y + 2;
+    SRectWireframe frame(x, y, 60, 18);
+    frame.Render();
+    DrawText(x + 60/2 - 6, y + 1, "PLAYER SETUP");
+}
+
+std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& prompt) {
+    DrawText(x, y, prompt);
+    // Move cursor to end of prompt
+    std::cout << "\033[" << y << ";" << (x + prompt.length()) << "H";
+    std::string input;
+    std::getline(std::cin, input);
+    return input;
+}
+
+bool SPlayerSetupScreen::AskYesNo(int x, int y, const std::string& question) {
+    DrawText(x, y, question + " (Y/N): ");
+    std::cout << "\033[" << y << ";" << (x + question.length() + 8) << "H";
+    char ch;
+    std::cin >> ch;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return (ch == 'y' || ch == 'Y');
+}
+
+SPlayerSetupInfo SPlayerSetupScreen::Run() {
+    Render();   // draw the background frame
+
+    int frameX = Location.X + 5;
+    int frameY = Location.Y + 2;
+    int cursorY = frameY + 3;      // first line inside the frame
+
+    // 1. Player name
+    std::string name = GetUserInput(frameX + 2, cursorY, "Enter your name: ");
+    cursorY += 2;
+
+    // 2. Ask about save file
+    bool hasFile = AskYesNo(frameX + 2, cursorY, "Load from save file?");
+    cursorY += 2;
+
+    std::string filepath;
+    if (hasFile) {
+        filepath = GetUserInput(frameX + 2, cursorY, "File path: ");
+        cursorY += 2;
+    }
+
+    // 3. Difficulty selection using SChoiceMenu
+    //    Draw the options manually to keep everything inside the frame
+    DrawText(frameX + 2, cursorY, "Select difficulty:");
+    cursorY++;
+    std::vector<std::string> difficulties = {"Easy", "Normal", "Hard"};
+    for (size_t i = 0; i < difficulties.size(); ++i) {
+        DrawText(frameX + 6, cursorY + (int)i, std::to_string(i+1) + ". " + difficulties[i]);
+    }
+    std::string choiceStr = GetUserInput(frameX + 6, cursorY + (int)difficulties.size(),
+                                           "Choice (1-3): ");
+    int diffIndex = std::stoi(choiceStr) - 1;
+    // Clamp in case of invalid input
+    if (diffIndex < 0) diffIndex = 0;
+    if (diffIndex >= (int)difficulties.size()) diffIndex = (int)difficulties.size() - 1;
+
+    // Wait for user to acknowledge before leaving the screen
+    DrawText(frameX + 2, cursorY + (int)difficulties.size() + 2, "Press Enter to continue...");
+    std::cin.get();
+
+    // Fill and return the info struct
+    SPlayerSetupInfo info;
+    info.PlayerName = name;
+    info.SaveFilePath = filepath;
+    info.Difficulty = diffIndex;
+    return info;
 }
