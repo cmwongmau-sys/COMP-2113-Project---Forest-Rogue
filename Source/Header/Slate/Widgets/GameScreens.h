@@ -16,6 +16,12 @@ struct EventOutcome {
     std::vector<std::string> itemsRemoved;
 };
 
+struct SPlayerSetupInfo {
+    std::string PlayerName;
+    std::string SaveFilePath;   // empty if no file
+    int Difficulty;             // 0 = Easy, 1 = Normal, 2 = Hard
+};
+
 class IScreenBase : public IWidget {
 public:
     IScreenBase(int x = 0, int y = 0) : IWidget(x, y) {}
@@ -89,3 +95,16 @@ public:
 };
 
 #endif
+
+
+class SPlayerSetupScreen : public IScreenBase {
+public:
+    SPlayerSetupScreen(int x = 0, int y = 0);
+    virtual void Render() override;          // draws the frame and title
+    SPlayerSetupInfo Run();                  // runs the interactive sequence
+
+private:
+    // Helper methods for input inside the frame
+    std::string GetUserInput(int x, int y, const std::string& prompt);
+    bool AskYesNo(int x, int y, const std::string& question);
+};
