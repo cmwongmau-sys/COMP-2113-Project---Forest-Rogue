@@ -5,6 +5,8 @@
 
 // helper to draw a status bar
 // uses SBar widget
+// Inputs: x,y position, width, current value, max value, fill character, empty character
+// Outputs: none (draws directly to screen)
 void DrawBar(int x, int y, int width, int current, int max,
              const std::string fillChar,
              const std::string emptyChar)
@@ -16,6 +18,8 @@ void DrawBar(int x, int y, int width, int current, int max,
 
 // helper to draw text without direct cout
 // uses STextBox
+// Inputs: x,y position, text string
+// Outputs: none (draws text at specified position)
 static void DrawText(int x, int y, const std::string& text) {
     STextBox box(x, y, (int)text.length(), 1, text, false, false);
     box.Render();
@@ -27,6 +31,9 @@ static void DrawText(int x, int y, const std::string& text) {
 // displays changes to health food water and items found
 // ============================================================
 
+// Constructor: initializes screen with event outcome and current stats.
+// Inputs: outcome (EventOutcome struct), health, maxHealth, food, maxFood, water, maxWater, optional x,y offset.
+// Outputs: none (initializes object).
 SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
                                        int health, int maxHealth,
                                        int food, int maxFood,
@@ -38,6 +45,11 @@ SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
     , Food(food), MaxFood(maxFood)
     , Water(water), MaxWater(maxWater) {}
 
+// Renders the event result screen.
+// Clears screen, draws box, displays event name, choice, result, changes table,
+// inventory updates, current status, and waits for Enter.
+// Inputs: none (uses member variables).
+// Outputs: none (draws to screen, waits for user input).
 void SEventResultScreen::Render() {
     // clear screen and move cursor to top
     std::cout << "\033[2J\033[1;1H";
@@ -107,6 +119,9 @@ void SEventResultScreen::Render() {
 // displays updated health food water bars and zone progress
 // ============================================================
 
+// Constructor: initializes daily summary screen.
+// Inputs: day number, current zone, total zones, health, maxHealth, food, maxFood, water, maxWater, optional x,y offset.
+// Outputs: none.
 SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
                                          int health, int maxHealth,
                                          int food, int maxFood,
@@ -118,6 +133,11 @@ SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
     , Food(food), MaxFood(maxFood)
     , Water(water), MaxWater(maxWater) {}
 
+// Renders the daily summary screen.
+// Clears screen, draws box, shows daily consumption, health/food/water bars with values,
+// zone progress, and waits for Enter.
+// Inputs: none (uses member variables).
+// Outputs: none (draws to screen, waits for input).
 void SDailySummaryScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
@@ -168,6 +188,9 @@ void SDailySummaryScreen::Render() {
 // displays final stats and score
 // ============================================================
 
+// Constructor: initializes death screen.
+// Inputs: zones cleared, days survived, final health, final food, final water, final score, optional x,y offset.
+// Outputs: none.
 SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
                            int finalHealth, int finalFood, int finalWater,
                            int finalScore, int x, int y)
@@ -176,6 +199,10 @@ SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , FinalScore(finalScore) {}
 
+// Renders the game over screen.
+// Clears screen, draws box, shows death message, final stats, score, and waits for Enter.
+// Inputs: none (uses member variables).
+// Outputs: none (draws to screen, waits for input).
 void SDeathScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
@@ -213,6 +240,10 @@ void SDeathScreen::Render() {
 // displays final stats and score breakdown
 // ============================================================
 
+// Constructor: initializes victory screen.
+// Inputs: zones cleared, days survived, final health, final food, final water,
+//         items found (unused), difficulty multiplier (unused), final score, optional x,y offset.
+// Outputs: none.
 SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
                                int finalHealth, int finalFood, int finalWater,
                                int itemsFound, int multiplier, int finalScore,
@@ -222,6 +253,11 @@ SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , ItemsFound(itemsFound), Multiplier(multiplier), FinalScore(finalScore) {}
 
+// Renders the victory screen.
+// Clears screen, draws box, shows escape message, final stats, score breakdown,
+// final score, and waits for Enter.
+// Inputs: none (uses member variables).
+// Outputs: none (draws to screen, waits for input).
 void SVictoryScreen::Render() {
     std::cout << "\033[2J\033[1;1H";
     
@@ -280,9 +316,16 @@ void SVictoryScreen::Render() {
 // returns the index of what the player chose (0,1,2...)
 // ============================================================
 
+// Constructor: initializes choice menu with options, position, and layout.
+// Inputs: vector of option strings, x,y position, horizontal flag (true for left-right, false for top-bottom).
+// Outputs: none.
 SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, bool horizontal)
     : IWidget(x, y), Options(options), SelectedIndex(0), bHorizontal(horizontal) {}
 
+// Renders the choice menu: displays options with the currently selected one highlighted.
+// Does not handle input.
+// Inputs: none (uses member variables).
+// Outputs: none (draws to screen).
 void SChoiceMenu::Render() {
     int cx = Location.X;
     int cy = Location.Y;
@@ -298,9 +341,11 @@ void SChoiceMenu::Render() {
     std::cout.flush();
 }
 
-// simple number based selection
-// shows options as 1 2 3 and waits for player to type a number
-// can be upgraded to arrow keys later if needed
+// Waits for player to select an option using number keys.
+// Displays numbered list below menu, reads input, validates.
+// Returns zero-based index of the selected option.
+// Inputs: none (uses member variables).
+// Outputs: returns integer choice index.
 int SChoiceMenu::WaitForSelection() {
     Render();
     for (size_t i = 0; i < Options.size(); ++i) {
