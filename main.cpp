@@ -14,11 +14,10 @@
 #include "Slate/Sprites/SpritesCore.h"
 #include "../../../Header/Slate/Widgets/GameScreens.h"
 #include "../../../Header/Slate/Widgets/WidgetsCore.h"
+#include "simple_display.h"
 using namespace std;
 
 int main() {
-
-    // Call the function to print welcome screen
     
     // Call the function to print set up screen
     SPlayerSetupScreen setupScreen(0,0);
