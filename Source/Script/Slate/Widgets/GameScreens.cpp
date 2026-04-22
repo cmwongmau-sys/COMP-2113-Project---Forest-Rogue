@@ -189,13 +189,13 @@ void SDailySummaryScreen::Render() {
 // ============================================================
 
 // Constructor: initializes death screen.
-// Inputs: zones cleared, days survived, final health, final food, final water, final score, optional x,y offset.
+// Inputs: zones cleared, final health, final food, final water, final score, optional x,y offset.
 // Outputs: none.
-SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
+SDeathScreen::SDeathScreen(int zonesCleared,
                            int finalHealth, int finalFood, int finalWater,
                            int finalScore, int x, int y)
     : IScreenBase(x, y)
-    , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
+    , ZonesCleared(zonesCleared)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , FinalScore(finalScore) {}
 
@@ -220,7 +220,6 @@ void SDeathScreen::Render() {
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
-    stats << "   days survived: " << DaysSurvived << "\n";
     stats << "   final health:  " << FinalHealth << "\n";
     stats << "   food left: " << FinalFood << "\n";
     stats << "   water left: " << FinalWater << "\n\n";
@@ -241,17 +240,15 @@ void SDeathScreen::Render() {
 // ============================================================
 
 // Constructor: initializes victory screen.
-// Inputs: zones cleared, days survived, final health, final food, final water,
-//         items found (unused), difficulty multiplier (unused), final score, optional x,y offset.
+// Inputs: zones cleared, final health, final food, final water, final score, optional x,y offset.
 // Outputs: none.
-SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
+SVictoryScreen::SVictoryScreen(int zonesCleared,
                                int finalHealth, int finalFood, int finalWater,
-                               int itemsFound, int multiplier, int finalScore,
-                               int x, int y)
+                               int finalScore, int x, int y)
     : IScreenBase(x, y)
-    , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
+    , ZonesCleared(zonesCleared)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
-    , ItemsFound(itemsFound), Multiplier(multiplier), FinalScore(finalScore) {}
+    , FinalScore(finalScore) {}
 
 // Renders the victory screen.
 // Clears screen, draws box, shows escape message, final stats, score breakdown,
@@ -275,30 +272,22 @@ void SVictoryScreen::Render() {
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
-    stats << "   days survived: " << DaysSurvived << "\n";
-    stats << "   final health:  " << FinalHealth << "\n";
-    stats << "   items found: " << ItemsFound << "\n\n";
+    stats << "   final health:  " << FinalHealth << "\n\n";
     stats << "   SCORE BREAKDOWN\n";
     stats << "   --------------------------------\n";
     
-    // calculate score components
     int base = ZonesCleared * 100;
     int healthBonus = FinalHealth * 2;
     int foodBonus = FinalFood * 5;
     int waterBonus = FinalWater * 5;
-    int itemsBonus = ItemsFound * 10;
-    int daysBonus = DaysSurvived * 20;
-    int subtotal = base + healthBonus + foodBonus + waterBonus + itemsBonus + daysBonus;
+    int subtotal = base + healthBonus + foodBonus + waterBonus;
     
     stats << "   base (zones x 100):           " << base << "\n";
     stats << "   remaining health x 2:         " << healthBonus << "\n";
     stats << "   remaining food x 5:           " << foodBonus << "\n";
     stats << "   remaining water x 5:          " << waterBonus << "\n";
-    stats << "   items found x 10:             " << itemsBonus << "\n";
-    stats << "   days survived x 20:           " << daysBonus << "\n";
     stats << "   --------------------------------\n";
     stats << "   subtotal:                     " << subtotal << "\n";
-    stats << "   difficulty multiplier x " << Multiplier << ":    " << FinalScore << "\n";
     stats << "   --------------------------------\n";
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
     stats << "   [1] play again   [2] high scores   [3] quit";
