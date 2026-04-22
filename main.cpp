@@ -64,8 +64,6 @@ int main() {
                 break;
         }
 
-        // Print screen to display current status
-
         // Encounter random events
         int event = randomEvent(mode);
 
