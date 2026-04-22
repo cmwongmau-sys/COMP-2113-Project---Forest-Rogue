@@ -1,13 +1,15 @@
-#include "Slate/Widgets/WidgetsCore.h"
-
+#include "../../../Header/Slate/Widgets/WidgetsCore.h"
 #include <cmath>
 
-void SBar::Render()
-{
+SBar::SBar(int x, int y, int w, int h, float percent,
+           std::string empty, std::string filled)
+    : SRectFilled(x, y, w, h, empty), FillPercentage(percent), RenderCharFilled(filled) {}
+
+void SBar::Render() {
     SRectFilled::Render();
-
-    Vector2 FillSize((int)round(Size.X * FillPercentage), Size.Y);
-    SRectFilled FilledPart(Location, FillSize, RenderCharFilled);    
-
-    FilledPart.Render();
+    int fillWidth = (int)round(Size.X * FillPercentage);
+    if (fillWidth > 0) {
+        SRectFilled filledPart(Location.X, Location.Y, fillWidth, Size.Y, RenderCharFilled);
+        filledPart.Render();
+    }
 }

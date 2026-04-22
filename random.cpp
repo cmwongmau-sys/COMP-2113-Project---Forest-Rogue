@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 #include "random.h"
-#include "GameScreens.h"
-#include "simple_display.h"
+#include "Slate/Widgets/GameScreens.h"
+#include "Slate/Widgets/WidgetsCore.h"
 using namespace std;
 
 // ========== 野生生物 ==========
