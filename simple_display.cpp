@@ -38,7 +38,7 @@ void startScreen() {
         "Every choice matters. Every resource counts.",
         "Can you survive the wilds and claim the rogue's prize?",
         "",
-        "Good luck, wanderer. You'll need it."
+        "Good luck. You'll need it."
     };
     int numContent = sizeof(content) / sizeof(content[0]);
     const string indent = "    ";
