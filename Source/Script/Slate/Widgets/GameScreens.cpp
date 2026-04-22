@@ -189,13 +189,13 @@ void SDailySummaryScreen::Render() {
 // ============================================================
 
 // Constructor: initializes death screen.
-// Inputs: zones cleared, days survived, final health, final food, final water, final score, optional x,y offset.
+// Inputs: zones cleared, final health, final food, final water, final score, optional x,y offset.
 // Outputs: none.
-SDeathScreen::SDeathScreen(int zonesCleared, int daysSurvived,
+SDeathScreen::SDeathScreen(int zonesCleared,
                            int finalHealth, int finalFood, int finalWater,
                            int finalScore, int x, int y)
     : IScreenBase(x, y)
-    , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
+    , ZonesCleared(zonesCleared)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
     , FinalScore(finalScore) {}
 
@@ -220,7 +220,6 @@ void SDeathScreen::Render() {
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
-    stats << "   days survived: " << DaysSurvived << "\n";
     stats << "   final health:  " << FinalHealth << "\n";
     stats << "   food left: " << FinalFood << "\n";
     stats << "   water left: " << FinalWater << "\n\n";
@@ -241,17 +240,15 @@ void SDeathScreen::Render() {
 // ============================================================
 
 // Constructor: initializes victory screen.
-// Inputs: zones cleared, days survived, final health, final food, final water,
-//         items found (unused), difficulty multiplier (unused), final score, optional x,y offset.
+// Inputs: zones cleared, final health, final food, final water, final score, optional x,y offset.
 // Outputs: none.
-SVictoryScreen::SVictoryScreen(int zonesCleared, int daysSurvived,
+SVictoryScreen::SVictoryScreen(int zonesCleared,
                                int finalHealth, int finalFood, int finalWater,
-                               int itemsFound, int multiplier, int finalScore,
-                               int x, int y)
+                               int finalScore, int x, int y)
     : IScreenBase(x, y)
-    , ZonesCleared(zonesCleared), DaysSurvived(daysSurvived)
+    , ZonesCleared(zonesCleared)
     , FinalHealth(finalHealth), FinalFood(finalFood), FinalWater(finalWater)
-    , ItemsFound(itemsFound), Multiplier(multiplier), FinalScore(finalScore) {}
+    , FinalScore(finalScore) {}
 
 // Renders the victory screen.
 // Clears screen, draws box, shows escape message, final stats, score breakdown,
@@ -275,30 +272,22 @@ void SVictoryScreen::Render() {
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
-    stats << "   days survived: " << DaysSurvived << "\n";
-    stats << "   final health:  " << FinalHealth << "\n";
-    stats << "   items found: " << ItemsFound << "\n\n";
+    stats << "   final health:  " << FinalHealth << "\n\n";
     stats << "   SCORE BREAKDOWN\n";
     stats << "   --------------------------------\n";
     
-    // calculate score components
     int base = ZonesCleared * 100;
     int healthBonus = FinalHealth * 2;
     int foodBonus = FinalFood * 5;
     int waterBonus = FinalWater * 5;
-    int itemsBonus = ItemsFound * 10;
-    int daysBonus = DaysSurvived * 20;
-    int subtotal = base + healthBonus + foodBonus + waterBonus + itemsBonus + daysBonus;
+    int subtotal = base + healthBonus + foodBonus + waterBonus;
     
     stats << "   base (zones x 100):           " << base << "\n";
     stats << "   remaining health x 2:         " << healthBonus << "\n";
     stats << "   remaining food x 5:           " << foodBonus << "\n";
     stats << "   remaining water x 5:          " << waterBonus << "\n";
-    stats << "   items found x 10:             " << itemsBonus << "\n";
-    stats << "   days survived x 20:           " << daysBonus << "\n";
     stats << "   --------------------------------\n";
     stats << "   subtotal:                     " << subtotal << "\n";
-    stats << "   difficulty multiplier x " << Multiplier << ":    " << FinalScore << "\n";
     stats << "   --------------------------------\n";
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
     stats << "   [1] play again   [2] high scores   [3] quit";
@@ -360,4 +349,84 @@ int SChoiceMenu::WaitForSelection() {
         std::cin >> choice;
     }
     return choice - 1;
+}
+
+// ============================================================
+// SSetUpScreen
+// ============================================================
+SPlayerSetupScreen::SPlayerSetupScreen(int x, int y) : IScreenBase(x, y) {}
+
+void SPlayerSetupScreen::Render() {
+    std::cout << "\033[2J\033[1;1H";   // clear screen
+    int x = Location.X + 5;
+    int y = Location.Y + 2;
+    SRectWireframe frame(x, y, 60, 18);
+    frame.Render();
+    DrawText(x + 60/2 - 6, y + 1, "PLAYER SETUP");
+}
+
+std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& prompt) {
+    DrawText(x, y, prompt);
+    // Move cursor to end of prompt
+    std::cout << "\033[" << y << ";" << (x + prompt.length()) << "H";
+    std::string input;
+    std::getline(std::cin, input);
+    return input;
+}
+
+bool SPlayerSetupScreen::AskYesNo(int x, int y, const std::string& question) {
+    DrawText(x, y, question + " (Y/N): ");
+    std::cout << "\033[" << y << ";" << (x + question.length() + 8) << "H";
+    char ch;
+    std::cin >> ch;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    return (ch == 'y' || ch == 'Y');
+}
+
+SPlayerSetupInfo SPlayerSetupScreen::Run() {
+    Render();   // draw the background frame
+
+    int frameX = Location.X + 5;
+    int frameY = Location.Y + 2;
+    int cursorY = frameY + 3;      // first line inside the frame
+
+    // 1. Player name
+    std::string name = GetUserInput(frameX + 2, cursorY, "Enter your name: ");
+    cursorY += 2;
+
+    // 2. Ask about save file
+    bool hasFile = AskYesNo(frameX + 2, cursorY, "Load from save file?");
+    cursorY += 2;
+
+    std::string filepath;
+    if (hasFile) {
+        filepath = GetUserInput(frameX + 2, cursorY, "File path: ");
+        cursorY += 2;
+    }
+
+    // 3. Difficulty selection using SChoiceMenu
+    //    Draw the options manually to keep everything inside the frame
+    DrawText(frameX + 2, cursorY, "Select difficulty:");
+    cursorY++;
+    std::vector<std::string> difficulties = {"Easy", "Normal", "Hard"};
+    for (size_t i = 0; i < difficulties.size(); ++i) {
+        DrawText(frameX + 6, cursorY + (int)i, std::to_string(i+1) + ". " + difficulties[i]);
+    }
+    std::string choiceStr = GetUserInput(frameX + 6, cursorY + (int)difficulties.size(),
+                                           "Choice (1-3): ");
+    int diffIndex = std::stoi(choiceStr) - 1;
+    // Clamp in case of invalid input
+    if (diffIndex < 0) diffIndex = 0;
+    if (diffIndex >= (int)difficulties.size()) diffIndex = (int)difficulties.size() - 1;
+
+    // Wait for user to acknowledge before leaving the screen
+    DrawText(frameX + 2, cursorY + (int)difficulties.size() + 2, "Press Enter to continue...");
+    std::cin.get();
+
+    // Fill and return the info struct
+    SPlayerSetupInfo info;
+    info.PlayerName = name;
+    info.SaveFilePath = filepath;
+    info.Difficulty = diffIndex;
+    return info;
 }
