@@ -96,7 +96,6 @@ public:
 
 #endif
 
-
 class SPlayerSetupScreen : public IScreenBase {
 public:
     SPlayerSetupScreen(int x = 0, int y = 0);
