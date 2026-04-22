@@ -81,13 +81,13 @@ public:
 // displays final stats and score
 class SDeathScreen : public IScreenBase {
 private:
-    int ZonesCleared, DaysSurvived;
+    int ZonesCleared;
     int FinalHealth, FinalFood, FinalWater, FinalScore;
     
 public:
-    // Constructor: takes zones cleared, days survived, final health/food/water, final score.
+    // Constructor: takes zones cleared, final health/food/water, final score.
     // Optional x,y offset.
-    SDeathScreen(int zonesCleared, int daysSurvived,
+    SDeathScreen(int zonesCleared,
                  int finalHealth, int finalFood, int finalWater,
                  int finalScore, int x = 0, int y = 0);
     
@@ -101,18 +101,15 @@ public:
 // displays final stats and score breakdown
 class SVictoryScreen : public IScreenBase {
 private:
-    int ZonesCleared, DaysSurvived;
-    int FinalHealth, FinalFood, FinalWater;
-    int ItemsFound, Multiplier, FinalScore;
+    int ZonesCleared;
+    int FinalHealth, FinalFood, FinalWater, FinalScore;
     
 public:
-    // Constructor: takes zones cleared, days survived, final health/food/water,
-    // items found (unused), difficulty multiplier (unused), final score.
+    // Constructor: takes zones cleared, final health/food/water, final score.
     // Optional x,y offset.
-    SVictoryScreen(int zonesCleared, int daysSurvived,
+    SVictoryScreen(int zonesCleared,
                    int finalHealth, int finalFood, int finalWater,
-                   int itemsFound, int multiplier, int finalScore,
-                   int x = 0, int y = 0);
+                   int finalScore, int x = 0, int y = 0);
     
     // Renders the victory screen: clears screen, draws box, shows escape message,
     // final stats, score breakdown (base + health/food/water bonuses), final score,
@@ -148,6 +145,26 @@ public:
     
     // Returns the currently selected option string.
     std::string GetSelectedOption() const { return Options[SelectedIndex]; }
+};
+
+// Structure to hold setup information (used by SPlayerSetupScreen)
+struct SPlayerSetupInfo {
+    std::string PlayerName;
+    std::string SaveFilePath;
+    int Difficulty;
+};
+
+// Setup screen – collects player name, save file path, difficulty
+class SPlayerSetupScreen : public IScreenBase {
+public:
+    SPlayerSetupScreen(int x = 0, int y = 0);
+    virtual void Render() override;          // draws the frame and title
+    SPlayerSetupInfo Run();                  // runs the interactive sequence
+
+private:
+    // Helper methods for input inside the frame
+    std::string GetUserInput(int x, int y, const std::string& prompt);
+    bool AskYesNo(int x, int y, const std::string& question);
 };
 
 #endif
