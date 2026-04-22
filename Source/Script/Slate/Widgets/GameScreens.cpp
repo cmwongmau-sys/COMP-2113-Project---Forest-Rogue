@@ -336,17 +336,24 @@ void SChoiceMenu::Render() {
 // Inputs: none (uses member variables).
 // Outputs: returns integer choice index.
 int SChoiceMenu::WaitForSelection() {
-    Render();
+    Render();  // draws the highlighted options
+
+    // Draw numbered list inside the frame
+    int promptY = Y + Options.size() + 2;  // e.g., Y=14, size=2 -> row 18
     for (size_t i = 0; i < Options.size(); ++i) {
-        std::cout << "\n  " << (i + 1) << ". " << Options[i];
+        DrawText(X, promptY + i, "  " + to_string(i+1) + ". " + Options[i]);
     }
-    std::cout << "\nenter choice (1-" << Options.size() << "): ";
+    DrawText(X, promptY + Options.size(), "enter choice (1-" + to_string(Options.size()) + "): ");
+    
+    // Move cursor to the end of the prompt line
+    int cursorX = X + string("enter choice (1-2): ").length();
+    DrawText(cursorX, promptY + Options.size(), "");
     
     int choice;
-    std::cin >> choice;
+    cin >> choice;
     while (choice < 1 || choice > (int)Options.size()) {
-        std::cout << "invalid. enter 1-" << Options.size() << ": ";
-        std::cin >> choice;
+        DrawText(X, promptY + Options.size() + 1, "invalid. enter 1-" + to_string(Options.size()) + ": ");
+        cin >> choice;
     }
     return choice - 1;
 }
