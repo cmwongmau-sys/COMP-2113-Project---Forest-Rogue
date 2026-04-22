@@ -14,6 +14,7 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Bear Attack";
     vector<string> content = {"A snarling bear lunges from the shadows - right in your path!"};
     DrawStaticFrame(banner, content);
+
     vector<string> options = {"Fight", "Flee"};
     SChoiceMenu menu(options, 10, 5);
     menu.Render();
@@ -48,7 +49,7 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
         }
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
@@ -90,7 +91,7 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
         outcome.resultText = "You found treasure!";
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
@@ -134,7 +135,7 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
         outcome.resultText = "You waited for help. Escaped next day.";
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
@@ -204,7 +205,7 @@ void weatherEncounter(int difficulty, int &health, int &food, int &water) {
 // ========== 空事件 ==========
 void emptyEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Quiet Day";
-    vector<string> content = {"You wander throught he forest and nothing happens."};
+    vector<string> content = {"You wander through the forest and nothing happens."};
     DrawStaticFrame(banner, content);
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
