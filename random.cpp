@@ -11,6 +11,10 @@ using namespace std;
 
 // ========== 野生生物 ==========
 void bearEncounter(int difficulty, int &health, int &food, int &water) {
+    string banner = "Bear Attack";
+    vector<string> content = {"A snarling bear lunges from the shadows - right in your path!"};
+    DrawStaticFrame(banner, content);
+
     vector<string> options = {"Fight", "Flee"};
     SChoiceMenu menu(options, 10, 5);
     menu.Render();
@@ -45,12 +49,16 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
         }
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
 // ========== 宝藏 ==========
 void treasureEncounter(int difficulty, int &health, int &food, int &water) {
+    string banner = "Treasure Encounter";
+    vector<string> content = {"You stumble upon a weathered chest bursting with gold and gems!"};
+    DrawStaticFrame(banner, content);
+
     vector<string> options = {"Take items"};
     SChoiceMenu menu(options, 10, 5);
     menu.Render();
@@ -83,12 +91,16 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
         outcome.resultText = "You found treasure!";
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
 // ========== 陷阱 ==========
 void trapEncounter(int difficulty, int &health, int &food, int &water) {
+    string banner = "Trap Encounter";
+    vector<string> content = {"A sharp snap - you've triggered a hidden trap!"};
+    DrawStaticFrame(banner, content);
+
     vector<string> options = {"Try escape", "Cut free", "Wait for help"};
     SChoiceMenu menu(options, 10, 5);
     menu.Render();
@@ -123,108 +135,78 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
         outcome.resultText = "You waited for help. Escaped next day.";
     }
 
-    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10);
+    SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
 // ========== 泉水 ==========
-EventOutcome waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
+void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
+    string banner = "Water Spring Encounter";
+    vector<string> content = {"A crystal-clear spring bubbles up from the mossy rocks, cool and inviting."};
+    DrawStaticFrame(banner, content);
+
     EventOutcome outcome;
-    outcome.eventName = "Water Spring";
-    outcome.choiceMade = "None";
-
-    cout << "You find a crystal-clear spring!" << endl;
-
     int waterGain = 2 + rand() % 3;   // 2,3,4
     water += waterGain;
-    outcome.deltaWater = waterGain;
-    outcome.resultText = "You drink from the spring.";
-
     if (rand() % 100 < 50) {
         int heal = 10;
         health += heal;
-        if (health > 100) health = 100;
-        outcome.deltaHealth = heal;
-        outcome.resultText += " The magical water also restores health!";
     }
-
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 浆果丛 ==========
-EventOutcome berryBushEncounter(int difficulty, int &health, int &food, int &water) {
-    EventOutcome outcome;
-    outcome.eventName = "Berry Bush";
-    outcome.choiceMade = "None";
-
-    cout << "You spot a bush full of berries!" << endl;
+void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
+    string banner = "Berry Bush Encounter";
+    vector<string> content = {"A thicket of ripe, juicy berries sways in the breeze - time to feast!"};
+    DrawStaticFrame(banner, content);
 
     int foodGain = 1 + rand() % 3;   // 1,2,3
     food += foodGain;
-    outcome.deltaFood = foodGain;
-    outcome.resultText = "You eat the sweet berries.";
-
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 天气事件 ==========
-EventOutcome weatherEncounter(int difficulty, int &health, int &food, int &water) {
-    EventOutcome outcome;
-    outcome.eventName = "Weather Event";
-    outcome.choiceMade = "None";
-
-    cout << "The weather changes suddenly!" << endl;
-
-    int weatherType = rand() % 4; // 0: Rain, 1: Heat wave, 2: Cold snap, 3: Mild
+void weatherEncounter(int difficulty, int &health, int &food, int &water) {
+    int weatherType = rand() % 3; // 0: Rain, 1: Heat wave, 2: Cold snap, 3: Mild
     switch (weatherType) {
         case 0: { // Rain
+            string banner = "Heavy Rain";
+            vector<string> content = {"Torrential rain fills your canteen - you drink deeply"};
+            DrawStaticFrame(banner, content);
             int waterGain = 1 + rand() % 2;
             water += waterGain;
-            outcome.deltaWater = waterGain;
-            outcome.resultText = "Rain provides fresh water.";
             break;
         }
         case 1: { // Heat wave
+            string banner = "Heat Wave";
+            vector<string> content = {"Scorching sun beats down, sweat drains your water supply."};
+            DrawStaticFrame(banner, content);
             int waterLoss = 2;
             water -= waterLoss;
-            if (water < 0) water = 0;
-            outcome.deltaWater = -waterLoss;
-            outcome.resultText = "Heat wave causes dehydration!";
             break;
         }
         case 2: { // Cold snap
+            string banner = "Cold Snap";
+            vector<string> content = {"Bitter frost numbs your bones, sapping your health."};
+            DrawStaticFrame(banner, content);
             int damage = 5;
             health -= damage;
-            if (health < 0) health = 0;
-            outcome.deltaHealth = -damage;
-            outcome.resultText = "Cold snap damages your health.";
-            break;
-        }
-        case 3: { // Mild
-            outcome.resultText = "The weather is mild. Nothing happens.";
             break;
         }
     }
 
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
 
 // ========== 空事件 ==========
-EventOutcome emptyEncounter(int difficulty, int &health, int &food, int &water) {
-    EventOutcome outcome;
-    outcome.eventName = "Empty";
-    outcome.choiceMade = "None";
-    outcome.resultText = "Nothing interesting happens today.";
-
-    cout << "You wander through the forest... It's quiet." << endl;
-
+void emptyEncounter(int difficulty, int &health, int &food, int &water) {
+    string banner = "Quiet Day";
+    vector<string> content = {"You wander through the forest and nothing happens."};
+    DrawStaticFrame(banner, content);
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
-    return outcome;
 }
