@@ -36,7 +36,7 @@ int main() {
     }
 
     // Call the function to print start screen
-
+    startScreen();
 
     // Enter the game and go through 6 zones
     bool win = true;
