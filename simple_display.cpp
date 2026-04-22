@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "simple_display.h"
 using namespace std;
 
@@ -58,12 +59,6 @@ void startScreen() {
     string bottomBorder = "+" + string(width - 2, '-') + "+";
     cout << bottomBorder << endl;
 }
-
-#include <iostream>
-#include <string>
-#include <vector>
-
-using namespace std;
 
 // -------------------------------------------------------------------
 // Draws the static frame (banner box + content + empty rows + bottom border)
