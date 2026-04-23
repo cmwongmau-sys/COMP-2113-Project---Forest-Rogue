@@ -76,16 +76,14 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
                 int gained = rand()%3 + 1;
                 food += gained;
                 outcome.deltaFood += gained;
-                outcome.itemsAdded.push_back("Food +" + to_string(gained));
             } else if (reward == 1) {
                 int gained = rand()%3 + 1;
                 water += gained;
                 outcome.deltaWater += gained;
-                outcome.itemsAdded.push_back("Water +" + to_string(gained));
             } else {
-                health = min(100, health + 30);
-                outcome.deltaHealth += +30;
-                outcome.itemsAdded.push_back("Healing Potion (+30 health)");
+               int before = health;
+               health = min(100, health + 30);
+               outcome.deltaHealth += (health - before);
             }
         }
         outcome.resultText = "You found treasure!";
