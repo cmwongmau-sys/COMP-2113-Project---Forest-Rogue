@@ -7,6 +7,7 @@
 #include "random.h"
 #include "Slate/Widgets/GameScreens.h"
 #include "Slate/Widgets/WidgetsCore.h"
+#include "simple_display.cpp"
 using namespace std;
 
 // ========== 野生生物 ==========
