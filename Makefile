@@ -5,20 +5,33 @@ CXXFLAGS = -I Source/Header/Slate -I Source/Header/Slate/Sprites -I Source/Heade
 vpath %.cpp Source/Script/Slate/Widgets Source/Script/Slate/Sprites
 vpath %.h Source/Header/Slate Source/Header/Slate/Widgets Source/Header/Slate/Sprites
 
-SpritesCore.o: SpritesCore.cpp SpritesCore.h
+sprites.o: SpritesCore.cpp SpritesCore.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-WidgetsCore.o: WidgetsCore.cpp WidgetsCore.h SpritesCore.h
+widgets.o: WidgetsCore.cpp WidgetsCore.h SpritesCore.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-GameScreens.o: GameScreens.cpp GameScreens.h WidgetsCore.h SpritesCore.h
+screens.o: GameScreens.cpp GameScreens.h WidgetsCore.h SpritesCore.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-SimpleDisplay.o: simple_display.cpp simple_display.h
+random.o: random.cpp random.h GameScreens.h WidgetsCore.h SpritesCore.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+display.o: simple_display.cpp simple_display.h
 	$(CXX) -c $< -o $@
 
-EventGeneration.o: event_generation.cpp event_generation.h
+event.o: event_generation.cpp event_generation.h
 	$(CXX) -c $< -o $@
 
+file.o: file.cpp file.h
+	$(CXX) -c $< -o $@
+
+main.o: main.cpp file.h random.h event_generation.h simple_display.h GameScreens.h WidgetsCore.h SpritesCore.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+game: main.o random.o screens.o file.o display.o event.o widgets.o sprites.o
+	$(CXX) $^ -o $@
+clean:
+	rm -f game main.o random.o screens.o file.o display.o event.o widgets.o sprites.o
 
 .PHONY: clean
