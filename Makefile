@@ -23,10 +23,10 @@ display.o: simple_display.cpp simple_display.h
 event.o: event_generation.cpp event_generation.h
 	$(CXX) -c $< -o $@
 
-file.o: file.cpp file.h
+file.o: file_switch.cpp file_switch.h
 	$(CXX) -c $< -o $@
 
-main.o: main.cpp file.h random.h event_generation.h simple_display.h GameScreens.h WidgetsCore.h SpritesCore.h
+main.o: main.cpp file_switch.h random.h event_generation.h simple_display.h GameScreens.h WidgetsCore.h SpritesCore.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 game: main.o random.o screens.o file.o display.o event.o widgets.o sprites.o
