@@ -136,7 +136,7 @@ int main() {
 
     // Display death screen if lose
     else {
-        SDeathScreen deathScreen(zone, heath, food, water, score, 0, 0);
+        SDeathScreen deathScreen(zone, health, food, water, score, 0, 0);
         deathScreen.Render();
     }
 
