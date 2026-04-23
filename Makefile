@@ -1,9 +1,9 @@
 CXX = g++
 
-CXXFLAGS = -I Source/Header/Slate -I Source/Header/Slate/Sprites -I Source/Header/Slate/Widgets -I Source/Header/Slate
+CXXFLAGS = -I Source/Header/Slate/Sprites -I Source/Header/Slate/Widgets -I Source/Script/Slate/Widgets -I Source/Script/Slate/Sprites
 
 vpath %.cpp Source/Script/Slate/Widgets Source/Script/Slate/Sprites
-vpath %.h Source/Header/Slate Source/Header/Slate/Widgets Source/Header/Slate/Sprites
+vpath %.h Source/Header/Slate/Widgets Source/Header/Slate/Sprites
 
 sprites.o: SpritesCore.cpp SpritesCore.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
