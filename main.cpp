@@ -11,7 +11,7 @@
 #include "event_generation.h"
 #include "file_switch.h"
 #include "random.h"
-#include "Slate/Sprites/SpritesCore.h"
+#include "../../../Header/Slate/Sprites/SpritesCore.h"
 #include "../../../Header/Slate/Widgets/GameScreens.h"
 #include "../../../Header/Slate/Widgets/WidgetsCore.h"
 #include "simple_display.h"
@@ -41,9 +41,8 @@ int main() {
     // Enter the game and go through 6 zones
     bool win = true;
     int zone = 1;
+    int health = 100, food, water;
     for (; zone < 7; zone ++) {
-
-        int health = 100, food, water;
 
         switch (mode) {
             case 0:     // Easy mode
@@ -70,30 +69,30 @@ int main() {
         switch (event) {
             case 1:     // Bear attack
                 // call function for bear attack;
-                bearEncounter(mode, health, food, water);
+                encounter::bearEncounter(mode, health, food, water);
                 break;
             case 2:     // Treasure
                 // call function for treasure;
-                treasureEncounter(mode, health, food, water);
+                encounter::treasureEncounter(mode, health, food, water);
                 break;
             case 3:     //Trap
                 // call function for trap;
-                trap(mode, health, food, water);
+                encounter::trapEncounter(mode, health, food, water);
                 break;
             case 4:     // Water spring
                 // call function for water spring;
-                waterSpringEncounter(mode, health, food, water);
+                encounter::waterSpringEncounter(mode, health, food, water);
                 break;
             case 5:     // Berry rush
                 // call function for berry rush;
-                berryBushEncounter(mode, health, food, water);
+                encounter::berryBushEncounter(mode, health, food, water);
                 break;
             case 6:     // Weather
                 // call function for weather;
-                weatherEncounter(mode, health, food, water);
+                encounter::weatherEncounter(mode, health, food, water);
                 break;
             case 7:     // Peaceful day (Nothing happens)
-                emptyEncounter(mode, health, food, water);
+                encounter::emptyEncounter(mode, health, food, water);
                 break;
         }
 
@@ -112,7 +111,7 @@ int main() {
         if (health > 0 && food >= -3 && water >= -3)
             // call function to print screen to show daily consumption
             // status includes health, food, water
-            SDailySummaryScreen dailySummaryScreen(zone, zone, 6, health, 100, 
+            SDailySummaryScreen::dailySummaryScreen(zone, zone, 6, health, 100, 
                                             food, 10, water, 10, 0, 0);
             dailySummaryScreen.Render();
 
