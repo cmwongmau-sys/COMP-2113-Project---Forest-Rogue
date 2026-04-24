@@ -10,6 +10,9 @@ using namespace std;
 
 // Save whole result to scoreboard
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
+    // clear screen
+    cout << "\033[2J\033[3J\033[1;1H";
+
     if (scoreboard.empty()) {
         cout << "Warning: Scoreboard is empty. Nothing to save." << endl;
         return;
@@ -59,6 +62,8 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     
     cout << "Scoreboard saved successfully (" << scoreboard.size() 
          << " entries) with neat formatting.\n";
+    
+    cin.get();
 }
 
 // Load all scoreboard data
@@ -139,7 +144,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
 // Display Top 10 Scoreboard (sorted by finalScore descending)
 void displayTop10(const vector<ScoreEntry>& scoreboard) {
-    cout << "\033[2J\033[1;1H";
+    cout << "\033[2J\033[3J\033[1;1H";
 
     if (scoreboard.empty()) {
         cout << "No scores to display yet.\n";
@@ -151,32 +156,32 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
         return a.finalScore > b.finalScore;
     });
 
-    cout << "\n========== TOP 10 SCOREBOARD ==========\n";
+    cout << string(38, '=') << " TOP 10 SCOREBOARD " << string(38, '=') << endl;
     
     cout << left 
-         << setw(4)  << "Rank"
+         << setw(7)  << "Rank"
          << setw(15) << "Name"
-         << setw(8)  << "Diff"
-         << setw(8)  << "Score"
+         << setw(8) << "Mode"
+         << setw(8) << "Score"
          << setw(10) << "Food"
          << setw(10) << "Water"
-         << setw(7)  << "Zones"
-         << setw(7)  << "Result"
+         << setw(7) << "Zones"
+         << setw(12) << "Result"
          << setw(20) << "Date" << endl;
 
-    cout << string(85, '-') << endl;
+    cout << string(95, '-') << endl;
 
     int rank = 1;
     for (int i = 0; i < min(10, (int)sorted.size()); ++i) {
         cout << left
              << setw(4)  << rank++
              << setw(15) << sorted[i].name
-             << setw(8)  << sorted[i].difficulty
-             << setw(8)  << sorted[i].finalScore
+             << setw(8) << sorted[i].difficulty
+             << setw(8) << sorted[i].finalScore
              << setw(10) << sorted[i].excessFood
              << setw(10) << sorted[i].excessWater
-             << setw(7)  << sorted[i].zonesCompleted
-             << setw(7)  << sorted[i].result
+             << setw(7) << sorted[i].zonesCompleted
+             << setw(12) << sorted[i].result
              << setw(20) << sorted[i].dateTime << endl;
     }
     cout << "========================================\n";
