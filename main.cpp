@@ -43,26 +43,28 @@ int main() {
     bool win = true;
     int zone = 1;
     int health = 100, food, water;
-    for (; zone < 7; zone ++) {
 
-        switch (mode) {
-            case 0:     // Easy mode
-                food = 5;
-                water = 3;
-                break;
-            case 1:     // Medium mode
-                food = 3;
-                water = 2;
-                break;
-            case 3:     // Hard mode
-                food = 2;
-                water = 1;
-                break;
-            default:    // Default to be easy mode
-                food = 5;
-                water = 3;
-                break;
-        }
+    // Assign the player status
+    switch (mode) {
+        case 0:     // Easy mode
+            food = 5;
+            water = 3;
+            break;
+        case 1:     // Medium mode
+            food = 3;
+            water = 2;
+            break;
+        case 3:     // Hard mode
+            food = 2;
+            water = 1;
+            break;
+        default:    // Default to be easy mode
+            food = 5;
+            water = 3;
+            break;
+    }
+
+    for (; zone < 7; zone ++) {
 
         // Encounter random events
         int event = randomEvent(mode);
