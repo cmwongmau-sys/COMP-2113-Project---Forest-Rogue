@@ -51,10 +51,18 @@ void startScreen() {
         lineIndex++;
     }
     // Fill remaining lines with empty rows (to reach insideLines = 21)
-    while (lineIndex < insideLines) {
+    while (lineIndex < insideLines - 1) {
         cout << "|" << string(insideWidth, ' ') << "|" << endl;
         lineIndex++;
     }
+    // Output "PRESS ENTER" at the bottom
+    const string promptText = "PRESS ENTER";
+    int promptLen = promptText.length();
+    int promptPadding = (insideWidth - promptLen) / 2;
+    string promptLine = string(promptPadding, ' ') + promptText +
+            string(insideWidth - promptLen - promptPadding, ' ');
+    cout << "|" << promptLine << "|" << endl;
+
     // Bottom border (no side borders)
     string bottomBorder = "+" + string(width - 2, '-') + "+";
     cout << bottomBorder << endl;
@@ -110,5 +118,7 @@ void DrawStaticFrame(const string& bannerText, const vector<string>& content) {
     // ----- Bottom border -----
     string bottomBorder = "+" + string(width - 2, '-') + "+";
     cout << bottomBorder << endl;
+
+    cin.get();
 }
 
