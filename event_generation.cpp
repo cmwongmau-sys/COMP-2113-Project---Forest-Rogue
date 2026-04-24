@@ -35,5 +35,5 @@ int randomEvent(int mode) {
             return i;
     }
 
-    return;
+    return 7;
 }
