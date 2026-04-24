@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <vector>
 #include "simple_display.h"
@@ -15,7 +15,7 @@ void startScreen() {
 
     // Banner box inside the frame
     string bannerText = " WELCOME TO FOREST ROGUE ";
-    int textLen = bannerText.length();
+    int textLen = (int)bannerText.length();
     int padding = (insideWidth - textLen) / 2;
     string textLine = string(padding, ' ') + bannerText + string(insideWidth - textLen - padding, ' ');
     string boxBorder = "+" + string(insideWidth - 2, '-') + "+";
@@ -81,7 +81,7 @@ void DrawStaticFrame(const string& bannerText, const vector<string>& content) {
     string banner = " " + upperBanner + " ";  // add space padding inside the box
 
     // ----- 3‑line banner box (full inner width) -----
-    int padding = (insideWidth - banner.length()) / 2;
+    int padding = (insideWidth - (int)banner.length()) / 2;
     string textLine = string(padding, ' ') + banner + string(insideWidth - banner.length() - padding, ' ');
     string boxBorder = "+" + string(insideWidth - 2, '-') + "+";
 

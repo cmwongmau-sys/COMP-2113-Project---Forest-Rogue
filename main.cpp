@@ -9,13 +9,16 @@
 #include <chrono>
 #include <ctime>
 #include <iomanip>
+
 #include "event_generation.h"
 #include "file_switch.h"
 #include "random.h"
-#include "../../../Header/Slate/Sprites/SpritesCore.h"
-#include "../../../Header/Slate/Widgets/GameScreens.h"
-#include "../../../Header/Slate/Widgets/WidgetsCore.h"
+
+#include "Source/Header/Slate/SlateCore.h"
+#include "Source/Header/Slate/Widgets/GameScreens.h"
+
 #include "simple_display.h"
+
 using namespace std;
 
 int main() {
@@ -126,8 +129,7 @@ int main() {
     }
 
     // Calculate the score of the player including the bonus from excess food and water
-    int score;
-    score += (health * 2) + (food * 5) + (water * 5) + (zone * 100);
+    int score = (health * 2) + (food * 5) + (water * 5) + (zone * 100);
 
     // Display victory screen if win 
     if (win) {
@@ -151,17 +153,17 @@ int main() {
     // Get current time
     auto now = chrono::system_clock::now();
     time_t currentTime = chrono::system_clock::to_time_t(now);
-    tm* localTime = localtime(&currentTime);
+    tm localTime; localtime_s(&localTime, &currentTime);
 
     // Datetime Format 1: For filename
     stringstream ss_filename;
-    ss_filename << put_time(localTime, "%Y-%m-%d-%H%M%S");
+    ss_filename << put_time(&localTime, "%Y-%m-%d-%H%M%S");
     string dateTimeFilename = ss_filename.str();
     string filename = "scoreboard_" + dateTimeFilename + ".txt";
 
     // Datetime Format 2: For player data
     stringstream ss_data;
-    ss_data << put_time(localTime, "%Y-%m-%d %H:%M:%S");
+    ss_data << put_time(&localTime, "%Y-%m-%d %H:%M:%S");
     string dateTimeData = ss_data.str();
 
     string winLose = win ? "Won" : "Lose";

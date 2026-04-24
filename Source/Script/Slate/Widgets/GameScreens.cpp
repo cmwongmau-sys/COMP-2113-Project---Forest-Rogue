@@ -1,4 +1,4 @@
-#include "Slate/Widgets/GameScreens.h"
+﻿#include "Slate/Widgets/GameScreens.h"
 #include "Slate/Widgets/WidgetsCore.h"
 #include <iostream>
 #include <sstream>
@@ -8,8 +8,7 @@
 // Inputs: x,y position, width, current value, max value, fill character, empty character
 // Outputs: none (draws directly to screen)
 void DrawBar(int x, int y, int width, int current, int max,
-             const std::string fillChar,
-             const std::string emptyChar)
+             std::string fillChar="#", std::string emptyChar=".")
 {
     float percent = (max > 0) ? (float)current / max : 0.0f;
     SBar bar(x, y, width, 1, percent, emptyChar, fillChar);
@@ -327,22 +326,23 @@ void SChoiceMenu::Render() {
 int SChoiceMenu::WaitForSelection() {
     Render();  // draws the highlighted options
 
+    int size = (int)(Options.size()) + 2;
     // Draw numbered list inside the frame
-    int promptY = Y + Options.size() + 2;  // e.g., Y=14, size=2 -> row 18
-    for (size_t i = 0; i < Options.size(); ++i) {
-        DrawText(X, promptY + i, "  " + to_string(i+1) + ". " + Options[i]);
+    int promptY = Location.Y + size + 2;  // e.g., Y=14, size=2 -> row 18
+    for (int i = 0; i < size; ++i) {
+        DrawText(Location.X, promptY + i, "  " + std::to_string(i+1) + ". " + Options[i]);
     }
-    DrawText(X, promptY + Options.size(), "enter choice (1-" + to_string(Options.size()) + "): ");
+    DrawText(Location.X, promptY + size, "enter choice (1-" + std::to_string(size) + "): ");
     
     // Move cursor to the end of the prompt line
-    int cursorX = X + string("enter choice (1-2): ").length();
-    DrawText(cursorX, promptY + Options.size(), "");
+    int cursorX = Location.X + (int)(std::string("enter choice (1-2): ").length());
+    DrawText(cursorX, promptY + size, "");
     
     int choice;
-    cin >> choice;
-    while (choice < 1 || choice > (int)Options.size()) {
-        DrawText(X, promptY + Options.size() + 1, "invalid. enter 1-" + to_string(Options.size()) + ": ");
-        cin >> choice;
+    std::cin >> choice;
+    while (choice < 1 || choice > size) {
+        DrawText(Location.X, promptY + size + 1, "invalid. enter 1-" + std::to_string(size) + ": ");
+        std::cin >> choice;
     }
     return choice - 1;
 }

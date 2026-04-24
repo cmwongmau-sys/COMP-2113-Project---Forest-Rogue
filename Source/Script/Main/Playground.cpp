@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+int __main() {  // change to main() to run
     // Test 1: Event Result
     EventOutcome testOutcome;
     testOutcome.eventName = "Bear Attack";
@@ -14,7 +14,6 @@ int main() {
     testOutcome.deltaHealth = -25;
     testOutcome.deltaFood = 2;
     testOutcome.deltaWater = 0;
-    testOutcome.itemsAdded = {"Bear Meat x2"};
 
     SEventResultScreen eventScreen(testOutcome, 75, 100, 5, 10, 3, 10);
     eventScreen.Render();
