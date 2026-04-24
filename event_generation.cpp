@@ -34,4 +34,6 @@ int randomEvent(int mode) {
         if (randomNum <= upperBound[i])
             return i;
     }
+
+    return;
 }
