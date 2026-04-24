@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <limits>
 
 // helper to draw a status bar
 // uses SBar widget
@@ -339,6 +340,9 @@ int SChoiceMenu::WaitForSelection() {
         std::cout << "invalid. enter 1-" << Options.size() << ": ";
         std::cin >> choice;
     }
+
+    // Remove the buffer
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return choice - 1;
 }
 
