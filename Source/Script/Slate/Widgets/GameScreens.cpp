@@ -54,18 +54,18 @@ SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
 // Outputs: none (draws to screen, waits for user input).
 void SEventResultScreen::Render() {
     // clear screen and move cursor to top
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     // apply location offset
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
     // outer box frame
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
     
     // title bar at top
-    SRectFilled titleBar(x, y, 60, 1, "#");
+    SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
     DrawText(x + 15, y, "- EVENT RESULT -");
     
@@ -73,7 +73,7 @@ void SEventResultScreen::Render() {
     DrawText(x + 2, y + 3, "EVENT: " + Outcome.eventName);
     
     // separator line
-    SRectFilled sep(x + 2, y + 4, 56, 1, "─");
+    SRectFilled sep(x + 2, y + 4, 76, 1, "─");
     sep.Render();
     
     // player's choice and what happened
@@ -130,13 +130,13 @@ SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen, waits for input).
 void SDailySummaryScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
     // outer frame
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
     
     // title
@@ -195,14 +195,14 @@ SDeathScreen::SDeathScreen(int zonesCleared,
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen, waits for input).
 void SDeathScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
-    SRectFilled titleBar(x, y, 60, 1, "#");
+    SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
     DrawText(x + 18, y, "- GAME OVER -");
     
@@ -247,14 +247,14 @@ SVictoryScreen::SVictoryScreen(int zonesCleared,
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen, waits for input).
 void SVictoryScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
-    SRectFilled titleBar(x, y, 60, 1, "#");
+    SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
     DrawText(x + 28, y, "- VICTORY -");
     
@@ -349,10 +349,10 @@ int SChoiceMenu::WaitForSelection() {
 SPlayerSetupScreen::SPlayerSetupScreen(int x, int y) : IScreenBase(x, y) {}
 
 void SPlayerSetupScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";   // clear screen
+    std::cout << "\033[2J\033[3J\033[1;1H";   // clear screen
     int x = Location.X + 5;
     int y = Location.Y + 2;
-    SRectWireframe frame(x, y, 60, 18);
+    SRectWireframe frame(x, y, 80, 22);
     frame.Render();
     DrawText(x + 60/2 - 6, y + 1, "PLAYER SETUP");
 }
@@ -371,7 +371,7 @@ bool SPlayerSetupScreen::AskYesNo(int x, int y, const std::string& question) {
     std::cout << "\033[" << y << ";" << (x + question.length() + 8) << "H";
     char ch;
     std::cin >> ch;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
     return (ch == 'y' || ch == 'Y');
 }
 
