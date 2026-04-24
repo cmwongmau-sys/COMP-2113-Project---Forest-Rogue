@@ -124,7 +124,6 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
             food -= 1;
             outcome.resultText = "You cut yourself free.";
             outcome.deltaFood = -1;
-            outcome.itemsRemoved.push_back("Food");
         } else {
             outcome.resultText = "No food to sacrifice!";
         }
