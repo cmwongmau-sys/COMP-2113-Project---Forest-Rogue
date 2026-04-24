@@ -2,6 +2,7 @@
 
 #include <iostream> 
 #include <string>
+#include <sstream>
 #include <cstdlib>  // for rand() and srand()
 #include <ctime>    // for time()
 #include <vector>
@@ -27,9 +28,9 @@ int main() {
      // 0/1/2 for easy/medium/hard
     string name = info.PlayerName, path = info.SaveFilePath;
     int mode = info.Difficulty;
+    vector<ScoreEntry> scoreboard;
 
     if (!path.empty()) {
-        vector<ScoreEntry> scoreboard;
         
         // load the data into the scoreboard
         loadScoreboard(scoreboard, path);
@@ -108,12 +109,13 @@ int main() {
         water--;
 
         // Track changes and check survival
-        if (health > 0 && food >= -3 && water >= -3)
+        if (health > 0 && food >= -3 && water >= -3) {
             // call function to print screen to show daily consumption
             // status includes health, food, water
-            SDailySummaryScreen::dailySummaryScreen(zone, zone, 6, health, 100, 
+            SDailySummaryScreen dailySummaryScreen(zone, zone, 6, health, 100, 
                                             food, 10, water, 10, 0, 0);
             dailySummaryScreen.Render();
+        }
 
         else 
             // Lose the game
@@ -155,7 +157,7 @@ int main() {
     stringstream ss_filename;
     ss_filename << put_time(localTime, "%Y-%m-%d-%H%M%S");
     string dateTimeFilename = ss_filename.str();
-    string filename = "scoreboard_" + dateTimeFilename + ".txt"
+    string filename = "scoreboard_" + dateTimeFilename + ".txt";
 
     // Datetime Format 2: For player data
     stringstream ss_data;
@@ -163,7 +165,7 @@ int main() {
     string dateTimeData = ss_data.str();
 
     string winLose = win ? "Won" : "Lose";
-    ScoreEntey player = {name, mode, score, food, water, zone, winLose, dateTimeData};
+    ScoreEntry player = {name, mode, score, food, water, zone, winLose, dateTimeData};
     scoreboard.push_back(player);
 
     saveScoreboard(scoreboard, filename);
