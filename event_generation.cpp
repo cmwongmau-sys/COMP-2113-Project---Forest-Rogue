@@ -11,7 +11,7 @@ using namespace std;
 int randomEvent(int mode) {
 
     // Upper bound array for 7 events , ignore index 0
-    int upperBound[8];
+    std::array<int, 8> upperBound = {20, 40, 50, 65, 80, 90, 100};
 
     switch (mode) {
         case 0:  // Easy
