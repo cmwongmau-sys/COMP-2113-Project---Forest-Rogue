@@ -85,17 +85,6 @@ void SEventResultScreen::Render() {
     changes << "├── FOOD:   " << (Outcome.deltaFood >= 0 ? "+" : "") << Outcome.deltaFood << "\n";
     changes << "└── WATER:  " << (Outcome.deltaWater >= 0 ? "+" : "") << Outcome.deltaWater << "\n";
     
-    // add inventory updates if any items were added or removed
-    if (!Outcome.itemsAdded.empty() || !Outcome.itemsRemoved.empty()) {
-        changes << "\n[INVENTORY UPDATE]\n";
-        for (const auto& item : Outcome.itemsAdded) {
-            changes << "└── Added: " << item << "\n";
-        }
-        for (const auto& item : Outcome.itemsRemoved) {
-            changes << "└── Removed: " << item << "\n";
-        }
-    }
-    
     STextBox changesBox(x + 4, y + 9, 52, 8, changes.str(), true, true);
     changesBox.Render();
     

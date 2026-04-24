@@ -14,8 +14,6 @@ struct EventOutcome {
     int deltaHealth = 0;             // health change, negative means damage
     int deltaFood = 0;               // food change
     int deltaWater = 0;              // water change
-    std::vector<std::string> itemsAdded;    // items player found
-    std::vector<std::string> itemsRemoved;  // items player lost
 };
 
 // base class for all screens
