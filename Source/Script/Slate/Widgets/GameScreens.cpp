@@ -1,7 +1,9 @@
-#include "Slate/Widgets/GameScreens.h"
-#include "Slate/Widgets/WidgetsCore.h"
+#include "../../../Header/Slate/Widgets/GameScreens.h"
+#include "../../../Header/Slate/Widgets/WidgetsCore.h"
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
 
 // helper to draw a status bar
 // uses SBar widget
@@ -148,17 +150,17 @@ void SDailySummaryScreen::Render() {
     
     // health bar
     DrawText(x + 3, y + 9, "HEALTH:");
-    DrawBar(x + 13, y + 9, 40, Health, MaxHealth);
+    DrawBar(x + 13, y + 9, 40, Health, MaxHealth, "█", ".");
     DrawText(x + 55, y + 9, std::to_string(Health) + "/" + std::to_string(MaxHealth));
     
     // food bar
     DrawText(x + 3, y + 11, "FOOD:");
-    DrawBar(x + 13, y + 11, 40, Food, MaxFood);
+    DrawBar(x + 13, y + 11, 40, Food, MaxFood, "█", ".");
     DrawText(x + 55, y + 11, std::to_string(Food) + "/" + std::to_string(MaxFood));
     
     // water bar
     DrawText(x + 3, y + 13, "WATER:");
-    DrawBar(x + 13, y + 13, 40, Water, MaxWater);
+    DrawBar(x + 13, y + 13, 40, Water, MaxWater, "█", ".");
     DrawText(x + 55, y + 13, std::to_string(Water) + "/" + std::to_string(MaxWater));
     
     // zone progress
@@ -325,27 +327,21 @@ void SChoiceMenu::Render() {
 // Inputs: none (uses member variables).
 // Outputs: returns integer choice index.
 int SChoiceMenu::WaitForSelection() {
-    Render();  // draws the highlighted options
-
-    // Draw numbered list inside the frame
-    int promptY = Y + Options.size() + 2;  // e.g., Y=14, size=2 -> row 18
+    Render();
     for (size_t i = 0; i < Options.size(); ++i) {
-        DrawText(X, promptY + i, "  " + to_string(i+1) + ". " + Options[i]);
+        std::cout << "\n  " << (i + 1) << ". " << Options[i];
     }
-    DrawText(X, promptY + Options.size(), "enter choice (1-" + to_string(Options.size()) + "): ");
-    
-    // Move cursor to the end of the prompt line
-    int cursorX = X + string("enter choice (1-2): ").length();
-    DrawText(cursorX, promptY + Options.size(), "");
-    
+    std::cout << "\nenter choice (1-" << Options.size() << "): ";
+
     int choice;
-    cin >> choice;
+    std::cin >> choice;
     while (choice < 1 || choice > (int)Options.size()) {
-        DrawText(X, promptY + Options.size() + 1, "invalid. enter 1-" + to_string(Options.size()) + ": ");
-        cin >> choice;
+        std::cout << "invalid. enter 1-" << Options.size() << ": ";
+        std::cin >> choice;
     }
     return choice - 1;
 }
+
 
 // ============================================================
 // SSetUpScreen

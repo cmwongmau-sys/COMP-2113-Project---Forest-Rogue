@@ -7,9 +7,10 @@
 #include "random.h"
 #include "../../../Header/Slate/Widgets/GameScreens.h"
 #include "../../../Header/Slate/Widgets/WidgetsCore.h"
-#include "simple_display.cpp"
+#include "simple_display.h"
 using namespace std;
 
+namespace encounter {
 // ========== 野生生物 ==========
 void bearEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Bear Attack";
@@ -242,4 +243,5 @@ void emptyEncounter(int difficulty, int &health, int &food, int &water) {
 
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
+}
 }

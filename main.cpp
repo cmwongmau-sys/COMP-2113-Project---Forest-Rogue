@@ -99,10 +99,11 @@ int main() {
 
         
         // Track changes and check survival
-        if (health < 0 || food >= -3 || water >= -3)
+        if (health < 0 || food <= -3 || water <= -3) {
             // Lose the game
             win = false;
             break;
+        }
 
         // Daily consumption
         food--;
@@ -117,11 +118,11 @@ int main() {
             dailySummaryScreen.Render();
         }
 
-        else 
+        else {
             // Lose the game
             win = false;
             break;
-
+        }
 
     }
 

@@ -1,7 +1,7 @@
 #ifndef GAME_SCREENS_H
 #define GAME_SCREENS_H
 
-#include "Slate/Widgets/WidgetsCore.h"
+#include "../../../Header/Slate/Widgets/WidgetsCore.h"
 #include <string>
 #include <vector>
 
