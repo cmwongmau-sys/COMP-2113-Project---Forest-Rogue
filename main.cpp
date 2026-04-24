@@ -144,12 +144,6 @@ int main() {
         deathScreen.Render();
     }
 
-
-    // Display scoreboard
-    cout << "\033[2J\033[1;1H";
-    displayTop10(scoreboard);
-
-
     // File output
     // Get current time
     auto now = chrono::system_clock::now();
@@ -172,6 +166,8 @@ int main() {
     scoreboard.push_back(player);
 
     saveScoreboard(scoreboard, filename);
+
+    displayTop10(scoreboard);
 
     return 0;
 }
