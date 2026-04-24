@@ -167,7 +167,7 @@ void SDailySummaryScreen::Render() {
     DrawText(x + 3, y + 16, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones));
     
     // footer and wait for player
-    DrawText(x + 15, y + 18, "Press Enter");
+    DrawText(x + 15, y + 18, "PRESS ENTER");
     
     // wait for user to press enter
     std::cin.get();
