@@ -151,14 +151,14 @@ void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
     int waterGain = 2 + rand() % 3;   // 2,3,4
     water += waterGain;
     outcome.deltaWater = waterGain;
-    outcome.resultText = "You drank from the spring and gained water.";
+    outcome.resultText = "You drank from the spring.";
 
     if (rand() % 100 < 50) {
         int heal = 10;
         health += heal;
         if (health > 100) health = 100;
         outcome.deltaHealth = heal;
-        outcome.resultText += " The magic water also restored health!";
+        outcome.resultText += " The magic water restored health!";
     }
 
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
