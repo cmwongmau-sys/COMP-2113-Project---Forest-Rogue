@@ -31,7 +31,7 @@ int randomEvent(int mode) {
 
     // Find the corresponding random event
     for (int i = 0; i < 8; i++) {
-        if (randomNum < upperBound[i])
+        if (randomNum <= upperBound[i])
             return i;
     }
 }
