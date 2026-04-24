@@ -66,6 +66,8 @@ void startScreen() {
     // Bottom border (no side borders)
     string bottomBorder = "+" + string(width - 2, '-') + "+";
     cout << bottomBorder << endl;
+
+    cin.get();
 }
 
 // -------------------------------------------------------------------
