@@ -123,26 +123,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="event_generation.cpp" />
-    <ClCompile Include="file_switch.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="random.cpp" />
-    <ClCompile Include="simple_display.cpp" />
     <ClCompile Include="Source\Script\Main\Playground.cpp" />
     <ClCompile Include="Source\Script\Slate\Sprites\SpritesCore.cpp" />
     <ClCompile Include="Source\Script\Slate\Widgets\WidgetsCore.cpp" />
     <ClCompile Include="Source\Script\Slate\Widgets\GameScreens.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="event_generation.h" />
-    <ClInclude Include="file_switch.h" />
-    <ClInclude Include="random.h" />
-    <ClInclude Include="simple_display.h" />
     <ClInclude Include="Source\Header\Slate\SlateCore.h" />
     <ClInclude Include="Source\Header\Slate\Sprites\SpritesCore.h" />
     <ClInclude Include="Source\Header\Slate\Widgets\GameScreens.h" />
     <ClInclude Include="Source\Header\Slate\Widgets\WidgetsCore.h" />
-    <ClInclude Include="Source\Script\Slate\SlateCore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

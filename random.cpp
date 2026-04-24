@@ -1,20 +1,17 @@
-﻿#include <iostream>   // 临时，用于事件描述，后续应替换为屏幕函数
+#include <iostream>   // 临时，用于事件描述，后续应替换为屏幕函数
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
 #include <vector>
 #include <string>
 #include "random.h"
-
-#include "Source/Header/Slate/Widgets/GameScreens.h"
-#include "Source/Header/Slate/Widgets/WidgetsCore.h"
-
-#include "simple_display.h"
-
+#include "../../../Header/Slate/Widgets/GameScreens.h"
+#include "../../../Header/Slate/Widgets/WidgetsCore.h"
+#include "simple_display.cpp"
 using namespace std;
 
 // ========== 野生生物 ==========
-void encounter::bearEncounter(int difficulty, int &health, int &food, int &water) {
+void bearEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Bear Attack";
     vector<string> content = {"A snarling bear lunges from the shadows - right in your path!"};
     DrawStaticFrame(banner, content);
@@ -58,7 +55,7 @@ void encounter::bearEncounter(int difficulty, int &health, int &food, int &water
 }
 
 // ========== 宝藏 ==========
-void encounter::treasureEncounter(int difficulty, int &health, int &food, int &water) {
+void treasureEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Treasure Encounter";
     vector<string> content = {"You stumble upon a weathered chest bursting with gold and gems!"};
     DrawStaticFrame(banner, content);
@@ -98,7 +95,7 @@ void encounter::treasureEncounter(int difficulty, int &health, int &food, int &w
 }
 
 // ========== 陷阱 ==========
-void encounter::trapEncounter(int difficulty, int &health, int &food, int &water) {
+void trapEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Trap Encounter";
     vector<string> content = {"A sharp snap - you've triggered a hidden trap!"};
     DrawStaticFrame(banner, content);
@@ -141,7 +138,7 @@ void encounter::trapEncounter(int difficulty, int &health, int &food, int &water
 }
 
 // ========== 泉水 ==========
-void encounter::waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
+void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Water Spring Encounter";
     vector<string> content = {"A crystal-clear spring bubbles up from the mossy rocks, cool and inviting."};
     DrawStaticFrame(banner, content);
@@ -168,7 +165,7 @@ void encounter::waterSpringEncounter(int difficulty, int &health, int &food, int
 }
 
 // ========== 浆果丛 ==========
-void encounter::berryBushEncounter(int difficulty, int &health, int &food, int &water) {
+void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Berry Bush Encounter";
     vector<string> content = {"A thicket of ripe, juicy berries sways in the breeze - time to feast!"};
     DrawStaticFrame(banner, content);
@@ -187,7 +184,7 @@ void encounter::berryBushEncounter(int difficulty, int &health, int &food, int &
 }
 
 // ========== 天气事件 ==========
-void encounter::weatherEncounter(int difficulty, int &health, int &food, int &water) {
+void weatherEncounter(int difficulty, int &health, int &food, int &water) {
     int weatherType = rand() % 3; // 0: Rain, 1: Heat wave, 2: Cold snap (原设计有4种，这里只用了3种)
     EventOutcome outcome;
     outcome.eventName = "Weather Event";
@@ -233,7 +230,7 @@ void encounter::weatherEncounter(int difficulty, int &health, int &food, int &wa
 }
 
 // ========== 空事件 ==========
-void encounter::emptyEncounter(int difficulty, int &health, int &food, int &water) {
+void emptyEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Quiet Day";
     vector<string> content = {"You wander through the forest and nothing happens."};
     DrawStaticFrame(banner, content);
