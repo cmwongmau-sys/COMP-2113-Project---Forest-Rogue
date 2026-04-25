@@ -18,7 +18,7 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
     DrawStaticFrame(banner, content);
 
     vector<string> options = {"Fight", "Flee"};
-    SChoiceMenu menu(options, 10, 5);
+    SChoiceMenu menu(options, 15, 10);
     menu.Render();
     int choiceIndex = menu.WaitForSelection();
 
@@ -62,7 +62,7 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
     DrawStaticFrame(banner, content);
 
     vector<string> options = {"Take items", "Leave it"};
-    SChoiceMenu menu(options, 10, 5);
+    SChoiceMenu menu(options, 15, 10);
     menu.Render();
     int choiceIndex = menu.WaitForSelection();
 
@@ -107,7 +107,7 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
     DrawStaticFrame(banner, content);
 
     vector<string> options = {"Try escape", "Cut free", "Wait for help"};
-    SChoiceMenu menu(options, 10, 5);
+    SChoiceMenu menu(options, 15, 10);
     menu.Render();
     int choiceIndex = menu.WaitForSelection();
 

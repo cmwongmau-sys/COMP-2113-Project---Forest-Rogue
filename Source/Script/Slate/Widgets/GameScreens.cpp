@@ -259,7 +259,7 @@ void SVictoryScreen::Render() {
     DrawText(x + 80/2 - 6, y, "- VICTORY -");
     
     std::stringstream stats;
-    stats << "   You escaped the forest\n\n";
+    stats << "   You escaped the forest.\n\n";
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";

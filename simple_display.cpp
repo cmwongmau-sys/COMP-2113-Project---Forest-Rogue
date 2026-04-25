@@ -10,8 +10,15 @@ void startScreen(int health, int food, int water) {
     const int insideWidth = width - 2;   // 78 for lines with side borders
     const int insideLines = totalHeight - 1; // 21 lines with '|' side borders (bottom border is separate)
 
+    // Offset to the screen
+    const int offsetX = 5;
+    const int offsetY = 2;
+
     // Clear screen
     cout << "\033[2J\033[3J\033[1;1H";
+
+    // Move cursor to offset position
+    cout << "\033[" << offsetY << ";" << offsetX << "H";
 
     // Banner box inside the frame
     string bannerText = " WELCOME TO FOREST ROGUE ";
@@ -22,8 +29,8 @@ void startScreen(int health, int food, int water) {
 
     // Print first three lines (banner) with side borders
     cout << "|" << boxBorder << "|" << endl;
-    cout << "|" << textLine << "|" << endl;
-    cout << "|" << boxBorder << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << textLine << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << boxBorder << "|" << endl;
 
     // Content lines (original passage)
     string content[] = {
@@ -51,12 +58,12 @@ void startScreen(int health, int food, int water) {
         string line = indent + content[i];
         if (line.length() > insideWidth) line = line.substr(0, insideWidth);
         line.append(insideWidth - line.length(), ' ');
-        cout << "|" << line << "|" << endl;
+        cout << string(offsetX - 1, ' ') << "|" << line << "|" << endl;
         lineIndex++;
     }
     // Fill remaining lines with empty rows (to reach insideLines = 21)
     while (lineIndex < insideLines - 1) {
-        cout << "|" << string(insideWidth, ' ') << "|" << endl;
+        cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
         lineIndex++;
     }
     // Output "PRESS ENTER" at the bottom
@@ -65,11 +72,11 @@ void startScreen(int health, int food, int water) {
     int promptPadding = (insideWidth - promptLen) / 2;
     string promptLine = string(promptPadding, ' ') + promptText +
             string(insideWidth - promptLen - promptPadding, ' ');
-    cout << "|" << promptLine << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << promptLine << "|" << endl;
 
     // Bottom border (no side borders)
     string bottomBorder = "+" + string(width - 2, '-') + "+";
-    cout << bottomBorder << endl;
+    cout << string(offsetX - 1, ' ') << bottomBorder << endl;
 
     cin.get();
 }
@@ -86,8 +93,15 @@ void DrawStaticFrame(const string& bannerText, const vector<string>& content) {
     const int insideWidth = width - 2;   // 78
     const int insideHeight = totalHeight - 1;  // 21 lines inside + bottom border = 22 total
 
-    // Clear screen completely (including scrollback) – works on macOS/Linux/modern Windows Terminal
+    // Offset to the screen
+    const int offsetX = 5;
+    const int offsetY = 2;
+
+    // Clear screen
     cout << "\033[2J\033[3J\033[1;1H";
+
+    // Move cursor to offset position
+    cout << "\033[" << offsetY << ";" << offsetX << "H";
 
     // ----- Convert banner text to uppercase and add spaces -----
     string upperBanner = bannerText;
@@ -100,30 +114,33 @@ void DrawStaticFrame(const string& bannerText, const vector<string>& content) {
     string boxBorder = "+" + string(insideWidth - 2, '-') + "+";
 
     cout << "|" << boxBorder << "|" << endl;
-    cout << "|" << textLine << "|" << endl;
-    cout << "|" << boxBorder << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << textLine << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << boxBorder << "|" << endl;
+    cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
 
     // ----- Print content lines (indented 4 spaces) -----
     const string indent = "    ";
-    int lineIndex = 3;   // we have already printed 3 banner lines
+    int lineIndex = 6;   // we have already printed 3 banner lines
     for (const string& rawLine : content) {
         if (lineIndex >= insideHeight) break;
         string line = indent + rawLine;
         if (line.length() > insideWidth) line = line.substr(0, insideWidth);
         line.append(insideWidth - line.length(), ' ');
-        cout << "|" << line << "|" << endl;
+        cout << string(offsetX - 1, ' ') << "|" << line << "|" << endl;
         lineIndex++;
     }
 
     // ----- Fill remaining lines with empty rows (for menu or other UI) -----
     while (lineIndex < insideHeight) {
-        cout << "|" << string(insideWidth, ' ') << "|" << endl;
+        cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
         lineIndex++;
     }
 
     // ----- Bottom border -----
     string bottomBorder = "+" + string(width - 2, '-') + "+";
-    cout << bottomBorder << endl;
+    cout << string(offsetX - 1, ' ') << bottomBorder << endl;
 
     cin.get();
 }
