@@ -36,9 +36,7 @@ int main() {
         loadScoreboard(scoreboard, path);
     }
 
-    // Enter the game and go through 6 zones
-    bool win = true;
-    int zone = 1;
+    // Assign health, food and water
     int health = 100, food, water;
 
     // Assign the player status
@@ -64,6 +62,9 @@ int main() {
     // Call the function to print start screen
     startScreen(health, food, water);
 
+    // Enter the game and go through 6 zones
+    bool win = true;
+    int zone = 1;
     for (; zone < 7; zone ++) {
 
         // Encounter random events
@@ -162,7 +163,7 @@ int main() {
     string dateTimeData = ss_data.str();
 
     string winLose = win ? "Won" : "Lose";
-    ScoreEntry player = {name, mode, score, food, water, zone, winLose, dateTimeData};
+    ScoreEntry player = {name, mode, score, food, water, zone - 1, winLose, dateTimeData};
     scoreboard.push_back(player);
 
     saveScoreboard(scoreboard, filename);
