@@ -37,13 +37,13 @@ void startScreen(int health, int food, int water) {
         "",
         "Every choice matters. Every resource counts.",
         "Yout cuurent status:",
-        "health: " + to_string(health),
-        "food: " + to_string(food),
-        "water: " + to_string(water),
+        "Health: " + to_string(health),
+        "Food: " + to_string(food),
+        "Water: " + to_string(water),
         "",
         "Good luck. You'll need it."
     };
-    
+
     int numContent = sizeof(content) / sizeof(content[0]);
     const string indent = "    ";
     int lineIndex = 3;   // after banner lines

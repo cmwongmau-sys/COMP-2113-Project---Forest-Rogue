@@ -208,7 +208,7 @@ void SDeathScreen::Render() {
     DrawText(x + 80/2 - 6, y, "- GAME OVER -");
     
     std::stringstream stats;
-    stats << "\n   you didn't survive the forest...\n\n";
+    stats << "\n   You didn't survive the forest...\n\n";
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
@@ -259,7 +259,7 @@ void SVictoryScreen::Render() {
     DrawText(x + 80/2 - 6, y, "- VICTORY -");
     
     std::stringstream stats;
-    stats << "   you escaped the forest\n\n";
+    stats << "   You escaped the forest\n\n";
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
@@ -330,7 +330,7 @@ int SChoiceMenu::WaitForSelection() {
     for (size_t i = 0; i < Options.size(); ++i) {
         std::cout << "\n  " << (i + 1) << ". " << Options[i];
     }
-    std::cout << "\nenter choice (1-" << Options.size() << "): ";
+    std::cout << "\nEnter choice (1-" << Options.size() << "): ";
 
     int choice;
     std::cin >> choice;
