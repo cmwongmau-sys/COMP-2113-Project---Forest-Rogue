@@ -68,7 +68,7 @@ void SEventResultScreen::Render() {
     // title bar at top
     SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
-    DrawText(x + 15, y, "- EVENT RESULT -");
+    DrawText(x + 80/2 - 8, y, "- EVENT RESULT -");
     
     // event name
     DrawText(x + 2, y + 3, "EVENT: " + Outcome.eventName);
@@ -99,7 +99,7 @@ void SEventResultScreen::Render() {
     DrawText(x + 2, y + 14, status.str());
     
     // footer and wait for player
-    DrawText(x + 15, y + 16, "PRESS ENTER");
+    DrawText(x + 80/2 - 6, y + 19, "PRESS ENTER");
     
     // wait for user to press enter
     std::cin.get();
@@ -142,7 +142,7 @@ void SDailySummaryScreen::Render() {
     
     // title
     std::string titleText = "END OF DAY " + std::to_string(Day);
-    DrawText(x + 20, y + 1, titleText);
+    DrawText(x + 80/2 - 6, y + 1, titleText);
     
     // daily consumption section
     DrawText(x + 3, y + 4, "DAILY CONSUMPTION:");
@@ -168,7 +168,7 @@ void SDailySummaryScreen::Render() {
     DrawText(x + 3, y + 16, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones));
     
     // footer and wait for player
-    DrawText(x + 15, y + 18, "PRESS ENTER");
+    DrawText(x + 80/2 - 6, y + 19, "PRESS ENTER");
     
     // wait for user to press enter
     std::cin.get();
@@ -205,7 +205,7 @@ void SDeathScreen::Render() {
     outer.Render();
     SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
-    DrawText(x + 18, y, "- GAME OVER -");
+    DrawText(x + 80/2 - 6, y, "- GAME OVER -");
     
     std::stringstream stats;
     stats << "\n   you didn't survive the forest...\n\n";
@@ -216,7 +216,6 @@ void SDeathScreen::Render() {
     stats << "   food left: " << FinalFood << "\n";
     stats << "   water left: " << FinalWater << "\n\n";
     stats << "   FINAL SCORE: " << FinalScore << "\n\n";
-    stats << "   [1] new game    [2] quit";
     
     STextBox statsBox(x + 2, y + 3, 56, 14, stats.str(), true, true);
     statsBox.Render();
@@ -257,10 +256,10 @@ void SVictoryScreen::Render() {
     outer.Render();
     SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
-    DrawText(x + 28, y, "- VICTORY -");
+    DrawText(x + 80/2 - 6, y, "- VICTORY -");
     
     std::stringstream stats;
-    stats << "\n   you escaped the forest\n\n";
+    stats << "   you escaped the forest\n\n";
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
@@ -282,7 +281,6 @@ void SVictoryScreen::Render() {
     stats << "   subtotal:                     " << subtotal << "\n";
     stats << "   --------------------------------\n";
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
-    stats << "   [1] play again   [2] high scores   [3] quit";
     
     STextBox statsBox(x + 2, y + 3, 56, 18, stats.str(), true, true);
     statsBox.Render();
@@ -358,7 +356,7 @@ void SPlayerSetupScreen::Render() {
     int y = Location.Y + 2;
     SRectWireframe frame(x, y, 80, 22);
     frame.Render();
-    DrawText(x + 60/2 - 6, y + 1, "PLAYER SETUP");
+    DrawText(x + 80/2 - 6, y + 1, "PLAYER SETUP");
 }
 
 std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& prompt) {
