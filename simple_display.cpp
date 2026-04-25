@@ -4,7 +4,7 @@
 #include "simple_display.h"
 using namespace std;
 
-void startScreen() {
+void startScreen(int health, int food, int water) {
     const int width = 80;
     const int totalHeight = 22;          // including bottom border
     const int insideWidth = width - 2;   // 78 for lines with side borders
@@ -36,10 +36,14 @@ void startScreen() {
         "    (Below that, starvation or thirst will consume you.)",
         "",
         "Every choice matters. Every resource counts.",
-        "Can you survive the wilds and claim the rogue's prize?",
+        "Yout cuurent status:",
+        "health: " + to_string(health),
+        "food: " + to_string(food),
+        "water: " + to_string(water),
         "",
         "Good luck. You'll need it."
     };
+    
     int numContent = sizeof(content) / sizeof(content[0]);
     const string indent = "    ";
     int lineIndex = 3;   // after banner lines
