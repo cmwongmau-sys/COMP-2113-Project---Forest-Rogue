@@ -33,7 +33,8 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    outFile << "=== SURVIVAL SCOREBOARD - Updated: " << dt << " ===\n\n";
+    string equals(24, '=');
+    outFile << equals << " SURVIVAL SCOREBOARD " << dt << " " << equals << "\n\n";
 
     outFile << left 
             << setw(15) << "Name"
@@ -44,7 +45,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             << setw(8)  << "Zones"
             << setw(20) << "Date & Time" << endl;
 
-    outFile << string(85, '-') << endl;   // Separator line
+    outFile << string(88, '-') << endl;   // Separator line
 
     // Data Rows
     for (const auto& entry : scoreboard) {
