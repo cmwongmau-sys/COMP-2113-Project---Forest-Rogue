@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-void startScreen();
+void startScreen(int health, int food, int water);
 void DrawStaticFrame(const std::string& bannerText, const std::vector<std::string>& content);
 
 #endif // SCREEN_DISPLAY_H

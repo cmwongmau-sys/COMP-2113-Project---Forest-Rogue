@@ -36,9 +36,6 @@ int main() {
         loadScoreboard(scoreboard, path);
     }
 
-    // Call the function to print start screen
-    startScreen();
-
     // Enter the game and go through 6 zones
     bool win = true;
     int zone = 1;
@@ -63,6 +60,9 @@ int main() {
             water = 3;
             break;
     }
+
+    // Call the function to print start screen
+    startScreen(health, food, water);
 
     for (; zone < 7; zone ++) {
 
