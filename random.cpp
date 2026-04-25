@@ -61,7 +61,7 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
     vector<string> content = {"You stumble upon a weathered chest bursting with gold and gems!"};
     DrawStaticFrame(banner, content);
 
-    vector<string> options = {"Take items"};
+    vector<string> options = {"Take items", "Leave it"};
     SChoiceMenu menu(options, 10, 5);
     menu.Render();
     int choiceIndex = menu.WaitForSelection();
@@ -77,18 +77,23 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
             if (reward == 0) {
                 int gained = rand()%3 + 1;
                 food += gained;
-                outcome.deltaFood += gained;
+                outcome.deltaFood = gained;
             } else if (reward == 1) {
                 int gained = rand()%3 + 1;
                 water += gained;
-                outcome.deltaWater += gained;
+                outcome.deltaWater = gained;
             } else {
                int before = health;
                health = min(100, health + 30);
-               outcome.deltaHealth += (health - before);
+               outcome.deltaHealth = (health - before);
             }
         }
         outcome.resultText = "You found treasure!";
+    }
+    else {
+        health += 10;
+        outcome.deltaHealth = 10;
+        outcome.resultText = "You leave the treasure aside and proceed forward.";
     }
 
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
@@ -154,10 +159,9 @@ void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
     outcome.resultText = "You drank from the spring.";
 
     if (rand() % 100 < 50) {
-        int heal = 10;
-        health += heal;
+        health += 10;
         if (health > 100) health = 100;
-        outcome.deltaHealth = heal;
+        outcome.deltaHealth = 10;
         outcome.resultText += " The magic water restored health!";
     }
 
