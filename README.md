@@ -10,8 +10,10 @@ Hung Kwok Kiu- UID:3036058467
 
 
 Description:
-Forest Rogue is a thrilling text-based survival game where you must navigate through **6 dangerous wilderness zones**. 
+**Forest Rogue** is an immersive text-based survival adventure where you must traverse **6 perilous wilderness zones** to escape the ancient forest.
 
-You manage three critical resources — **Health**, **Food**, and **Water** — while facing random events such as bear attacks, treasure finds, traps, water springs, berry rushes, and harsh weather.  
+You manage three vital resources — **Health**, **Food**, and **Water** — while facing dynamic random events including bear attacks, hidden treasures, deadly traps, healing water springs, berry bushes, harsh weather, and quiet days.
 
-The game offers **three difficulty levels** (Easy, Medium, Hard). Your goal is to survive all zones and achieve the highest possible score. Every decision and random event affects your survival and final ranking on the scoreboard.
+The game features **three carefully balanced difficulty levels** — **Easy**, **Normal**, and **Hard** — which influence starting resources, event probabilities, and severity of outcomes. Every choice you make during events directly impacts your survival and final score.
+
+Survive all zones to claim victory with bonus points based on remaining resources, or perish in the forest.
