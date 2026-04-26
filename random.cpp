@@ -1,4 +1,4 @@
-#include <iostream>   // 临时，用于事件描述，后续应替换为屏幕函数
+#include <iostream>
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -9,7 +9,7 @@
 using namespace std;
 
 namespace encounter {
-// ========== 野生生物 ==========
+// ========== Bear Attack ==========
 void bearEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Bear Attack";
     vector<string> content = {"A snarling bear lunges from the shadows - right in your path!"};
@@ -31,7 +31,7 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
             health -= damage; food += 2;
             outcome.resultText = "You won the fight!";
             outcome.deltaHealth = -damage;
-            outcome.deltaFood = +2;
+            outcome.deltaFood = 2;
         } else {
             int damage = (difficulty==1)?(15+rand()%11):(difficulty==2)?(15+rand()%11):(20+rand()%6);
             health -= damage;
@@ -53,7 +53,7 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
     resultScreen.Render();
 }
 
-// ========== 宝藏 ==========
+// ========== Treasure ==========
 void treasureEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Treasure Encounter";
     vector<string> content = {"You stumble upon a weathered chest bursting with gold and gems!"};
@@ -97,7 +97,7 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
     resultScreen.Render();
 }
 
-// ========== 陷阱 ==========
+// ========== Trap ==========
 void trapEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Trap Encounter";
     vector<string> content = {"A sharp snap - you've triggered a hidden trap!"};
@@ -138,7 +138,7 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
     resultScreen.Render();
 }
 
-// ========== 泉水 ==========
+// ========== Water Spring ==========
 void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Water Spring Encounter";
     vector<string> content = {"A crystal-clear spring bubbles up from the mossy rocks, cool and inviting."};
@@ -153,17 +153,11 @@ void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
     outcome.deltaWater = waterGain;
     outcome.resultText = "You drank from the spring.";
 
-    if (rand() % 100 < 50) {
-        health += 10;
-        outcome.deltaHealth = 10;
-        outcome.resultText += " The magic water restored health!";
-    }
-
     SEventResultScreen resultScreen(outcome, health, 100, food, 10, water, 10, 0, 0);
     resultScreen.Render();
 }
 
-// ========== 浆果丛 ==========
+// ========== Berru Bush ==========
 void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Berry Bush Encounter";
     vector<string> content = {"A thicket of ripe, juicy berries sways in the breeze - time to feast!"};
@@ -182,9 +176,9 @@ void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
     resultScreen.Render();
 }
 
-// ========== 天气事件 ==========
+// ========== Weather ==========
 void weatherEncounter(int difficulty, int &health, int &food, int &water) {
-    int weatherType = rand() % 3; // 0: Rain, 1: Heat wave, 2: Cold snap (原设计有4种，这里只用了3种)
+    int weatherType = rand() % 3; // 0: Rain, 1: Heat wave, 2: Cold snap
     EventOutcome outcome;
     outcome.eventName = "Weather Event";
     outcome.choiceMade = "None";
@@ -226,7 +220,7 @@ void weatherEncounter(int difficulty, int &health, int &food, int &water) {
     resultScreen.Render();
 }
 
-// ========== 空事件 ==========
+// ========== Empty ==========
 void emptyEncounter(int difficulty, int &health, int &food, int &water) {
     string banner = "Quiet Day";
     vector<string> content = {"You wander through the forest and nothing happens."};
