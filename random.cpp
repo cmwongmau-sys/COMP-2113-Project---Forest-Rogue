@@ -1,7 +1,5 @@
 #include <iostream>   // 临时，用于事件描述，后续应替换为屏幕函数
 #include <cstdlib>
-#include <ctime>
-#include <algorithm>
 #include <vector>
 #include <string>
 #include "random.h"
@@ -83,9 +81,8 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
                 water += gained;
                 outcome.deltaWater = gained;
             } else {
-               int before = health;
-               health = min(100, health + 30);
-               outcome.deltaHealth = (health - before);
+               health += 30;
+               outcome.deltaHealth = 30;
             }
         }
         outcome.resultText = "You found treasure!";
@@ -126,16 +123,14 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
             outcome.deltaHealth = -15;
         }
     } else if (choiceIndex == 1) { // Cut free
-        if (food > 0) {
             food -= 1;
             outcome.resultText = "You cut yourself free.";
             outcome.deltaFood = -1;
-        } else {
-            outcome.resultText = "No food to sacrifice!";
-        }
     } else if (choiceIndex == 2) { // Wait
-        if (food > 0) { food -= 1; outcome.deltaFood = -1; }
-        if (water > 0) { water -= 1; outcome.deltaWater = -1; }
+        food -= 1;
+        water -= 1; 
+        outcome.deltaFood = -1; 
+        outcome.deltaWater = -1;
         outcome.resultText = "You waited for help. Escaped next day.";
     }
 
@@ -160,7 +155,6 @@ void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
 
     if (rand() % 100 < 50) {
         health += 10;
-        if (health > 100) health = 100;
         outcome.deltaHealth = 10;
         outcome.resultText += " The magic water restored health!";
     }
@@ -212,7 +206,6 @@ void weatherEncounter(int difficulty, int &health, int &food, int &water) {
             DrawStaticFrame(banner, content);
             int waterLoss = 2;
             water -= waterLoss;
-            if (water < 0) water = 0;
             outcome.deltaWater = -waterLoss;
             outcome.resultText = "Heat wave caused dehydration!";
             break;
@@ -223,7 +216,6 @@ void weatherEncounter(int difficulty, int &health, int &food, int &water) {
             DrawStaticFrame(banner, content);
             int damage = 5;
             health -= damage;
-            if (health < 0) health = 0;
             outcome.deltaHealth = -damage;
             outcome.resultText = "Cold snap damaged your health.";
             break;
