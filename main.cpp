@@ -7,7 +7,6 @@
 #include <ctime>    // for time()
 #include <vector>
 #include <chrono>
-#include <ctime>
 #include <iomanip>
 #include "event_generation.h"
 #include "file_switch.h"
@@ -25,7 +24,7 @@ int main() {
     SPlayerSetupInfo info = setupScreen.Run();
 
     // Read the user's input of his name, path and diffculty mode
-     // 0/1/2 for easy/medium/hard
+    // 0/1/2 for easy/medium/hard
     string name = info.PlayerName, path = info.SaveFilePath;
     int mode = info.Difficulty;
     vector<ScoreEntry> scoreboard;
