@@ -14,7 +14,11 @@ void DrawBar(int x, int y, int width, int current, int max,
              const std::string fillChar,
              const std::string emptyChar)
 {
-    float percent = (max > 0) ? (float)current / max : 0.0f;
+    int displayCurrent = current;
+    if (displayCurrent < 0) displayCurrent = 0;
+    if (displayCurrent > max) displayCurrent = max;
+
+    float percent = (max > 0) ? (float)displayCurrent / max : 0.0f;
     SBar bar(x, y, width, 1, percent, emptyChar, fillChar);
     bar.Render();
 }
