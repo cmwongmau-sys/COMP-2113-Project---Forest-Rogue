@@ -49,7 +49,7 @@ int main() {
             food = 3;
             water = 2;
             break;
-        case 3:     // Hard mode
+        case 2:     // Hard mode
             food = 2;
             water = 1;
             break;
