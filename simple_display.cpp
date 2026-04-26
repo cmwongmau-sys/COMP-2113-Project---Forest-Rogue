@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include "simple_display.h"
@@ -145,3 +146,105 @@ void DrawStaticFrame(const string& bannerText, const vector<string>& content) {
     cin.get();
 }
 
+// Draws ONE specific zone (1-6) with ASCII art perfectly centered
+void DrawZone(int zone) {
+    if (zone < 1 || zone > 6) zone = 1;
+
+    const int width = 80;
+    const int insideWidth = width - 2;      // 78
+    const int contentLines = 20;
+
+    const int offsetX = 5;
+    const int offsetY = 2;
+
+    // Clear screen and move cursor
+    cout << "\033[2J\033[3J\033[1;1H";
+    cout << "\033[" << offsetY << ";" << offsetX << "H";
+
+    // Zones 1 to 6 - ZONE 4 AND ZONE 5 SWAPPED
+    vector<string> zones = {
+        // Zone 1
+        R"( ________    ______   .__   __.  _______     __ 
+|       /   /  __  \  |  \ |  | |   ____|   /_ |
+`---/  /   |  |  |  | |   \|  | |  |__       | |
+   /  /    |  |  |  | |  . `  | |   __|      | |
+  /  /----.|  `--'  | |  |\   | |  |____     | |
+ /________| \______/  |__| \__| |_______|    |_|)",
+
+        // Zone 2
+        R"( ________    ______   .__   __.  _______     ___  
+|       /   /  __  \  |  \ |  | |   ____|   |__ \ 
+`---/  /   |  |  |  | |   \|  | |  |__         ) |
+   /  /    |  |  |  | |  . `  | |   __|       / / 
+  /  /----.|  `--'  | |  |\   | |  |____     / /_ 
+ /________| \______/  |__| \__| |_______|   |____|)",
+
+        // Zone 3
+        R"( ________    ______   .__   __.  _______     ____  
+|       /   /  __  \  |  \ |  | |   ____|   |___ \ 
+`---/  /   |  |  |  | |   \|  | |  |__        __) |
+   /  /    |  |  |  | |  . `  | |   __|      |__ < 
+  /  /----.|  `--'  | |  |\   | |  |____     ___) |
+ /________| \______/  |__| \__| |_______|   |____/ )",
+
+        // Zone 4 ← now using the one that was previously Zone 5
+        R"( ________    ______   .__   __.  _______     _  _   
+|       /   /  __  \  |  \ |  | |   ____|   | || |  
+`---/  /   |  |  |  | |   \|  | |  |__      | || |_ 
+   /  /    |  |  |  | |  . `  | |   __|     |__   _|
+  /  /----.|  `--'  | |  |\   | |  |____       | |  
+ /________| \______/  |__| \__| |_______|      |_|  )",
+
+        // Zone 5 ← now using the one that was previously Zone 4
+        R"( ________    ______   .__   __.  _______     _____ 
+|       /   /  __  \  |  \ |  | |   ____|   | ____|
+`---/  /   |  |  |  | |   \|  | |  |__      | |__  
+   /  /    |  |  |  | |  . `  | |   __|     |___ \ 
+  /  /----.|  `--'  | |  |\   | |  |____     ___) |
+ /________| \______/  |__| \__| |_______|   |____/ )",
+
+        // Zone 6
+        R"( ________    ______   .__   __.  _______       __  
+|       /   /  __  \  |  \ |  | |   ____|     / /  
+`---/  /   |  |  |  | |   \|  | |  |__       / /_  
+   /  /    |  |  |  | |  . `  | |   __|     | '_ \ 
+  /  /----.|  `--'  | |  |\   | |  |____    | (_) |
+ /________| \______/  |__| \__| |_______|    \___/ )"
+    };
+
+    // Extract lines from the selected zone
+    stringstream ss(zones[zone - 1]);
+    vector<string> artLines;
+    string line;
+    while (getline(ss, line)) {
+        artLines.push_back(line);
+    }
+
+    int artHeight = artLines.size();
+    int totalPadding = contentLines - artHeight;
+    int topPadding = totalPadding / 2;
+
+    string border = "+" + string(width - 2, '-') + "+";
+
+    cout << border << endl;                    // Top border
+
+    for (int i = 0; i < topPadding; ++i) {     // Vertical top padding
+        cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
+    }
+
+    for (const string& artLine : artLines) {   // ASCII art - horizontally centered
+        int leftPad = (insideWidth - (int)artLine.length()) / 2;
+        if (leftPad < 0) leftPad = 0;
+        string centered = string(leftPad, ' ') + artLine +
+                          string(insideWidth - artLine.length() - leftPad, ' ');
+        cout << string(offsetX - 1, ' ') << "|" << centered << "|" << endl;
+    }
+
+    for (int i = 0; i < totalPadding - topPadding; ++i) {  // Vertical bottom padding
+        cout << string(offsetX - 1, ' ') << "|" << string(insideWidth, ' ') << "|" << endl;
+    }
+
+    cout << string(offsetX - 1, ' ') << border << endl;                    // Bottom border
+
+    cin.get();
+}

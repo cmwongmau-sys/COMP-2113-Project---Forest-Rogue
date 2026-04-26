@@ -67,6 +67,9 @@ int main() {
     int zone = 1;
     for (; zone < 7; zone ++) {
 
+        // Draw screen to show the zone
+        DrawZone(zone);
+
         // Encounter random events
         int event = randomEvent(mode);
 
