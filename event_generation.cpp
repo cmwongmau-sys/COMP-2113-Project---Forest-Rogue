@@ -9,6 +9,8 @@
 using namespace std;
 
 // Generate the random event based on the probability of difficulty modes
+// Input: difficulty modes
+// Output: random event
 int randomEvent(int mode) {
 
     // Generate the random number

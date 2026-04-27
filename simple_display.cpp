@@ -5,6 +5,10 @@
 #include "simple_display.h"
 using namespace std;
 
+// Draw the screen to start the game
+// Showing game description and player's initial status
+// Input: player's status, health, food, water
+// Output: prints out the screen, no return
 void startScreen(int health, int food, int water) {
     const int width = 80;
     const int totalHeight = 22;          // including bottom border
@@ -146,7 +150,9 @@ void DrawStaticFrame(const string& bannerText, const vector<string>& content) {
     cin.get();
 }
 
-// Draws ONE specific zone (1-6) with ASCII art perfectly centered
+// Draws one screen for specific zone (1-6) with ASCII art perfectly centered
+// Input: zone number
+// Output: prints out the screen showing the zone, no return
 void DrawZone(int zone) {
     if (zone < 1 || zone > 6) zone = 1;
 

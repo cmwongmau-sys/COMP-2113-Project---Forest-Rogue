@@ -367,6 +367,7 @@ int SChoiceMenu::WaitForSelection() {
 // ============================================================
 SPlayerSetupScreen::SPlayerSetupScreen(int x, int y) : IScreenBase(x, y) {}
 
+// Draw the frame to show the set up screen
 void SPlayerSetupScreen::Render() {
     std::cout << "\033[2J\033[3J\033[1;1H";   // clear screen
     int x = Location.X + 5;
@@ -376,6 +377,9 @@ void SPlayerSetupScreen::Render() {
     DrawText(x + 80/2 - 6, y + 1, "PLAYER SETUP");
 }
 
+// Ask the player about a question
+// Input: coordinates of cursor, question text
+// Output: answer (string)
 std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& prompt) {
     DrawText(x, y, prompt);
     // Move cursor to end of prompt
@@ -385,6 +389,9 @@ std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& pr
     return input;
 }
 
+// Ask the player about a yes/no question
+// Input: coordinates of cursor, question text
+// Output: yes/no (bool)
 bool SPlayerSetupScreen::AskYesNo(int x, int y, const std::string& question) {
     DrawText(x, y, question + " (Y/N): ");
     std::cout << "\033[" << y << ";" << (x + question.length() + 8) << "H";
@@ -394,6 +401,7 @@ bool SPlayerSetupScreen::AskYesNo(int x, int y, const std::string& question) {
     return (ch == 'y' || ch == 'Y');
 }
 
+// Draw the screen to prompt player to input set up info
 SPlayerSetupInfo SPlayerSetupScreen::Run() {
     Render();   // draw the background frame
 
