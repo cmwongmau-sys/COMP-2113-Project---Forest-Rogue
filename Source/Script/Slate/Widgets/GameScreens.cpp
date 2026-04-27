@@ -318,8 +318,8 @@ void SChoiceMenu::Render() {
         }
     }
 
-    int startX = Location.X - maxWidth / 2;
-    int startY = Location.Y;
+    int startX = Location.X - maxWidth / 2 + 3;
+    int startY = Location.Y - 1;
 
     for (size_t i = 0; i < Options.size(); ++i) {
         std::string display = std::to_string(i + 1) + ". " + Options[i];
@@ -340,8 +340,9 @@ int SChoiceMenu::WaitForSelection() {
         }
     }
 
-    int startX = Location.X - maxWidth / 2;
-    int promptY = Location.Y + (int)Options.size() + 1;
+    int startX = Location.X - maxWidth / 2 + 3;
+    int startY = Location.Y - 1;
+    int promptY = startY + (int)Options.size() + 1;
     std::string prompt = "Enter choice: ";
 
     DrawText(startX, promptY, prompt);
