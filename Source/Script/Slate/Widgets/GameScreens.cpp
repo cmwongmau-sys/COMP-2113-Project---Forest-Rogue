@@ -310,40 +310,50 @@ SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, 
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen).
 void SChoiceMenu::Render() {
-    int cx = Location.X;
-    int cy = Location.Y;
+    int maxWidth = 0;
     for (size_t i = 0; i < Options.size(); ++i) {
-        std::string display = (i == SelectedIndex) ? "> " + Options[i] + " <" : "  " + Options[i] + "  ";
-        DrawText(cx, cy, display);
-        if (bHorizontal) {
-            cx += (int)Options[i].length() + 6;
-        } else {
-            cy++;
+        std::string display = std::to_string(i + 1) + ". " + Options[i];
+        if ((int)display.length() > maxWidth) {
+            maxWidth = (int)display.length();
         }
     }
+
+    int startX = Location.X - maxWidth / 2;
+    int startY = Location.Y;
+
+    for (size_t i = 0; i < Options.size(); ++i) {
+        std::string display = std::to_string(i + 1) + ". " + Options[i];
+        DrawText(startX, startY + (int)i, display);
+    }
+
     std::cout.flush();
 }
 
-// Waits for player to select an option using number keys.
-// Displays numbered list below menu, reads input, validates.
-// Returns zero-based index of the selected option.
-// Inputs: none (uses member variables).
-// Outputs: returns integer choice index.
 int SChoiceMenu::WaitForSelection() {
     Render();
+
+    int maxWidth = 0;
     for (size_t i = 0; i < Options.size(); ++i) {
-        std::cout << "\n  " << (i + 1) << ". " << Options[i];
+        std::string display = std::to_string(i + 1) + ". " + Options[i];
+        if ((int)display.length() > maxWidth) {
+            maxWidth = (int)display.length();
+        }
     }
-    std::cout << "\nEnter choice (1-" << Options.size() << "): ";
+
+    int startX = Location.X - maxWidth / 2;
+    int promptY = Location.Y + (int)Options.size() + 1;
+    std::string prompt = "Enter choice: ";
+
+    DrawText(startX, promptY, prompt);
+    std::cout << "\033[" << promptY << ";" << (startX + (int)prompt.length()) << "H";
 
     int choice;
     std::cin >> choice;
     while (choice < 1 || choice > (int)Options.size()) {
-        std::cout << "invalid. enter 1-" << Options.size() << ": ";
+        std::cout << "\033[" << promptY << ";" << (startX + (int)prompt.length()) << "H";
         std::cin >> choice;
     }
 
-    // Remove the buffer
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return choice - 1;
 }
