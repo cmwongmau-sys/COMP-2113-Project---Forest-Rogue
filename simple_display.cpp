@@ -44,7 +44,7 @@ void startScreen(int health, int food, int water) {
         "    (Below that, starvation or thirst will consume you.)",
         "",
         "Every choice matters. Every resource counts.",
-        "Yout cuurent status:",
+        "Yout current status:",
         "Health: " + to_string(health),
         "Food: " + to_string(food),
         "Water: " + to_string(water),
