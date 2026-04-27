@@ -321,6 +321,8 @@ void SChoiceMenu::Render() {
     int startX = Location.X;
     int startY = Location.Y - 1;
 
+    DrawText(startX, startY - 2, "You have to make a choice:");
+
     for (size_t i = 0; i < Options.size(); ++i) {
         std::string display = std::to_string(i + 1) + ". " + Options[i];
         DrawText(startX, startY + (int)i, display);
