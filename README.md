@@ -13,7 +13,7 @@ Kemausuor Winambe Tetteh-Kumah- UID: 3036478552
 Description:
 **Forest Rogue** is an immersive text-based survival adventure where you must traverse **6 perilous wilderness zones** to escape the ancient forest.
 
-You manage three vital resources for survival — **Health**, **Food**, and **Water** — while facing dynamic random events including bear attacks, hidden treasures, deadly traps, healing water springs, berry rush, changing weather, and peaceful days.
+You manage three key resources for survival — **Health**, **Food**, and **Water** — while facing dynamic random events including bear attacks, hidden treasures, deadly traps, healing water springs, berry rush, changing weather, and peaceful days on different days.
 
 The game features **three unique difficulty levels on your choice** — **Easy**, **Normal**, and **Hard** — which influence starting resources, event probabilities, and severity of outcomes. Every choice you make during events directly impacts your survival and final score.
 
