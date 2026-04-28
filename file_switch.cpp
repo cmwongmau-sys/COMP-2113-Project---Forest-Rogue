@@ -8,6 +8,14 @@
 
 using namespace std;
 
+// Helper function to convert difficulty number to string
+string getDifficultyString(int diff) {
+    if (diff == 0) return "Easy";
+    if (diff == 1) return "Medium";
+    if (diff == 2) return "Hard";
+    return "Unknown";
+}
+
 // Save whole result to scoreboard
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     if (scoreboard.empty()) {
@@ -47,7 +55,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     for (const auto& entry : scoreboard) {
         outFile << left
                 << setw(15) << entry.name
-                << setw(12) << entry.difficulty
+                << setw(12) << getDifficultyString(entry.difficulty)
                 << setw(10) << entry.finalScore
                 << setw(12) << entry.excessFood
                 << setw(12) << entry.excessWater
@@ -156,7 +164,7 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
     cout << left 
          << setw(4)  << "Rank"
          << setw(15) << "Name"
-         << setw(8)  << "Diff"
+         << setw(10)  << "Difficulty"
          << setw(8)  << "Score"
          << setw(10) << "Food"
          << setw(10) << "Water"
@@ -171,7 +179,7 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
         cout << left
              << setw(4)  << rank++
              << setw(15) << sorted[i].name
-             << setw(8)  << sorted[i].difficulty
+             << setw(10)  << getDifficultyString(sorted[i].difficulty)
              << setw(8)  << sorted[i].finalScore
              << setw(10) << sorted[i].excessFood
              << setw(10) << sorted[i].excessWater
