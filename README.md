@@ -19,6 +19,10 @@ Nie Eric Yilong - UID: 3036467931
 Contributions:
 
 1. Hung Kwok Kiu 3036058467:
+  ~construct the scoreboard
+  ~help to manage the switch between files
+  ~construct the readme file
+  
    
 2. Wong Chun Ming Maurice 3036077695:
   ~constructed the main program
@@ -51,6 +55,10 @@ Contributions:
 Files responsible:
 
 1. Hung Kwok Kiu 3036058467:
+   ~file_switch.cpp
+   ~file_switch.h
+   ~readme.md
+  
 
 2. Wong Chun Ming Maurice 3036077695:
    ~main.cpp
