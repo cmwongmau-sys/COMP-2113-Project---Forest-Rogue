@@ -196,6 +196,15 @@ After successful compilation, start the game with:
 - The scoreboard file (scoreboard_YYYY-MM-DD.txt) will be generated automatically after gameplay.
 
 ---
+### 📺 Display Recommendation
+
+Forest Rogue is best experienced in a **run screen console**.  
+For proper text alignment and UI display, please ensure your terminal window is at least:
+
+**90 characters wide × 30 lines tall**
+
+Running the game in smaller windows may cause text wrapping or misaligned UI elements.
+
 
 ## ⚠️ Troubleshooting (User Guide)
 
