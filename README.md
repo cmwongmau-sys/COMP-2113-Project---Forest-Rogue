@@ -176,6 +176,27 @@ Probabilities vary by difficulty (Easy/Normal/Hard).
 - Final Score = Base + Bonus.  
 - Scoreboard file generated via File I/O.
 
+### 🧮 Scoring Examples
+
+To illustrate how the scoring system works, here are two sample calculations:
+
+**Example 1 – Easy Mode Victory**
+- Zones cleared: 6 → Base Score = 600
+- Remaining Health: 85 → Bonus = 85 × 2 = 170
+- Remaining Food: 4 → Bonus = 4 × 5 = 20
+- Remaining Water: 3 → Bonus = 3 × 5 = 15
+- **Final Score = 600 + 170 + 20 + 15 = 805**
+
+**Example 2 – Hard Mode Defeat (Zone 4)**
+- Zones cleared: 4 → Base Score = 400
+- Remaining Health: 0 → Bonus = 0
+- Remaining Food: -2 → Bonus = 0 (starvation)
+- Remaining Water: 1 → Bonus = 5
+- **Final Score = 400 + 5 = 405**
+
+These examples show how survival resources directly impact the final score.
+
+
 ### 9. Example Gameplay Flow
 **Day 1 (Zone 1):** Encounter Berry Bush → +2 food → End: Health 100, Food 4, Water 1.  
 **Day 2 (Zone 2):** Encounter Wolf → Fight → -12 health, +2 food → End: Health 88, Food 5, Water 0.  
