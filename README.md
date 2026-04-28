@@ -96,6 +96,20 @@ The game features **three unique difficulty levels on your choice** — **Easy**
 
 Survive all zones to claim victory with bonus points based on remaining resources, or perish in the forest.
 
+## 📊 Difficulty Comparison Table
+
+The three difficulty modes in Forest Rogue adjust starting resources and event probabilities.  
+This table summarizes the differences:
+
+| Difficulty | Starting Health | Starting Food | Starting Water | Animal Damage | Treasure Chance | Trap Chance | Best For |
+|------------|-----------------|---------------|----------------|---------------|-----------------|-------------|----------|
+| Easy       | 100             | 5             | 3              | Low (5–10)    | High (20%)      | Low (10%)   | Beginners / Learning the game |
+| Medium     | 100             | 3             | 2              | Medium (10–15)| Medium (15%)    | Medium (15%)| Balanced challenge |
+| Hard       | 100             | 2             | 1              | High (15–20)  | Low (10%)       | High (20%)  | Experienced players |
+
+This comparison helps players choose the right mode for their skill level.
+
+
 List of features that we have implemented & Coding Requirement:
 |            Implemented Feature             |                 Coding Requirement               | Related files  |
 |--------------------------------------------|--------------------------------------------------|----------------|
@@ -204,6 +218,31 @@ For proper text alignment and UI display, please ensure your terminal window is 
 **90 characters wide × 30 lines tall**
 
 Running the game in smaller windows may cause text wrapping or misaligned UI elements.
+
+## 💡 Tips for Survival
+
+Here are some strategies to improve your chances of escaping the forest:
+
+- **Conserve Food and Water**  
+  Always keep track of daily consumption. Collect berries and water whenever possible to avoid starvation or dehydration.
+
+- **Know When to Flee**  
+  Fighting animals can cost a lot of health. If your health is low, fleeing may be the safer option.
+
+- **Treasure is Rare in Hard Mode**  
+  Don’t rely on treasure events for survival. Focus on springs and bushes to replenish resources.
+
+- **Balance Risk and Reward**  
+  Some encounters offer big rewards but carry high risk. Consider your current resource levels before making bold choices.
+
+- **Use Save/Load Wisely**  
+  Save your progress before entering a new zone. This allows you to retry if you encounter an unlucky sequence of events.
+
+- **Watch the Weather**  
+  Rain can help restore water, but heat waves and cold snaps can drain resources quickly. Plan accordingly.
+
+These tips are based on playtesting and highlight how different coding elements (random events, difficulty settings, file I/O) affect gameplay.
+
 
 
 ## ⚠️ Troubleshooting (User Guide)
