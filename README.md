@@ -298,10 +298,11 @@ Follow these instructions to compile and run Forest Rogue using a standard C++ c
 - Terminal/command prompt access.
 - No external libraries are required — only standard C++ headers.
 
+## 🔧 Compilation & Execution (Quick Start)
+
 ### 2. Compilation
 Run the following command in the project root directory:
 
-```bash
 make game
 
 ### Notes
@@ -319,6 +320,7 @@ For proper text alignment and UI display, please ensure your terminal window is 
 
 Running the game in smaller windows may cause text wrapping or misaligned UI elements.
 
+---
 ## 💡 Tips for Survival
 
 Here are some strategies to improve your chances of escaping the forest:
@@ -343,32 +345,32 @@ Here are some strategies to improve your chances of escaping the forest:
 
 These tips are based on playtesting and highlight how different coding elements (random events, difficulty settings, file I/O) affect gameplay.
 
-
-
+---
 ## ⚠️ Troubleshooting (User Guide)
 
 If you run into problems compiling or running Forest Rogue, try these solutions:
 
-- Compilation fails  
+- **Compilation fails**  
   Ensure you are using a compiler that supports C++11 or later.  
   Use the provided command exactly as shown in the Quick Start section.  
 
-- Executable not created  
-  Check that all source files (main.cpp, random.cpp, simple_display.cpp, file_switch.cpp) are present in the same folder.  
+- **Executable not created**  
+  Check that all source files (`main.cpp`, `random.cpp`, `simple_display.cpp`, `file_switch.cpp`) are present in the same folder.  
   Re-run the compilation command.  
 
-- Game does not start  
-  Confirm the executable forest_rogue exists in your directory.  
-  Run the game with ./forest_rogue from the terminal.  
+- **Game does not start**  
+  Confirm the executable `game` exists in your directory.  
+  Run the game with `./game` from the terminal.  
 
-- Save/Load not working  
+- **Save/Load not working**  
   Make sure you have permission to write files in the current directory.  
-  Save files are created as .txt files automatically; check the folder for them.  
+  Save files are created as `.txt` files automatically; check the folder for them.  
 
-- Scoreboard missing  
-  The scoreboard file (scoreboard_YYYY-MM-DD.txt) is only generated after a full playthrough.  
+- **Scoreboard missing**  
+  The scoreboard file (`scoreboard_YYYY-MM-DD.txt`) is only generated after a full playthrough.  
   Complete the game to the end to see your score recorded.  
 
+---
 ## 🛠️ Developer Notes
 
 During the development of **Forest Rogue**, several design choices and challenges shaped the final implementation:
@@ -394,10 +396,8 @@ During the development of **Forest Rogue**, several design choices and challenge
 - **Testing & Debugging**  
   We ran multiple simulated playthroughs to verify event probabilities, resource consumption, and win/loss conditions. Debugging focused on edge cases like starvation, dehydration, and save/load consistency.
 
-These notes highlight the reasoning behind our coding elements and show how design decisions support the implemented features.
-
-
-Non-standard Libraries Used:
+### Non-standard Libraries Used
 **None.**  
 Only standard C++ libraries are used:
 - `<iostream>`, `<fstream>`, `<vector>`, `<string>`, `<iomanip>`, `<ctime>`, `<algorithm>`, `<sstream>`, `<cstdlib>`, `<chrono>`, etc.
+
