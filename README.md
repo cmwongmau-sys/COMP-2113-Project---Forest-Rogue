@@ -5,7 +5,7 @@ Team Members:
 
 Hung Kwok Kiu - UID:3036058467
 
-Wong Chin Ming Maurice - UID: 3036077695
+Wong Chun Ming Maurice - UID: 3036077695
 
 Ko Kai Man - UID: 3036390073
 
@@ -20,7 +20,7 @@ Contributions:
 
 1. Hung Kwok Kiu 3036058467:
    
-2. Wong Chin Ming Maurice 3036077695:
+2. Wong Chun Ming Maurice 3036077695:
   ~constructed the main program
   ~designed function to generate the random event
   ~constructed the simple display function for non-interactive screens
@@ -47,7 +47,25 @@ Contributions:
   ~debugging
 
 
+Files responsible:
 
+1. Hung Kwok Kiu 3036058467:
+
+2. Wong Chun Ming Maurice 3036077695:
+   ~main.cpp
+   ~event_generation.cpp
+   ~simple_display.cpp
+   ~GameScreens.cpp
+   ~event_generation.h
+   ~simple_display.h
+   ~GameScreens.h
+
+3. Ko Kai Man 3036390073:
+   ~random.h
+   ~random.cpp
+   ~readme.md
+
+4. 
 
 
 
