@@ -105,6 +105,69 @@ List of features that we have implemented & Coding Requirement:
 |   Struct EventOutcome for event results    | Data structures, vectors for scoring scoreboard  |   WidgetsCore.h|
 |   Code split into multiple .h/.cpp files   |         Program codes in multiple files          |The project is modularized into separate `.h` and `.cpp` files (`main.cpp`, `random.cpp`, `simple_display.cpp`, `file_switch.cpp`, etc.).
 
+## 📖 Forest Rogue – Game Setup & Rules
+
+### 1. Game Concept
+- You are lost in an enchanted forest.
+- Goal: Reach Zone 6 to escape.
+- Manage **Health, Food, Water** to survive.
+- Each day brings random encounters.
+- Game ends when you escape or die.
+
+### 2. Game World
+The forest has **6 zones** in linear order:  
+Zone 1 → Zone 2 → Zone 3 → Zone 4 → Zone 5 → Zone 6  
+You must progress one zone per day, no skipping.
+
+### 3. Player Resources
+- **Health (0–100):** Lost from attacks/traps/weather, gained from healing. If 0 → Game Over.  
+- **Food (Easy: 5, Medium: 3, Hard: 2):** -1 per day, gained from berries/hunting. If ≤ -3 → Game Over.  
+- **Water (Easy: 3, Medium: 2, Hard: 1):** -1 per day, gained from springs/rain. If ≤ -3 → Game Over.  
+
+### 4. Daily Routine
+Each day follows this sequence:
+1. Display current status (resources, zone, day).  
+2. Random encounter occurs.  
+3. Player makes choices (fight/flee/use items).  
+4. Apply encounter effects.  
+5. Daily consumption (-1 food, -1 water).  
+6. Check for death conditions.  
+7. Move to next zone if survived.  
+8. Log the day’s events.
+
+### 5. Random Encounter Types
+- Wild Animal (fight/flee)  
+- Treasure (items gained)  
+- Trap (lose health or resources)  
+- Water Spring (gain water)  
+- Berry Bush (gain food)  
+- Weather Event (random effect)  
+- Empty (nothing happens)  
+
+Probabilities vary by difficulty (Easy/Normal/Hard).
+
+### 6. Difficulty Settings
+- **Easy:** High resources, low damage, higher treasure chance.  
+- **Medium:** Balanced challenge.  
+- **Hard:** Low resources, high damage, higher trap chance.  
+
+### 7. Win/Loss Conditions
+- **Win:** Reach Zone 6 with health > 0.  
+- **Lose:** Health = 0, Food ≤ -3, or Water ≤ -3.  
+
+### 8. Scoring System
+- Base Score = Zones cleared × 100.  
+- Bonus = Remaining health × 2 + Food × 5 + Water × 5.  
+- Final Score = Base + Bonus.  
+- Scoreboard file generated via File I/O.
+
+### 9. Example Gameplay Flow
+**Day 1 (Zone 1):** Encounter Berry Bush → +2 food → End: Health 100, Food 4, Water 1.  
+**Day 2 (Zone 2):** Encounter Wolf → Fight → -12 health, +2 food → End: Health 88, Food 5, Water 0.  
+**Day 3 (Zone 3):** Encounter Water Spring → +3 water → End: Health 88, Food 4, Water 2.  
+... continues until Zone 6 or death.
+
+
 ## 🔧 Compilation & Execution (Quick Start)
 
 Follow these instructions to compile and run Forest Rogue using a standard C++ compiler:
