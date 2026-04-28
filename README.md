@@ -198,11 +198,76 @@ These examples show how survival resources directly impact the final score.
 
 
 ### 9. Example Gameplay Flow
-**Day 1 (Zone 1):** Encounter Berry Bush → +2 food → End: Health 100, Food 4, Water 1.  
-**Day 2 (Zone 2):** Encounter Wolf → Fight → -12 health, +2 food → End: Health 88, Food 5, Water 0.  
-**Day 3 (Zone 3):** Encounter Water Spring → +3 water → End: Health 88, Food 4, Water 2.  
-... continues until Zone 6 or death.
+## 🎮 Extended Sample Gameplay Run (Easy Mode)
 
+Below is a complete playthrough transcript showing all 6 zones in order.
+---
+
+**Day 1 – Zone 1**
+Status: Health 100, Food 5, Water 3  
+Encounter: Berry Bush  
+Outcome: +2 Food  
+Daily Consumption: Food -1, Water -1  
+End of Day: Health 100, Food 6, Water 2  
+
+---
+
+**Day 2 – Zone 2**
+Status: Health 100, Food 6, Water 2  
+Encounter: Wolf Attack  
+Choice: Fight (roll 42 → Win)  
+Outcome: -10 Health, +2 Food  
+Daily Consumption: Food -1, Water -1  
+End of Day: Health 90, Food 7, Water 1  
+
+---
+
+**Day 3 – Zone 3**
+Status: Health 90, Food 7, Water 1  
+Encounter: Water Spring  
+Outcome: +3 Water  
+Daily Consumption: Food -1, Water -1  
+End of Day: Health 90, Food 6, Water 3  
+
+---
+
+**Day 4 – Zone 4**
+Status: Health 90, Food 6, Water 3  
+Encounter: Trap  
+Choice: Escape attempt (Fail)  
+Outcome: -15 Health  
+Daily Consumption: Food -1, Water -1  
+End of Day: Health 75, Food 5, Water 2  
+
+---
+
+**Day 5 – Zone 5**
+Status: Health 75, Food 5, Water 2  
+Encounter: Treasure (Abandoned campsite)  
+Outcome: +2 Food, +1 Water, +30 Health  
+Daily Consumption: Food -1, Water -1  
+End of Day: Health 105, Food 6, Water 2  
+
+---
+
+**Day 6 – Zone 6**
+Status: Health 105, Food 6, Water 2  
+Encounter: Peaceful Day  
+Outcome: No changes  
+Daily Consumption: Food -1, Water -1  
+End of Day: Health 105, Food 5, Water 1  
+
+---
+
+**Victory Screen**
+Congratulations! You survived all 6 zones.  
+Final Scoreboard → Health: 105, Food: 5, Water: 1  
+Base Score: 600  
+Bonus: Health (105×2 = 210) + Food (5×5 = 25) + Water (1×5 = 5)  
+Total Score = 600 + 210 + 25 + 5 = 840  
+Scoreboard file generated: scoreboard_2026-04-28.txt  
+
+---
 
 ## 🔧 Compilation & Execution (Quick Start)
 
