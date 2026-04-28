@@ -10,6 +10,7 @@ using namespace std;
 
 // Save whole result to scoreboard
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
+
     // clear screen
     cout << "\033[2J\033[3J\033[1;1H";
 
@@ -33,7 +34,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    string equals(24, '=');
+    string equals(28, '=');
     outFile << equals << " SURVIVAL SCOREBOARD " << dt << " " << equals << "\n\n";
 
     outFile << left 
@@ -43,9 +44,10 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             << setw(12) << "Food Left"
             << setw(12) << "Water Left"
             << setw(8)  << "Zones"
+            << setw(8)  << "Result"
             << setw(20) << "Date & Time" << endl;
 
-    outFile << string(88, '-') << endl;   // Separator line
+    outFile << string(96, '-') << endl;   // Separator line
 
     // Data Rows
     for (const auto& entry : scoreboard) {
@@ -56,6 +58,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
                 << setw(12) << entry.excessFood
                 << setw(12) << entry.excessWater
                 << setw(8)  << entry.zonesCompleted
+                << setw(8)  << entry.result
                 << setw(20) << entry.dateTime << endl;
     }
 
@@ -64,6 +67,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     cout << "Scoreboard saved successfully (" << scoreboard.size() 
          << " entries) with neat formatting.\n";
     
+    // Wait for user type enter
     cin.get();
 }
 
@@ -125,7 +129,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             s.excessFood     = stoi(tokens[3]);
             s.excessWater    = stoi(tokens[4]);
             s.zonesCompleted = stoi(tokens[5]);
-            s.result         = tokens[6];           // NEW
+            s.result         = tokens[6];           
             s.dateTime       = tokens[7];
 
             // Validation
