@@ -3,12 +3,12 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
-#include <ctime>
 #include <iomanip>
+#include <ctime>
 
 using namespace std;
 
-// Helper function to convert difficulty number to string
+// Convert difficulty number to readable string
 string getDifficultyString(int diff) {
     if (diff == 0) return "Easy";
     if (diff == 1) return "Medium";
@@ -16,14 +16,22 @@ string getDifficultyString(int diff) {
     return "Unknown";
 }
 
-// Save whole result to scoreboard
+// Convert string ("Easy", "0", "Medium", etc.) back to number
+int getDifficultyFromString(const string& str) {
+    if (str == "Easy" || str == "0") return 0;
+    if (str == "Medium" || str == "1") return 1;
+    if (str == "Hard" || str == "2") return 2;
+    return 0; // default to Easy if unknown
+}
+
+// ==================== saveScoreboard ====================
+// Changed: Now uses getDifficultyString() instead of printing the number
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     if (scoreboard.empty()) {
         cout << "Warning: Scoreboard is empty. Nothing to save." << endl;
         return;
     }
 
-    // Sort by FinalScore (highest first)
     sort(scoreboard.begin(), scoreboard.end(), [](const ScoreEntry& a, const ScoreEntry& b) {
         return a.finalScore > b.finalScore;
     });
@@ -38,7 +46,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    outFile << "=== SURVIVAL SCOREBOARD - Updated: " << dt << " ===\n\n";
+    outFile << "=== FOREST ROGUE SCOREBOARD - Updated: " << dt << " ===\n\n";
 
     outFile << left 
             << setw(15) << "Name"
@@ -47,34 +55,33 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             << setw(12) << "Food Left"
             << setw(12) << "Water Left"
             << setw(8)  << "Zones"
+            << setw(8)  << "Result"
             << setw(20) << "Date & Time" << endl;
 
-    outFile << string(85, '-') << endl;   // Separator line
+    outFile << string(92, '-') << endl;
 
-    // Data Rows
     for (const auto& entry : scoreboard) {
         outFile << left
                 << setw(15) << entry.name
-                << setw(12) << getDifficultyString(entry.difficulty)
+                << setw(12) << getDifficultyString(entry.difficulty)  
                 << setw(10) << entry.finalScore
                 << setw(12) << entry.excessFood
                 << setw(12) << entry.excessWater
                 << setw(8)  << entry.zonesCompleted
+                << setw(8)  << entry.result
                 << setw(20) << entry.dateTime << endl;
     }
 
     outFile.close();
-    
-    cout << "Scoreboard saved successfully (" << scoreboard.size() 
-         << " entries) with neat formatting.\n";
+    cout << "Scoreboard saved successfully (" << scoreboard.size() << " entries)\n";
 }
 
-// Load all scoreboard data
+// ==================== loadScoreboard ====================
+// Changed: Now uses getDifficultyFromString() to handle both numbers and text
 void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     scoreboard.clear();
     
     ifstream inFile(file);
-    
     if (!inFile.is_open()) {
         cout << "No scoreboard file found: " << file << endl;
         cout << "Starting with empty scoreboard." << endl;
@@ -91,8 +98,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         
         if (line.empty() || line.find_first_not_of(" \t") == string::npos) continue;
 
-        // Skip header lines
-        if (line.find("=== SURVIVAL SCOREBOARD") != string::npos ||
+        if (line.find("=== FOREST ROGUE SCOREBOARD") != string::npos ||
             line.find("Name") != string::npos && line.find("Difficulty") != string::npos ||
             line.find("-----") != string::npos) {
             headerPassed = true;
@@ -109,28 +115,18 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             tokens.push_back(token);
         }
 
-        // Now expecting 8 columns (added "result")
-        if (tokens.size() != 8) {
-            cerr << "Warning: Skipping corrupted line " << lineNumber << " in " << file << endl;
-            continue;
-        }
+        if (tokens.size() != 8) continue;
 
         try {
             ScoreEntry s;
             s.name           = tokens[0];
-            s.difficulty     = stoi(tokens[1]);
+            s.difficulty     = getDifficultyFromString(tokens[1]);   
             s.finalScore     = stoi(tokens[2]);
             s.excessFood     = stoi(tokens[3]);
             s.excessWater    = stoi(tokens[4]);
             s.zonesCompleted = stoi(tokens[5]);
-            s.result         = tokens[6];           // NEW
+            s.result         = tokens[6];
             s.dateTime       = tokens[7];
-
-            // Validation
-            if (s.difficulty < 0 || s.difficulty > 2 || 
-                s.zonesCompleted < 0 || s.zonesCompleted > 6) {
-                throw invalid_argument("Invalid value");
-            }
 
             scoreboard.push_back(s);
             validCount++;
@@ -145,10 +141,9 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     cout << "Successfully loaded " << validCount << " entries from " << file << endl;
 }
 
-// Display Top 10 Scoreboard (sorted by finalScore descending)
+// ==================== displayTop10 ====================
+// Changed: Now shows "Easy/Medium/Hard" instead of numbers
 void displayTop10(const vector<ScoreEntry>& scoreboard) {
-    cout << "\033[2J\033[1;1H";
-
     if (scoreboard.empty()) {
         cout << "No scores to display yet.\n";
         return;
@@ -159,12 +154,12 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
         return a.finalScore > b.finalScore;
     });
 
-    cout << "\n========== TOP 10 SCOREBOARD ==========\n";
+    cout << "\n========== TOP 10 FOREST ROGUE SCOREBOARD ==========\n";
     
     cout << left 
          << setw(4)  << "Rank"
          << setw(15) << "Name"
-         << setw(10)  << "Difficulty"
+         << setw(10) << "Difficulty"
          << setw(8)  << "Score"
          << setw(10) << "Food"
          << setw(10) << "Water"
@@ -172,14 +167,14 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
          << setw(7)  << "Result"
          << setw(20) << "Date" << endl;
 
-    cout << string(85, '-') << endl;
+    cout << string(90, '-') << endl;
 
     int rank = 1;
     for (int i = 0; i < min(10, (int)sorted.size()); ++i) {
         cout << left
              << setw(4)  << rank++
              << setw(15) << sorted[i].name
-             << setw(10)  << getDifficultyString(sorted[i].difficulty)
+             << setw(10) << getDifficultyString(sorted[i].difficulty)  
              << setw(8)  << sorted[i].finalScore
              << setw(10) << sorted[i].excessFood
              << setw(10) << sorted[i].excessWater
@@ -187,5 +182,5 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
              << setw(7)  << sorted[i].result
              << setw(20) << sorted[i].dateTime << endl;
     }
-    cout << "========================================\n";
+    cout << "==================================================\n";
 }
