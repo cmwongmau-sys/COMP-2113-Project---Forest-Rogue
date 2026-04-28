@@ -146,7 +146,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     inFile.close();
     cout << "Successfully loaded " << validCount << " entries from " << file << endl;
 
-    // Wait for user to press enter
+    // Wait for user type enter
     cin.get();
 }
 
@@ -164,7 +164,7 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
         return a.finalScore > b.finalScore;
     });
 
-    cout << string(38, '=') << " TOP 10 SCOREBOARD " << string(38, '=') << endl;
+    cout << string(39, '=') << " TOP 10 SCOREBOARD " << string(39, '=') << endl;
     
     cout << left 
          << setw(7)  << "Rank"
@@ -177,12 +177,12 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
          << setw(12) << "Result"
          << setw(20) << "Date" << endl;
 
-    cout << string(95, '-') << endl;
+    cout << string(97, '-') << endl;
 
     int rank = 1;
     for (int i = 0; i < min(10, (int)sorted.size()); ++i) {
         cout << left
-             << setw(4)  << rank++
+             << setw(7)  << rank++
              << setw(15) << sorted[i].name
              << setw(8) << sorted[i].difficulty
              << setw(8) << sorted[i].finalScore
