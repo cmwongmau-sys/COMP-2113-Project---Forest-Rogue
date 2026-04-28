@@ -15,6 +15,15 @@ Kemausuor Winambe Tetteh-Kumah - UID: 3036478552
 
 Nie Eric Yilong - UID: 3036467931
 
+Contributions:
+1. Hung Kwok Kiu 3036058467:
+2. Wong Chin Ming Maurice 3036077695:
+  ~constructed the main program
+  ~designed function to generate the random event
+  ~constructed the simple display function for non-interactive screens
+  ~constructed the player set up screen
+  ~debugging
+3. 
 
 
 
