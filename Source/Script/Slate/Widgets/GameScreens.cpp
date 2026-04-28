@@ -273,16 +273,13 @@ void SVictoryScreen::Render() {
     
     int base = ZonesCleared * 100;
     int healthBonus = FinalHealth * 2;
-    int foodBonus = FinalFood * 5;
-    int waterBonus = FinalWater * 5;
-    int subtotal = base + healthBonus + foodBonus + waterBonus;
+    int foodBonus = (FinalFood > 0)? FinalFood * 5 : 0;
+    int waterBonus = (FinalWater > 0)? FinalWater * 5 : 0;
     
     stats << "   base (zones x 100):           " << base << "\n";
     stats << "   remaining health x 2:         " << healthBonus << "\n";
     stats << "   remaining food x 5:           " << foodBonus << "\n";
     stats << "   remaining water x 5:          " << waterBonus << "\n";
-    stats << "   --------------------------------\n";
-    stats << "   subtotal:                     " << subtotal << "\n";
     stats << "   --------------------------------\n";
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
     

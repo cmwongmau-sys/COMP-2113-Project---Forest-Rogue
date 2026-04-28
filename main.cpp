@@ -133,17 +133,19 @@ int main() {
 
     // Calculate the score of the player including the bonus from excess food and water
     int score;
-    score += (health * 2) + (food * 5) + (water * 5) + (zone * 100);
+    int FinalFood = (food > 0)? food : 0;
+    int FinalWater = (water > 0)? water : 0;
+    score += (health * 2) + (FinalFood * 5) + (FinalWater * 5) + (zone * 100);
 
     // Display victory screen if win 
     if (win) {
-        SVictoryScreen victoryScreen(zone, health, food, water, score, 0,0);
+        SVictoryScreen victoryScreen(zone - 1, health, food, water, score, 0,0);
         victoryScreen.Render();
     }
 
     // Display death screen if lose
     else {
-        SDeathScreen deathScreen(zone, health, food, water, score, 0, 0);
+        SDeathScreen deathScreen(zone - 1, health, food, water, score, 0, 0);
         deathScreen.Render();
     }
 
