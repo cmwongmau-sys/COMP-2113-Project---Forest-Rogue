@@ -230,6 +230,33 @@ If you run into problems compiling or running Forest Rogue, try these solutions:
   The scoreboard file (scoreboard_YYYY-MM-DD.txt) is only generated after a full playthrough.  
   Complete the game to the end to see your score recorded.  
 
+## 🛠️ Developer Notes
+
+During the development of **Forest Rogue**, several design choices and challenges shaped the final implementation:
+
+- **Modular Code Structure**  
+  We split the project into multiple `.h` and `.cpp` files to improve readability and teamwork. Each member could focus on specific modules (e.g., random events, UI displays, scoreboard) without conflicts.
+
+- **Random Event System**  
+  Events were implemented using probability ranges (`rand()%100`) to ensure unpredictability. Balancing event probabilities across Easy, Medium, and Hard modes required careful tuning to keep gameplay fair but challenging.
+
+- **Difficulty Balancing**  
+  Starting resources and damage values were adjusted after multiple test runs. For example, Hard mode initially felt impossible, so we reduced trap damage slightly to make survival achievable but still tough.
+
+- **File I/O for Save/Load**  
+  We chose plain text files for simplicity and transparency. This allowed easy debugging of saved states and ensured compatibility across different systems without external libraries.
+
+- **Scoreboard Implementation**  
+  The scoreboard was designed to log results with timestamps (`scoreboard_YYYY-MM-DD.txt`). This not only tracks player progress but also demonstrates use of vectors and structs for storing outcomes.
+
+- **UI Display Constraints**  
+  Since the game is text-based, we optimized output for console readability. A minimum window size of **90×30** was recommended to prevent misaligned text and ensure health/food/water bars display correctly.
+
+- **Testing & Debugging**  
+  We ran multiple simulated playthroughs to verify event probabilities, resource consumption, and win/loss conditions. Debugging focused on edge cases like starvation, dehydration, and save/load consistency.
+
+These notes highlight the reasoning behind our coding elements and show how design decisions support the implemented features.
+
 
 Non-standard Libraries Used:
 **None.**  
