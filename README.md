@@ -31,10 +31,10 @@ List of features that we have implemented & Coding Requirement:
 |            Implemented Feature             |                 Coding Requirement               | Related files  |
 |--------------------------------------------|--------------------------------------------------|----------------|
 | Random events (bear, treasure, trap, etc.) |               Random event generation            |   random.cpp   |
-|   Difficulty selection (Easy/Normal/Hard)  |             Multiple difficulty levels           |
-|        Save & load game state to file      |                     File I/O                     |
-|   Inventory system using dynamic array     |            Dynamic memory management             |
-|   Struct EventOutcome for event results    | Data structures, vectors for scoring scoreboard  |
+|   Difficulty selection (Easy/Normal/Hard)  |             Multiple difficulty levels           |   random.h     |
+|        Save & load game state to file      |                     File I/O                     |   Gamescreen.h |
+|   Inventory system using dynamic array     |            Dynamic memory management             |simple_display.cpp|
+|   Struct EventOutcome for event results    | Data structures, vectors for scoring scoreboard  |   WidgetsCore.h|
 |   Code split into multiple .h/.cpp files   |         Program codes in multiple files          |
 
 Non-standard Libraries Used:
