@@ -103,7 +103,7 @@ List of features that we have implemented & Coding Requirement:
 |   Difficulty selection (Easy/Normal/Hard)  |             Multiple difficulty levels           |   random.h     |
 |        Save & load game state to file      |                     File I/O                     |   Gamescreen.h |
 |   Inventory system using dynamic array     |            Dynamic memory management             |simple_display.cpp|
-|   vectors for scoring scoreboard    | Data structures,   |   WidgetsCore.h|
+|   vectors for scoring scoreboard    | Data structures,   |   file_switch.cpp|
 |   Code split into multiple .h/.cpp files   |         Program codes in multiple files          |The project is modularized into separate `.h` and `.cpp` files (`main.cpp`, `random.cpp`, `simple_display.cpp`, `file_switch.cpp`, etc.).
 
 ## 📖 Forest Rogue – Game Setup & Rules
