@@ -50,9 +50,11 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    string equals(28, '=');
-    outFile << equals << " FOREST ROGUE " << dt << " " << equals << "\n\n";
+    outFile << "=== FOREST ROGUE SCOREBOARD - Updated: " << dt << " ===\n"
 
+    outFile << "Name|Difficulty|Score|Food Left|Water Left|Zones|Result|Date & Time\n";
+    outFile << "---------------------------------------------------------------\n";
+    
     outFile << left 
             << setw(15) << "Name"
             << setw(12) << getDifficultyString(entry.difficulty)
@@ -68,14 +70,14 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     // Data Rows
     for (const auto& entry : scoreboard) {
         outFile << left
-                << setw(15) << entry.name
-                << setw(12) << entry.difficulty
-                << setw(10) << entry.finalScore
-                << setw(12) << entry.excessFood
-                << setw(12) << entry.excessWater
-                << setw(8)  << entry.zonesCompleted
-                << setw(8)  << entry.result
-                << setw(20) << entry.dateTime << endl;
+                << setw(15) << entry.name<< "|"
+                << setw(12) << entry.difficulty<< "|"
+                << setw(10) << entry.finalScore<< "|"
+                << setw(12) << entry.excessFood<< "|"
+                << setw(12) << entry.excessWater<< "|"
+                << setw(8)  << entry.zonesCompleted<< "|"
+                << setw(8)  << entry.result<< "|"
+                << setw(20) << entry.dateTime << "\n";
     }
 
     outFile.close();
@@ -114,9 +116,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         if (line.empty() || line.find_first_not_of(" \t") == string::npos) continue;
 
         // Skip header lines
-        if (line.find("=== FOREST ROGUE SCOREBOARD") != string::npos ||
-            (line.find("Name") != string::npos && line.find("Difficulty") != string::npos) ||
-            line.find("-----") != string::npos) {
+        if (line.find("=== FOREST ROGUE SCOREBOARD") != string::npos) {
             continue;
         }
 
@@ -127,6 +127,8 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         vector<string> tokens;
 
         while (getline(ss, token, '|')) {
+            token.erase(0, token.find_first_not_of(" \t"));
+            token.erase(token.find_last_not_of(" \t") + 1);
             tokens.push_back(token);
         }
 
@@ -139,7 +141,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         try {
             ScoreEntry s;
             s.name           = tokens[0];
-            s.difficulty     = getDifficultyFromString(tokens[1]);   // ← Main change
+            s.difficulty     = getDifficultyFromString(tokens[1]);   
             s.finalScore     = stoi(tokens[2]);
             s.excessFood     = stoi(tokens[3]);
             s.excessWater    = stoi(tokens[4]);
@@ -147,6 +149,10 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             s.result         = tokens[6];
             s.dateTime       = tokens[7];
 
+            if (s.zonesCompleted < 0 || s.zonesCompleted > 6) {
+                throw invalid_argument("Invalid zones");
+            }
+            
             scoreboard.push_back(s);
             validCount++;
 
