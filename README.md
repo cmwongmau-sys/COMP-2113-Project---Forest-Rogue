@@ -291,17 +291,18 @@ Follow these instructions to compile and run Forest Rogue using a standard C++ c
 - Terminal/command prompt access.
 - No external libraries are required — only standard C++ headers.
 
-### Compilation
+## 🔧 Compilation & Execution (Quick Start)
+
+### 1. Prerequisites
+- A C++11 (or later) compiler such as `g++`.
+- Terminal/command prompt access.
+- No external libraries are required — only standard C++ headers.
+
+### 2. Compilation
 Run the following command in the project root directory:
 
-g++ -std=c++11 main.cpp random.cpp simple_display.cpp file_switch.cpp -o forest_rogue
-
-This will generate an executable file named forest_rogue.
-
-### Execution
-After successful compilation, start the game with:
-
-./forest_rogue
+```bash
+make game
 
 ### Notes
 - Ensure all .cpp and .h files are in the same directory before compiling.
