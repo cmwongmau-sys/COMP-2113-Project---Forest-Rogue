@@ -1,4 +1,4 @@
-# SURVIVAL SCOREBOARD  
+======================== SURVIVAL SCOREBOARD 2026-04-28 01:21:19 ======================== 
 
 | Name   | Difficulty | Score | Food Left | Water Left | Zones | Date & Time         |
 |--------|------------|-------|-----------|------------|-------|---------------------|
