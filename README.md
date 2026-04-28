@@ -109,13 +109,18 @@ Survive all zones to claim victory with bonus points based on remaining resource
 The three difficulty modes in Forest Rogue adjust starting resources and event probabilities.  
 This table summarizes the differences:
 
-| Difficulty | Starting Health | Starting Food | Starting Water | Animal Damage | Treasure Chance | Trap Chance | Best For |
-|------------|-----------------|---------------|----------------|---------------|-----------------|-------------|----------|
-| Easy       | 100             | 5             | 3              | Low (5–10)    | High (20%)      | Low (10%)   | Beginners / Learning the game |
-| Medium     | 100             | 3             | 2              | Medium (10–15)| Medium (15%)    | Medium (15%)| Balanced challenge |
-| Hard       | 100             | 2             | 1              | High (15–20)  | Low (10%)       | High (20%)  | Experienced players |
+This combined table shows starting resources by difficulty alongside the probabilities of different encounters.
 
-This comparison helps players choose the right mode for their skill level.
+| Difficulty | Starting Health | Starting Food | Starting Water | Wild Animal | Treasure | Trap | Water Spring | Berry Bush | Weather Event | Empty |
+|------------|-----------------|---------------|----------------|-------------|----------|------|--------------|------------|---------------|-------|
+| Easy       | 100             | 5             | 3              | 20% (Fight/Flee) | 20% (Find items) | 10% (Lose health) | 15% (Gain water) | 15% (Gain food) | 10% (Random effect) | 10% (Nothing) |
+| Medium     | 100             | 3             | 2              | 25% (Fight/Flee) | 15% (Find items) | 15% (Lose health) | 10% (Gain water) | 10% (Gain food) | 15% (Random effect) | 10% (Nothing) |
+| Hard       | 100             | 2             | 1              | 30% (Fight/Flee) | 10% (Find items) | 20% (Lose health) | 5% (Gain water)  | 5% (Gain food)  | 20% (Random effect) | 10% (Nothing) |
+
+---
+
+This unified view makes it easy to see how **difficulty settings** affect both your starting resources and the likelihood of each encounter type.
+It also helps players choose the right mode for their skill level.
 
 
 List of features that we have implemented & Coding Requirement:
