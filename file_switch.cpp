@@ -8,6 +8,22 @@
 
 using namespace std;
 
+// Convert difficulty number to text (Easy/Medium/Hard)
+string getDifficultyString(int diff) {
+    if (diff == 0) return "Easy";
+    if (diff == 1) return "Medium";
+    if (diff == 2) return "Hard";
+    return "Unknown";
+}
+
+// Convert text or number back to int for loading
+int getDifficultyFromString(const string& str) {
+    if (str == "Easy" || str == "0") return 0;
+    if (str == "Medium" || str == "1") return 1;
+    if (str == "Hard" || str == "2") return 2;
+    return 0;   // default to Easy
+}
+
 // Save whole result to scoreboard
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
@@ -39,7 +55,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
     outFile << left 
             << setw(15) << "Name"
-            << setw(12) << "Difficulty"
+            << setw(12) << getDifficultyString(entry.difficulty)
             << setw(10) << "Score"
             << setw(12) << "Food Left"
             << setw(12) << "Water Left"
@@ -78,7 +94,7 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     cout << "\033[2J\033[3J\033[1;1H";
 
     scoreboard.clear();
-    
+
     ifstream inFile(file);
     
     if (!inFile.is_open()) {
@@ -98,8 +114,8 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         if (line.empty() || line.find_first_not_of(" \t") == string::npos) continue;
 
         // Skip header lines
-        if (line.find("=== SURVIVAL SCOREBOARD") != string::npos ||
-            line.find("Name") != string::npos && line.find("Difficulty") != string::npos ||
+        if (line.find("=== FOREST ROGUE SCOREBOARD") != string::npos ||
+            (line.find("Name") != string::npos && line.find("Difficulty") != string::npos) ||
             line.find("-----") != string::npos) {
             headerPassed = true;
             continue;
@@ -115,28 +131,22 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
             tokens.push_back(token);
         }
 
-        // Now expecting 8 columns (added "result")
         if (tokens.size() != 8) {
-            cerr << "Warning: Skipping corrupted line " << lineNumber << " in " << file << endl;
+            cerr << "Warning: Skipping corrupted line " << lineNumber 
+                 << " in " << file << endl;
             continue;
         }
 
         try {
             ScoreEntry s;
             s.name           = tokens[0];
-            s.difficulty     = stoi(tokens[1]);
+            s.difficulty     = getDifficultyFromString(tokens[1]);   // ← Main change
             s.finalScore     = stoi(tokens[2]);
             s.excessFood     = stoi(tokens[3]);
             s.excessWater    = stoi(tokens[4]);
             s.zonesCompleted = stoi(tokens[5]);
-            s.result         = tokens[6];           
+            s.result         = tokens[6];
             s.dateTime       = tokens[7];
-
-            // Validation
-            if (s.difficulty < 0 || s.difficulty > 2 || 
-                s.zonesCompleted < 0 || s.zonesCompleted > 6) {
-                throw invalid_argument("Invalid value");
-            }
 
             scoreboard.push_back(s);
             validCount++;
@@ -188,7 +198,7 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
         cout << left
              << setw(7)  << rank++
              << setw(15) << sorted[i].name
-             << setw(8) << sorted[i].difficulty
+             << setw(10) << getDifficultyString(sorted[i].difficulty)
              << setw(8) << sorted[i].finalScore
              << setw(10) << sorted[i].excessFood
              << setw(10) << sorted[i].excessWater
