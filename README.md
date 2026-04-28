@@ -74,6 +74,16 @@ Files responsible:
    ~random.cpp
    ~scoreboard_2026-04-28-012119.txt
 
+6. Nie Eric Yilong 3036467931:
+   ~SpritesCore.h
+   ~SpritesCore.cpp
+   ~WidgetsCore.h
+   ~WidgetsCore.cpp
+   ~SlateCore.h
+   ~Gamescreens.h (partially)
+   ~Gamescreens.cpp (partially)
+
+
 
 Description:
 **Forest Rogue** is an immersive text-based survival adventure where you must traverse **6 perilous wilderness zones** to escape the ancient forest.
