@@ -2,10 +2,16 @@
 Project title:  Forest Rogue
 
 Team Members:
-Hung Kwok Kiu- UID:3036058467
-Wong Chin Ming Maurice- UID: 3036077695
-Bhavani Menon- UID: 3036476243
-Kemausuor Winambe Tetteh-Kumah- UID: 3036478552
+
+Hung Kwok Kiu - UID:3036058467
+
+Wong Chin Ming Maurice - UID: 3036077695
+
+Bhavani Menon - UID: 3036476243
+
+Kemausuor Winambe Tetteh-Kumah - UID: 3036478552
+
+Nie Eric Yilong - UID: 3036467931
 
 
 
