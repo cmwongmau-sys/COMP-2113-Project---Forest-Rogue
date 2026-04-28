@@ -23,7 +23,11 @@ Contributions:
   ~constructed the simple display function for non-interactive screens
   ~constructed the player set up screen
   ~debugging
-3. 
+3. Ko Kai Man 3036390073:
+  ~Designed and debugged some random events.
+  ~Final checking and amendments on random.cpp
+  ~Worked on the readme.
+
 
 
 
