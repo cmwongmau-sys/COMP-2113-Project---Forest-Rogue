@@ -7,6 +7,8 @@ Hung Kwok Kiu - UID:3036058467
 
 Wong Chin Ming Maurice - UID: 3036077695
 
+Ko Kai Man - UID:3036390073
+
 Bhavani Menon - UID: 3036476243
 
 Kemausuor Winambe Tetteh-Kumah - UID: 3036478552
@@ -24,6 +26,16 @@ You manage three key resources for survival — **Health**, **Food**, and **Wate
 The game features **three unique difficulty levels on your choice** — **Easy**, **Normal**, and **Hard** — which influence starting resources, event probabilities, and severity of outcomes. Every choice you make during events directly impacts your survival and final score.
 
 Survive all zones to claim victory with bonus points based on remaining resources, or perish in the forest.
+
+List of features that we have implemented & Coding Requirement:
+|            Implemented Feature             |                 Coding Requirement               | Related files  |
+|--------------------------------------------|--------------------------------------------------|----------------|
+| Random events (bear, treasure, trap, etc.) |               Random event generation            |   random.cpp   |
+|   Difficulty selection (Easy/Normal/Hard)  |             Multiple difficulty levels           |
+|        Save & load game state to file      |                     File I/O                     |
+|   Inventory system using dynamic array     |            Dynamic memory management             |
+|   Struct EventOutcome for event results    | Data structures, vectors for scoring scoreboard  |
+|   Code split into multiple .h/.cpp files   |         Program codes in multiple files          |
 
 Non-standard Libraries Used:
 **None.**  
