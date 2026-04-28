@@ -27,6 +27,10 @@ Contributions:
   ~Designed and debugged some random events.
   ~Final checking and amendments on random.cpp
   ~Worked on the readme.
+4. Bhavani Menon 3036476243:
+  ~designed and coded game screens for UI displays
+  ~coordinated on workspace management
+5. 
 
 
 
