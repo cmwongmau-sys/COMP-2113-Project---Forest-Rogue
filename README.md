@@ -39,8 +39,9 @@ Contributions:
 5. Kemausuor Winambe Tetteh-Kumah 3036478552:
   ~designed and debugged some random events.
   ~worked on the scoreboard data.
+  ~worked on the readme file
 
-6. Nie Eric Yilong 3036467931:
+7. Nie Eric Yilong 3036467931:
   ~help constructed project architecture
   ~constructed base classes and templates for displays
   ~developed generic-use wrapper classes for UI displays
