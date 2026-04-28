@@ -15,25 +15,37 @@ Kemausuor Winambe Tetteh-Kumah - UID: 3036478552
 
 Nie Eric Yilong - UID: 3036467931
 
+
 Contributions:
+
 1. Hung Kwok Kiu 3036058467:
+   
 2. Wong Chin Ming Maurice 3036077695:
   ~constructed the main program
   ~designed function to generate the random event
   ~constructed the simple display function for non-interactive screens
   ~constructed the player set up screen
   ~debugging
+
 3. Ko Kai Man 3036390073:
   ~Designed and debugged some random events.
   ~Final checking and amendments on random.cpp
   ~Worked on the readme.
+
 4. Bhavani Menon 3036476243:
   ~designed and coded game screens for UI displays
   ~coordinated on workspace management
+
 5. Kemausuor Winambe Tetteh-Kumah 3036478552:
   ~designed and debugged some random events.
   ~worked on the scoreboard data.
-6. 
+
+6. Nie Eric Yilong 3036467931:
+  ~help constructed project architecture
+  ~constructed base classes and templates for displays
+  ~developed generic-use wrapper classes for UI displays
+  ~debugging
+
 
 
 
