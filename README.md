@@ -69,7 +69,10 @@ Files responsible:
    ~Gamescreens.h
    ~Gamescreens.cpp
 
-5. 
+5. Kemausuor Winambe Tetteh-Kumah 3036478552：
+   ~random.h
+   ~random.cpp
+   ~scoreboard_2026-04-28-012119.txt
 
 
 Description:
