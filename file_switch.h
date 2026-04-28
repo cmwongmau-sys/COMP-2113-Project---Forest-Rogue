@@ -7,7 +7,7 @@ using namespace std;
 
 struct ScoreEntry {
     string name;
-    int difficulty; //kept as int here (0,1,2)
+    int difficulty;     // kept as int here
     int finalScore;
     int excessFood;
     int excessWater;
