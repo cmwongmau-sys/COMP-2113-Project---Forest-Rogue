@@ -50,7 +50,18 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    outFile << "=== FOREST ROGUE SCOREBOARD - Updated: " << dt << " ===\n"
+    outFile << "=== FOREST ROGUE SCOREBOARD - Updated: " + string(dt);
+
+    const int lineWidth = 80;                    
+    int padding = (lineWidth - title.length()) / 2;
+    if (padding < 0) padding = 0;
+
+    string centeredTitle = string(padding, ' ') + title;
+
+    // Write centered title with === borders
+    outFile << string(lineWidth, '=') << "\n";
+    outFile << centeredTitle << "\n";
+    outFile << string(lineWidth, '=') << "\n\n";
 
     outFile << "Name|Difficulty|Score|Food Left|Water Left|Zones|Result|Date & Time\n";
     outFile << "---------------------------------------------------------------\n";
