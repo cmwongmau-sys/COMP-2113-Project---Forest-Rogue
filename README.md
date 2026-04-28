@@ -73,8 +73,9 @@ Files responsible:
    ~random.h
    ~random.cpp
    ~scoreboard_2026-04-28-012119.txt
+   ~readme.md
 
-6. Nie Eric Yilong 3036467931:
+7. Nie Eric Yilong 3036467931:
    ~SpritesCore.h
    ~SpritesCore.cpp
    ~WidgetsCore.h
@@ -102,7 +103,7 @@ List of features that we have implemented & Coding Requirement:
 |        Save & load game state to file      |                     File I/O                     |   Gamescreen.h |
 |   Inventory system using dynamic array     |            Dynamic memory management             |simple_display.cpp|
 |   Struct EventOutcome for event results    | Data structures, vectors for scoring scoreboard  |   WidgetsCore.h|
-|   Code split into multiple .h/.cpp files   |         Program codes in multiple files          |
+|   Code split into multiple .h/.cpp files   |         Program codes in multiple files          |The project is modularized into separate `.h` and `.cpp` files (`main.cpp`, `random.cpp`, `simple_display.cpp`, `file_switch.cpp`, etc.).
 
 ## 🔧 Compilation & Execution (Quick Start)
 
