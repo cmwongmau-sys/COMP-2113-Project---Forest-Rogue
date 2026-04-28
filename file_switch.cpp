@@ -69,6 +69,10 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
 // Load all scoreboard data
 void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
+
+    // Clear screen for outputing message later
+    cout << "\033[2J\033[3J\033[1;1H";
+
     scoreboard.clear();
     
     ifstream inFile(file);
@@ -141,6 +145,9 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
     inFile.close();
     cout << "Successfully loaded " << validCount << " entries from " << file << endl;
+
+    // Wait for user to press enter
+    cin.get();
 }
 
 // Display Top 10 Scoreboard (sorted by finalScore descending)
