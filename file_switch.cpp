@@ -24,7 +24,7 @@ int getDifficultyFromString(const string& str) {
     return 0;   // default to Easy
 }
 
-// Save whole result to scoreboard
+// Save the whole result to the scoreboard
 void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
     // clear screen
@@ -51,7 +51,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
     string equals(28, '=');
-    outFile << equals << " SURVIVAL SCOREBOARD " << dt << " " << equals << "\n\n";
+    outFile << equals << " FOREST ROGUE " << dt << " " << equals << "\n\n";
 
     outFile << left 
             << setw(15) << "Name"
@@ -90,7 +90,7 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 // Load all scoreboard data
 void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
-    // Clear screen for outputing message later
+    // Clear screen for outputting message later
     cout << "\033[2J\033[3J\033[1;1H";
 
     scoreboard.clear();
@@ -117,7 +117,6 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         if (line.find("=== FOREST ROGUE SCOREBOARD") != string::npos ||
             (line.find("Name") != string::npos && line.find("Difficulty") != string::npos) ||
             line.find("-----") != string::npos) {
-            headerPassed = true;
             continue;
         }
 
