@@ -50,42 +50,31 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     char dt[30];
     strftime(dt, sizeof(dt), "%Y-%m-%d %H:%M:%S", localtime(&now));
 
-    string title = "FOREST ROGUE SCOREBOARD - Updated: " + string(dt);
-    const int width = 80;
-    int padding = (width - title.length()) / 2;
-    if (padding < 0) padding = 0;
-
-    outFile << string(width, '=') << "\n";
-    outFile << string(padding, ' ') << title << "\n";
-    outFile << string(width, '=') << "\n\n";
-
-    outFile << "Name|Difficulty|Score|Food Left|Water Left|Zones|Result|Date & Time\n";
-
-    // Separator
-    outFile << string(80, '-') << "\n";
+    string equals(40, '=');
+    outFile << equals << " FOREST ROGUE SCOREBOARD " << equals << "\n\n";
     
     outFile << left 
-            << setw(15) << "Name"
-            << setw(12) << getDifficultyString(entry.difficulty)
-            << setw(10) << "Score"
-            << setw(12) << "Food Left"
-            << setw(12) << "Water Left"
-            << setw(8)  << "Zones"
-            << setw(8)  << "Result"
+            << setw(15) << "Name" << "|"
+            << setw(12) << "Difficulty" << "|"
+            << setw(10) << "Score" << "|"
+            << setw(12) << "Food Left" << "|"
+            << setw(12) << "Water Left" << "|"
+            << setw(8)  << "Zones" << "|"
+            << setw(8)  << "Result" << "|"
             << setw(20) << "Date & Time" << endl;
 
-    outFile << string(96, '-') << endl;   // Separator line
+    outFile << string(105, '-') << endl;   // Separator line
 
     // Data Rows
     for (const auto& entry : scoreboard) {
         outFile << left
-                << setw(15) << entry.name<< "|"
-                << setw(12) << entry.difficulty<< "|"
-                << setw(10) << entry.finalScore<< "|"
-                << setw(12) << entry.excessFood<< "|"
-                << setw(12) << entry.excessWater<< "|"
-                << setw(8)  << entry.zonesCompleted<< "|"
-                << setw(8)  << entry.result<< "|"
+                << setw(15) << entry.name << "|"
+                << setw(12) << getDifficultyString(entry.difficulty) << "|"
+                << setw(10) << entry.finalScore << "|"
+                << setw(12) << entry.excessFood << "|"
+                << setw(12) << entry.excessWater << "|"
+                << setw(8)  << entry.zonesCompleted << "|"
+                << setw(8)  << entry.result << "|"
                 << setw(20) << entry.dateTime << "\n";
     }
 
@@ -124,8 +113,8 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         
         if (line.empty() || line.find_first_not_of(" \t") == string::npos) continue;
 
-        // Skip main title header lines
-        if (line.find("=== FOREST ROGUE SCOREBOARD") != string::npos) {
+        // Skip the header lines
+        if (lineNumber < 5 ) {
             continue;
         }
 
