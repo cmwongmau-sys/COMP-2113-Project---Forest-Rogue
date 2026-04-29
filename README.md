@@ -317,16 +317,13 @@ Scoreboard file generated: scoreboard_2026-04-28.txt
 ---
 If the user failed the game at some point;
 
-======================================== GAME OVER ========================================
-
-You have perished in the forest...
-
-Final Scoreboard Entry:
-Base Score = Zones Cleared × 100
-Bonus = Remaining Health × 2 + Food × 5 + Water × 5
-Total Score = Base + Bonus
+**Game Over Screen**
+You have perished in the forest after [Zone Number] zones.  
+Final Scoreboard → Health: [Health Value], Food: [Food Value], Water: [Water Value]  
+Base Score: [Zones Cleared × 100]  
+Bonus: Health ([Health Value] × 2) + Food ([Food Value] × 5) + Water ([Water Value] × 5)  
+Total Score = Base + Bonus  
 Scoreboard file generated: scoreboard_YYYY-MM-DD.txt
-============================================================================================
 
 ## 🔧 Compilation & Execution (Quick Start)
 
