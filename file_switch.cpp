@@ -3,8 +3,8 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
-#include <ctime>
 #include <iomanip>
+#include <ctime>
 
 using namespace std;
 
@@ -35,7 +35,6 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
         return;
     }
 
-    // Sort by FinalScore (highest first)
     sort(scoreboard.begin(), scoreboard.end(), [](const ScoreEntry& a, const ScoreEntry& b) {
         return a.finalScore > b.finalScore;
     });
@@ -65,7 +64,6 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
     outFile << string(105, '-') << endl;   // Separator line
 
-    // Data Rows
     for (const auto& entry : scoreboard) {
         outFile << left
                 << setw(15) << entry.name << "|"
@@ -87,7 +85,8 @@ void saveScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     cin.get();
 }
 
-// Load all scoreboard data
+// ==================== loadScoreboard ====================
+// Changed: Now uses getDifficultyFromString() to handle both numbers and text
 void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
 
     // Clear screen for outputting message later
@@ -96,7 +95,6 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     scoreboard.clear();
 
     ifstream inFile(file);
-    
     if (!inFile.is_open()) {
         cout << "No scoreboard file found: " << file << endl;
         cout << "Starting with empty scoreboard." << endl;
@@ -165,7 +163,8 @@ void loadScoreboard(vector<ScoreEntry>& scoreboard, string file) {
     cin.get();
 }
 
-// Display Top 10 Scoreboard (sorted by finalScore descending)
+// ==================== displayTop10 ====================
+// Changed: Now shows "Easy/Medium/Hard" instead of numbers
 void displayTop10(const vector<ScoreEntry>& scoreboard) {
     cout << "\033[2J\033[3J\033[1;1H";
 
@@ -207,5 +206,5 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
              << setw(12) << sorted[i].result
              << setw(20) << sorted[i].dateTime << endl;
     }
-    cout << "========================================\n";
+    cout << "==================================================\n";
 }
