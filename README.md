@@ -170,49 +170,41 @@ Each day follows this sequence:
 ### 5. Random Encounter Types
 Each day in the forest brings a new challenge. The following events are randomly triggered, with probabilities varying by difficulty level:
 
-- **Wild Animal Encounter (Fight or Flee)**  
-  You may face a bear, wolf, or other predator.  
-  - *Fight:* Risk losing health but gain food if victorious.  
-  - *Flee:* Safer option, but failure to escape can still cost health.  
-  This event tests your survival instincts and resource balance.
+## 🎲 Random Event Mechanics
 
-- **Treasure Discovery (Items Gained)**  
-  Hidden caches may contain food, water, or healing potions.  
-  - Rewards are randomized, often 1–3 items.  
-  - Potions can restore health up to the maximum cap.  
-  Treasure events provide rare boosts, especially valuable in Hard mode.
+- **Wild Animal (Fight/Flee)**  
+  - 50% chance to win the fight.  
+  - If you win: gain +2 to +4 Food, lose 0 to 2 Health.  
+  - If you lose: lose 3 to 5 Health, no Food gained.  
+  - If you flee: 70% chance to escape safely; otherwise lose 1 to 3 Health.
 
-- **Trap Encounter (Lose Health or Resources)**  
-  Snare traps or pitfalls can ensnare you.  
-  - *Escape:* Success means no penalty; failure costs health.  
-  - *Cut Free:* Sacrifice food to escape.  
-  - *Wait for Help:* Lose food and water but eventually escape.  
-  Traps force tough choices between resources and health.
+- **Treasure (Items Gained)**  
+  - Always grants 1 to 3 random items.  
+  - Possible items: +2 to +5 Food, +2 to +5 Water, +1 Health potion (restores 5 Health).  
+  - Items are added directly to inventory.
+
+- **Trap (Lose Health or Resources)**  
+  - 60% chance to lose 2 to 4 Health.  
+  - 40% chance to lose 1 to 2 Food or Water.  
+  - No rewards.
 
 - **Water Spring (Gain Water)**  
-  A natural spring restores your water supply.  
-  - Gain 1–3 units of water.  
-  - Critical for survival during heat waves or dehydration risk.  
-  Springs are lifesavers in long runs.
+  - Gain +2 to +4 Water units.  
+  - No Health or Food changes.
 
 - **Berry Bush (Gain Food)**  
-  Wild berries replenish food reserves.  
-  - Gain 1–3 units of food.  
-  - Essential for avoiding starvation penalties.  
-  Bushes are common but not always enough in Hard mode.
+  - Gain +2 to +4 Food units.  
+  - No Health or Water changes.
 
 - **Weather Event (Random Effect)**  
-  The forest climate shifts unpredictably.  
-  - *Rain:* Restores water.  
-  - *Heat Wave:* Increases daily water consumption.  
-  - *Cold Snap:* Increases daily food consumption.  
-  Weather adds dynamic difficulty and forces adaptive strategy.
+  - Rain: +2 Water.  
+  - Heat Wave: daily Water consumption increases by +1.  
+  - Cold Snap: daily Food consumption increases by +1.  
+  - Each effect has equal probability (1/3).
 
-- **Empty Event (Nothing Happens)**  
-  A peaceful day passes without incident.  
-  - No resources gained or lost.  
-  - Offers a breather between harsher encounters.  
-  Empty days are rare but welcome reprieves.
+- **Empty (Nothing Happens)**  
+  - No changes to Health, Food, or Water.  
+  - Simply proceed to next day.
 
 Probabilities vary by difficulty (Easy/Normal/Hard).
 
@@ -329,22 +321,6 @@ If the user failed the game at some point;
 
 You have perished in the forest...
 
-Final Status:
-- Zone Reached: [Zone Number]
-- Health: [Health Value]
-- Food: [Food Value]
-- Water: [Water Value]
-
-Cause of Death:
-- Health depleted to 0
-OR
-- Starvation (Food ≤ -3)
-OR
-- Dehydration (Water ≤ -3)
-
-Your journey ends here. The forest claims another soul.
-
---------------------------------------------------------------------------------------------
 Final Scoreboard Entry:
 Base Score = Zones Cleared × 100
 Bonus = Remaining Health × 2 + Food × 5 + Water × 5
