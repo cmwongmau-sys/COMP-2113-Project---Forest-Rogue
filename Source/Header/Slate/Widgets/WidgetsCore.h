@@ -1,7 +1,7 @@
 #ifndef WIDGETS_CORE_H
 #define WIDGETS_CORE_H
 
-#include "../Sprites/SpritesCore.h"
+#include "../../../Header/Slate/Sprites/SpritesCore.h"
 #include <string>
 
 class IWidget : public ISprite {

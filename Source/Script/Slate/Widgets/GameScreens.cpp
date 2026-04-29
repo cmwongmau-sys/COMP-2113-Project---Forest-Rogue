@@ -1,7 +1,10 @@
-#include "Slate/Widgets/GameScreens.h"
-#include "Slate/Widgets/WidgetsCore.h"
+#include "../../../Header/Slate/Widgets/GameScreens.h"
+#include "../../../Header/Slate/Widgets/WidgetsCore.h"
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <vector>
+#include <limits>
 
 // helper to draw a status bar
 // uses SBar widget
@@ -11,7 +14,11 @@ void DrawBar(int x, int y, int width, int current, int max,
              const std::string fillChar,
              const std::string emptyChar)
 {
-    float percent = (max > 0) ? (float)current / max : 0.0f;
+    int displayCurrent = current;
+    if (displayCurrent < 0) displayCurrent = 0;
+    if (displayCurrent > max) displayCurrent = max;
+
+    float percent = (max > 0) ? (float)displayCurrent / max : 0.0f;
     SBar bar(x, y, width, 1, percent, emptyChar, fillChar);
     bar.Render();
 }
@@ -52,26 +59,26 @@ SEventResultScreen::SEventResultScreen(const EventOutcome& outcome,
 // Outputs: none (draws to screen, waits for user input).
 void SEventResultScreen::Render() {
     // clear screen and move cursor to top
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     // apply location offset
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
     // outer box frame
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
     
     // title bar at top
-    SRectFilled titleBar(x, y, 60, 1, "#");
+    SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
-    DrawText(x + 15, y, "- EVENT RESULT -");
+    DrawText(x + 80/2 - 8, y, "- EVENT RESULT -");
     
     // event name
     DrawText(x + 2, y + 3, "EVENT: " + Outcome.eventName);
     
     // separator line
-    SRectFilled sep(x + 2, y + 4, 56, 1, "─");
+    SRectFilled sep(x + 2, y + 4, 76, 1, "─");
     sep.Render();
     
     // player's choice and what happened
@@ -96,7 +103,7 @@ void SEventResultScreen::Render() {
     DrawText(x + 2, y + 14, status.str());
     
     // footer and wait for player
-    DrawText(x + 15, y + 16, "PRESS ENTER");
+    DrawText(x + 80/2 - 6, y + 19, "PRESS ENTER");
     
     // wait for user to press enter
     std::cin.get();
@@ -128,18 +135,18 @@ SDailySummaryScreen::SDailySummaryScreen(int day, int zone, int totalZones,
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen, waits for input).
 void SDailySummaryScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
     // outer frame
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
     
     // title
     std::string titleText = "END OF DAY " + std::to_string(Day);
-    DrawText(x + 20, y + 1, titleText);
+    DrawText(x + 80/2 - 6, y + 1, titleText);
     
     // daily consumption section
     DrawText(x + 3, y + 4, "DAILY CONSUMPTION:");
@@ -148,24 +155,24 @@ void SDailySummaryScreen::Render() {
     
     // health bar
     DrawText(x + 3, y + 9, "HEALTH:");
-    DrawBar(x + 13, y + 9, 40, Health, MaxHealth);
+    DrawBar(x + 13, y + 9, 40, Health, MaxHealth, "█", ".");
     DrawText(x + 55, y + 9, std::to_string(Health) + "/" + std::to_string(MaxHealth));
     
     // food bar
     DrawText(x + 3, y + 11, "FOOD:");
-    DrawBar(x + 13, y + 11, 40, Food, MaxFood);
+    DrawBar(x + 13, y + 11, 40, Food, MaxFood, "█", ".");
     DrawText(x + 55, y + 11, std::to_string(Food) + "/" + std::to_string(MaxFood));
     
     // water bar
     DrawText(x + 3, y + 13, "WATER:");
-    DrawBar(x + 13, y + 13, 40, Water, MaxWater);
+    DrawBar(x + 13, y + 13, 40, Water, MaxWater, "█", ".");
     DrawText(x + 55, y + 13, std::to_string(Water) + "/" + std::to_string(MaxWater));
     
     // zone progress
     DrawText(x + 3, y + 16, "Zone: " + std::to_string(Zone) + "/" + std::to_string(TotalZones));
     
     // footer and wait for player
-    DrawText(x + 15, y + 18, "Press Enter");
+    DrawText(x + 80/2 - 6, y + 19, "PRESS ENTER");
     
     // wait for user to press enter
     std::cin.get();
@@ -193,19 +200,19 @@ SDeathScreen::SDeathScreen(int zonesCleared,
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen, waits for input).
 void SDeathScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
-    SRectFilled titleBar(x, y, 60, 1, "#");
+    SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
-    DrawText(x + 18, y, "- GAME OVER -");
+    DrawText(x + 80/2 - 6, y, "- GAME OVER -");
     
     std::stringstream stats;
-    stats << "\n   you didn't survive the forest...\n\n";
+    stats << "\n   You didn't survive the forest...\n\n";
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
@@ -213,7 +220,6 @@ void SDeathScreen::Render() {
     stats << "   food left: " << FinalFood << "\n";
     stats << "   water left: " << FinalWater << "\n\n";
     stats << "   FINAL SCORE: " << FinalScore << "\n\n";
-    stats << "   [1] new game    [2] quit";
     
     STextBox statsBox(x + 2, y + 3, 56, 14, stats.str(), true, true);
     statsBox.Render();
@@ -245,19 +251,19 @@ SVictoryScreen::SVictoryScreen(int zonesCleared,
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen, waits for input).
 void SVictoryScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << "\033[2J\033[3J\033[1;1H";
     
     int x = 5 + Location.X;
     int y = 2 + Location.Y;
     
-    SRectWireframe outer(x, y, 60, 18);
+    SRectWireframe outer(x, y, 80, 22);
     outer.Render();
-    SRectFilled titleBar(x, y, 60, 1, "#");
+    SRectFilled titleBar(x, y, 80, 1, "#");
     titleBar.Render();
-    DrawText(x + 28, y, "- VICTORY -");
+    DrawText(x + 80/2 - 6, y, "- VICTORY -");
     
     std::stringstream stats;
-    stats << "\n   you escaped the forest\n\n";
+    stats << "   You escaped the forest.\n\n";
     stats << "   FINAL STATS\n";
     stats << "   --------------------------------\n";
     stats << "   zones cleared: " << ZonesCleared << "/6\n";
@@ -267,19 +273,15 @@ void SVictoryScreen::Render() {
     
     int base = ZonesCleared * 100;
     int healthBonus = FinalHealth * 2;
-    int foodBonus = FinalFood * 5;
-    int waterBonus = FinalWater * 5;
-    int subtotal = base + healthBonus + foodBonus + waterBonus;
+    int foodBonus = (FinalFood > 0)? FinalFood * 5 : 0;
+    int waterBonus = (FinalWater > 0)? FinalWater * 5 : 0;
     
     stats << "   base (zones x 100):           " << base << "\n";
     stats << "   remaining health x 2:         " << healthBonus << "\n";
     stats << "   remaining food x 5:           " << foodBonus << "\n";
     stats << "   remaining water x 5:          " << waterBonus << "\n";
     stats << "   --------------------------------\n";
-    stats << "   subtotal:                     " << subtotal << "\n";
-    stats << "   --------------------------------\n";
     stats << "   FINAL SCORE:                  " << FinalScore << "\n\n";
-    stats << "   [1] play again   [2] high scores   [3] quit";
     
     STextBox statsBox(x + 2, y + 3, 56, 18, stats.str(), true, true);
     statsBox.Render();
@@ -305,62 +307,76 @@ SChoiceMenu::SChoiceMenu(const std::vector<std::string>& options, int x, int y, 
 // Inputs: none (uses member variables).
 // Outputs: none (draws to screen).
 void SChoiceMenu::Render() {
-    int cx = Location.X;
-    int cy = Location.Y;
+    int maxWidth = 0;
     for (size_t i = 0; i < Options.size(); ++i) {
-        std::string display = (i == SelectedIndex) ? "> " + Options[i] + " <" : "  " + Options[i] + "  ";
-        DrawText(cx, cy, display);
-        if (bHorizontal) {
-            cx += (int)Options[i].length() + 6;
-        } else {
-            cy++;
+        std::string display = std::to_string(i + 1) + ". " + Options[i];
+        if ((int)display.length() > maxWidth) {
+            maxWidth = (int)display.length();
         }
     }
+
+    int startX = Location.X;
+    int startY = Location.Y - 1;
+
+    DrawText(startX, startY - 2, "You have to make a choice:");
+
+    for (size_t i = 0; i < Options.size(); ++i) {
+        std::string display = std::to_string(i + 1) + ". " + Options[i];
+        DrawText(startX, startY + (int)i, display);
+    }
+
     std::cout.flush();
 }
 
-// Waits for player to select an option using number keys.
-// Displays numbered list below menu, reads input, validates.
-// Returns zero-based index of the selected option.
-// Inputs: none (uses member variables).
-// Outputs: returns integer choice index.
 int SChoiceMenu::WaitForSelection() {
-    Render();  // draws the highlighted options
+    Render();
 
-    // Draw numbered list inside the frame
-    int promptY = Y + Options.size() + 2;  // e.g., Y=14, size=2 -> row 18
+    int maxWidth = 0;
     for (size_t i = 0; i < Options.size(); ++i) {
-        DrawText(X, promptY + i, "  " + to_string(i+1) + ". " + Options[i]);
+        std::string display = std::to_string(i + 1) + ". " + Options[i];
+        if ((int)display.length() > maxWidth) {
+            maxWidth = (int)display.length();
+        }
     }
-    DrawText(X, promptY + Options.size(), "enter choice (1-" + to_string(Options.size()) + "): ");
-    
-    // Move cursor to the end of the prompt line
-    int cursorX = X + string("enter choice (1-2): ").length();
-    DrawText(cursorX, promptY + Options.size(), "");
-    
+
+    int startX = Location.X;
+    int startY = Location.Y - 1;
+    int promptY = startY + (int)Options.size() + 1;
+    std::string prompt = "Enter choice: ";
+
+    DrawText(startX, promptY, prompt);
+    std::cout << "\033[" << promptY << ";" << (startX + (int)prompt.length()) << "H";
+
     int choice;
-    cin >> choice;
+    std::cin >> choice;
     while (choice < 1 || choice > (int)Options.size()) {
-        DrawText(X, promptY + Options.size() + 1, "invalid. enter 1-" + to_string(Options.size()) + ": ");
-        cin >> choice;
+        std::cout << "\033[" << promptY << ";" << (startX + (int)prompt.length()) << "H";
+        std::cin >> choice;
     }
+
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return choice - 1;
 }
+
 
 // ============================================================
 // SSetUpScreen
 // ============================================================
 SPlayerSetupScreen::SPlayerSetupScreen(int x, int y) : IScreenBase(x, y) {}
 
+// Draw the frame to show the set up screen
 void SPlayerSetupScreen::Render() {
-    std::cout << "\033[2J\033[1;1H";   // clear screen
+    std::cout << "\033[2J\033[3J\033[1;1H";   // clear screen
     int x = Location.X + 5;
     int y = Location.Y + 2;
-    SRectWireframe frame(x, y, 60, 18);
+    SRectWireframe frame(x, y, 80, 22);
     frame.Render();
-    DrawText(x + 60/2 - 6, y + 1, "PLAYER SETUP");
+    DrawText(x + 80/2 - 6, y + 1, "PLAYER SETUP");
 }
 
+// Ask the player about a question
+// Input: coordinates of cursor, question text
+// Output: answer (string)
 std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& prompt) {
     DrawText(x, y, prompt);
     // Move cursor to end of prompt
@@ -370,15 +386,19 @@ std::string SPlayerSetupScreen::GetUserInput(int x, int y, const std::string& pr
     return input;
 }
 
+// Ask the player about a yes/no question
+// Input: coordinates of cursor, question text
+// Output: yes/no (bool)
 bool SPlayerSetupScreen::AskYesNo(int x, int y, const std::string& question) {
     DrawText(x, y, question + " (Y/N): ");
     std::cout << "\033[" << y << ";" << (x + question.length() + 8) << "H";
     char ch;
     std::cin >> ch;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
     return (ch == 'y' || ch == 'Y');
 }
 
+// Draw the screen to prompt player to input set up info
 SPlayerSetupInfo SPlayerSetupScreen::Run() {
     Render();   // draw the background frame
 
