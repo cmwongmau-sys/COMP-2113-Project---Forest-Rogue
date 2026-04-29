@@ -160,20 +160,59 @@ Each day follows this sequence:
 1. Display current status (resources, zone, day).  
 2. Random encounter occurs.  
 3. Player makes choices (fight/flee/use items).  
-4. Apply encounter effects.  
-5. Daily consumption (-1 food, -1 water).  
-6. Check for death conditions.  
-7. Move to next zone if survived.  
-8. Log the day’s events.
+4. Apply encounter effects.
+5. Check for death conditions. 
+6. Daily consumption (-1 food, -1 water).  
+7. Check for death conditions.  
+8. Move to next zone if survived.  
+9. Log the day’s events.
 
 ### 5. Random Encounter Types
-- Wild Animal (fight/flee)  
-- Treasure (items gained)  
-- Trap (lose health or resources)  
-- Water Spring (gain water)  
-- Berry Bush (gain food)  
-- Weather Event (random effect)  
-- Empty (nothing happens)  
+Each day in the forest brings a new challenge. The following events are randomly triggered, with probabilities varying by difficulty level:
+
+- **Wild Animal Encounter (Fight or Flee)**  
+  You may face a bear, wolf, or other predator.  
+  - *Fight:* Risk losing health but gain food if victorious.  
+  - *Flee:* Safer option, but failure to escape can still cost health.  
+  This event tests your survival instincts and resource balance.
+
+- **Treasure Discovery (Items Gained)**  
+  Hidden caches may contain food, water, or healing potions.  
+  - Rewards are randomized, often 1–3 items.  
+  - Potions can restore health up to the maximum cap.  
+  Treasure events provide rare boosts, especially valuable in Hard mode.
+
+- **Trap Encounter (Lose Health or Resources)**  
+  Snare traps or pitfalls can ensnare you.  
+  - *Escape:* Success means no penalty; failure costs health.  
+  - *Cut Free:* Sacrifice food to escape.  
+  - *Wait for Help:* Lose food and water but eventually escape.  
+  Traps force tough choices between resources and health.
+
+- **Water Spring (Gain Water)**  
+  A natural spring restores your water supply.  
+  - Gain 1–3 units of water.  
+  - Critical for survival during heat waves or dehydration risk.  
+  Springs are lifesavers in long runs.
+
+- **Berry Bush (Gain Food)**  
+  Wild berries replenish food reserves.  
+  - Gain 1–3 units of food.  
+  - Essential for avoiding starvation penalties.  
+  Bushes are common but not always enough in Hard mode.
+
+- **Weather Event (Random Effect)**  
+  The forest climate shifts unpredictably.  
+  - *Rain:* Restores water.  
+  - *Heat Wave:* Increases daily water consumption.  
+  - *Cold Snap:* Increases daily food consumption.  
+  Weather adds dynamic difficulty and forces adaptive strategy.
+
+- **Empty Event (Nothing Happens)**  
+  A peaceful day passes without incident.  
+  - No resources gained or lost.  
+  - Offers a breather between harsher encounters.  
+  Empty days are rare but welcome reprieves.
 
 Probabilities vary by difficulty (Easy/Normal/Hard).
 
@@ -284,6 +323,34 @@ Total Score = 600 + 210 + 25 + 5 = 840
 Scoreboard file generated: scoreboard_2026-04-28.txt  
 
 ---
+If the user failed the game at some point;
+
+======================================== GAME OVER ========================================
+
+You have perished in the forest...
+
+Final Status:
+- Zone Reached: [Zone Number]
+- Health: [Health Value]
+- Food: [Food Value]
+- Water: [Water Value]
+
+Cause of Death:
+- Health depleted to 0
+OR
+- Starvation (Food ≤ -3)
+OR
+- Dehydration (Water ≤ -3)
+
+Your journey ends here. The forest claims another soul.
+
+--------------------------------------------------------------------------------------------
+Final Scoreboard Entry:
+Base Score = Zones Cleared × 100
+Bonus = Remaining Health × 2 + Food × 5 + Water × 5
+Total Score = Base + Bonus
+Scoreboard file generated: scoreboard_YYYY-MM-DD.txt
+============================================================================================
 
 ## 🔧 Compilation & Execution (Quick Start)
 
@@ -294,19 +361,12 @@ Follow these instructions to compile and run Forest Rogue using a standard C++ c
 - Terminal/command prompt access.
 - No external libraries are required — only standard C++ headers.
 
-## 🔧 Compilation & Execution (Quick Start)
-
-### 1. Prerequisites
-- A C++11 (or later) compiler such as `g++`.
-- Terminal/command prompt access.
-- No external libraries are required — only standard C++ headers.
-
-## 🔧 Compilation & Execution (Quick Start)
-
 ### 2. Compilation
 Run the following command in the project root directory:
 
 make game
+
+./game
 
 ### Notes
 - Ensure all .cpp and .h files are in the same directory before compiling.
