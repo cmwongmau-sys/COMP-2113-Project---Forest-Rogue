@@ -81,7 +81,7 @@ Files responsible:
 5. Kemausuor Winambe Tetteh-Kumah 3036478552：
    ~random.h
    ~random.cpp
-   ~scoreboard_2026-04-28-012119.txt
+   ~scoreboardSample.txt
    ~readme.md
 
 7. Nie Eric Yilong 3036467931:
