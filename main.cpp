@@ -79,26 +79,26 @@ int main() {
                 break;
             case 2:     // Treasure
                 // call function for treasure;
-                encounter::treasureEncounter(mode, health, food, water);
+                encounter::treasureEncounter(health, food, water);
                 break;
             case 3:     //Trap
                 // call function for trap;
-                encounter::trapEncounter(mode, health, food, water);
+                encounter::trapEncounter(health, food, water);
                 break;
             case 4:     // Water spring
                 // call function for water spring;
-                encounter::waterSpringEncounter(mode, health, food, water);
+                encounter::waterSpringEncounter(health, food, water);
                 break;
             case 5:     // Berry rush
                 // call function for berry rush;
-                encounter::berryBushEncounter(mode, health, food, water);
+                encounter::berryBushEncounter(health, food, water);
                 break;
             case 6:     // Weather
                 // call function for weather;
-                encounter::weatherEncounter(mode, health, food, water);
+                encounter::weatherEncounter(health, food, water);
                 break;
             case 7:     // Peaceful day (Nothing happens)
-                encounter::emptyEncounter(mode, health, food, water);
+                encounter::emptyEncounter(health, food, water);
                 break;
         }
 
@@ -135,7 +135,7 @@ int main() {
     int score;
     int FinalFood = (food > 0)? food : 0;
     int FinalWater = (water > 0)? water : 0;
-    score += (health * 2) + (FinalFood * 5) + (FinalWater * 5) + (zone * 100);
+    score += (health * 2) + (FinalFood * 5) + (FinalWater * 5) + ((zone - 1) * 100);
 
     // Display victory screen if win 
     if (win) {

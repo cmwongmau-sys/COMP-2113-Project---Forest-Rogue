@@ -54,7 +54,7 @@ void bearEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== Treasure ==========
-void treasureEncounter(int difficulty, int &health, int &food, int &water) {
+void treasureEncounter(int &health, int &food, int &water) {
     string banner = "Treasure Encounter";
     vector<string> content = {"You stumble upon a weathered chest bursting with gold and gems!"};
     DrawStaticFrame(banner, content);
@@ -98,7 +98,7 @@ void treasureEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== Trap ==========
-void trapEncounter(int difficulty, int &health, int &food, int &water) {
+void trapEncounter(int &health, int &food, int &water) {
     string banner = "Trap Encounter";
     vector<string> content = {"A sharp snap - you've triggered a hidden trap!"};
     DrawStaticFrame(banner, content);
@@ -139,7 +139,7 @@ void trapEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== Water Spring ==========
-void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
+void waterSpringEncounter(int &health, int &food, int &water) {
     string banner = "Water Spring Encounter";
     vector<string> content = {"A crystal-clear spring bubbles up from the mossy rocks, cool and inviting."};
     DrawStaticFrame(banner, content);
@@ -158,7 +158,7 @@ void waterSpringEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== Berru Bush ==========
-void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
+void berryBushEncounter(int &health, int &food, int &water) {
     string banner = "Berry Bush Encounter";
     vector<string> content = {"A thicket of ripe, juicy berries sways in the breeze - time to feast!"};
     DrawStaticFrame(banner, content);
@@ -177,7 +177,7 @@ void berryBushEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== Weather ==========
-void weatherEncounter(int difficulty, int &health, int &food, int &water) {
+void weatherEncounter(int &health, int &food, int &water) {
     int weatherType = rand() % 3; // 0: Rain, 1: Heat wave, 2: Cold snap
     EventOutcome outcome;
     outcome.eventName = "Weather Event";
@@ -221,7 +221,7 @@ void weatherEncounter(int difficulty, int &health, int &food, int &water) {
 }
 
 // ========== Empty ==========
-void emptyEncounter(int difficulty, int &health, int &food, int &water) {
+void emptyEncounter(int &health, int &food, int &water) {
     string banner = "Quiet Day";
     vector<string> content = {"You wander through the forest and nothing happens."};
     DrawStaticFrame(banner, content);
