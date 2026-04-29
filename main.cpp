@@ -11,9 +11,9 @@
 #include "event_generation.h"
 #include "file_switch.h"
 #include "random.h"
-#include "../../../Header/Slate/Sprites/SpritesCore.h"
-#include "../../../Header/Slate/Widgets/GameScreens.h"
-#include "../../../Header/Slate/Widgets/WidgetsCore.h"
+#include "SpritesCore.h"
+#include "GameScreens.h"
+#include "WidgetsCore.h"
 #include "simple_display.h"
 using namespace std;
 

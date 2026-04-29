@@ -3,8 +3,8 @@
 #include <vector>
 #include <string>
 #include "random.h"
-#include "../../../Header/Slate/Widgets/GameScreens.h"
-#include "../../../Header/Slate/Widgets/WidgetsCore.h"
+#include "GameScreens.h"
+#include "WidgetsCore.h"
 #include "simple_display.h"
 using namespace std;
 
