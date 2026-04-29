@@ -178,7 +178,7 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
         return a.finalScore > b.finalScore;
     });
 
-    cout << string(39, '=') << " TOP 10 SCOREBOARD " << string(39, '=') << endl;
+    cout << string(40, '=') << " TOP 10 SCOREBOARD " << string(40, '=') << endl;
     
     cout << left 
          << setw(7)  << "Rank"
@@ -191,7 +191,7 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
          << setw(12) << "Result"
          << setw(20) << "Date" << endl;
 
-    cout << string(97, '-') << endl;
+    cout << string(99, '-') << endl;
 
     int rank = 1;
     for (int i = 0; i < min(10, (int)sorted.size()); ++i) {
@@ -206,5 +206,5 @@ void displayTop10(const vector<ScoreEntry>& scoreboard) {
              << setw(12) << sorted[i].result
              << setw(20) << sorted[i].dateTime << endl;
     }
-    cout << "==================================================\n";
+    cout << string(99, '=') << endl;
 }
