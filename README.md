@@ -39,8 +39,10 @@ Contributions:
 4. Bhavani Menon 3036476243:
   ~designed and coded game screens for UI displays
   ~coordinated on workspace management
+  ~integrated screens with random events
+  ~debugged certain aspects of gamescreens
 
-5. Kemausuor Winambe Tetteh-Kumah 3036478552:
+6. Kemausuor Winambe Tetteh-Kumah 3036478552:
   ~designed and debugged some random events.
   ~worked on the scoreboard data.
   ~worked on the readme file
