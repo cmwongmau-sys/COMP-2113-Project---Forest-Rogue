@@ -1,7 +1,7 @@
 # COMP-2113-Project---Forest-Rogue
-Project title:  Forest Rogue
+**Project title**:  Forest Rogue
 
-Team Members:
+**Team Members**:
 
 Hung Kwok Kiu - UID:3036058467
 
@@ -15,7 +15,7 @@ Kemausuor Winambe Tetteh-Kumah - UID: 3036478552
 
 Nie Eric Yilong - UID: 3036467931
 
-Contribution Table:
+**Contribution Table**:
 
 | Name | UID | Contribution | Files responsible |
 |------|-----|--------------|-------------------|
