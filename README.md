@@ -96,6 +96,15 @@ Files responsible:
    ~Gamescreens.h (partially)
    ~Gamescreens.cpp (partially)
 
+| Name | UID | Contribution | Files responsible |
+|------|-----|--------------|-------------------|
+| Wong Chun Ming Maurice | 3036077695 | <ul><li>constructed the main program</li><li>designed function to generate the random event</li><li>constructed the simple display function for non-interactive screens</li><li>constructed the player set up screen</li><li>debugging</li><li>recorded demonstration video</li></ul> | <ul><li>main.cpp</li><li>event_generation.cpp</li><li>simple_display.cpp</li><li>GameScreens.cpp</li><li>file_switch.cpp</li><li>event_generation.h</li><li>simple_display.h</li><li>GameScreens.h</li><li>file_switch.h</li></ul> |
+| Kemausuor Winambe Tetteh-Kumah | 3036478552 | <ul><li>designed and debugged some random events</li><li>worked on the scoreboard data</li><li>worked on README</li></ul> | <ul><li>random.h</li><li>random.cpp</li><li>scoreboardSample.txt</li><li>README.md</li></ul> |
+| Bhavani Menon Pullat | 3036476243 | <ul><li>designed and coded game screens for UI displays</li><li>coordinated on workspace management</li><li>integrated screens with random events</li><li>debugged certain aspects of gamescreens</li></ul> | <ul><li>Gamescreens.h</li><li>Gamescreens.cpp</li><li>Playground.cpp (test file)</li></ul> |
+| Nie Eric Yilong | 3036467931 | <ul><li>help constructed project architecture</li><li>constructed base classes and templates for displays</li><li>developed generic-use wrapper classes for UI displays</li><li>debugging</li></ul> | <ul><li>SpritesCore.h</li><li>SpritesCore.cpp</li><li>WidgetsCore.h</li><li>WidgetsCore.cpp</li><li>SlateCore.h</li></ul> |
+| Ko Kai Man | 3036390073 | <ul><li>designed and debugged some random events</li><li>Final checking and amendments on random.cpp</li><li>worked on the readme</li></ul> | <ul><li>random.h</li><li>random.cpp</li><li>readme.md</li></ul> |
+| Hung Kwok Kiu | 3036058467 | <ul><li>construct the file switch logic</li><li>generate the scoreboard</li><li>work on README</li><li>debugging on game logic</li></ul> | <ul><li>file_switch.h</li><li>file_switch.cpp</li><li>readme.md</li></ul> |
+
 
 
 Description:
