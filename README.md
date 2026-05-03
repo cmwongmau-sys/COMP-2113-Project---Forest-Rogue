@@ -75,7 +75,7 @@ List of features that we have implemented & Coding Requirement:
 - Each day brings random encounters.
 - Game ends when you escape or die.
 
-**Demonstration Video**: [https://drive.google.com/file/d/16CAqqp7KNeiJVe2oKvLuC8zYyv7Gruex/view?usp=sharing](https://drive.google.com/file/d/16CAqqp7KNeiJVe2oKvLuC8zYyv7Gruex/view?usp=sharing)
+**Demonstration Video**: [https://drive.google.com/file/d/1IsKCVGWcsJwq8uDNyza6ipLHl2-JWHsa/view?usp=sharing](https://drive.google.com/file/d/1IsKCVGWcsJwq8uDNyza6ipLHl2-JWHsa/view?usp=sharing)
 
 ### 2. Game World
 The forest has **6 zones** in linear order:  
